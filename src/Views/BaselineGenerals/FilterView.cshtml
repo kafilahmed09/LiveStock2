@@ -1,0 +1,203 @@
+﻿@model IEnumerable<BES.Models.Data.BaselineGeneral>
+
+<table class="table table-striped table-bordered  dataTables-example">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.School.UC.Tehsil.District.RegionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.School.UC.Tehsil.District.DistrictName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClusterBEMISCode)
+            </th>
+
+            <th>
+                @Html.DisplayName("School ID")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.School.SName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.School.Level)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BEMISCode)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.VisitorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.varified)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VarifiedBy)
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var className = "LightSkyBlue";
+        }
+        @foreach (var item in Model)
+        {
+            if (item.SchoolType == 1)
+            {
+                className = "LightSkyBlue";
+            }
+            else
+            {
+                className = "transparent";
+            }
+            <tr style="background-color:@className">
+                <td>
+                    @Html.DisplayFor(modelItem => item.School.UC.Tehsil.District.RegionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.School.UC.Tehsil.District.DistrictName)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.ClusterBEMISCode)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchoolID)
+                </td>
+                <td>
+                    @{
+                        if (item.SchoolType == 1)
+                        {@Html.DisplayFor(modelItem => item.School.SName) }
+                    else
+                    { @Html.DisplayFor(modelItem => item.SName)}
+                    }
+
+                </td>
+
+                <td>
+                    @{
+                        if (item.SchoolType == 1)
+                        { <text> Potential </text>}
+                    else if (item.SchoolType == 2)
+                    { <text> Feeder </text>}
+                else
+                {<text> Next Level </text>}
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.Type == "1")
+                        { <text> Primary </text>}
+                    else if (item.Type == "2")
+                    { <text> Middle </text>}
+                else if (item.Type == "3")
+                {<text> High </text>}
+                    }
+                </td>
+
+                <td>
+                    @{
+                        if (item.SchoolType == 1)
+                        {@Html.DisplayFor(modelItem => item.School.BEMIS) }
+                    else
+                    { @Html.DisplayFor(modelItem => item.BEMISCode)}
+                    }
+                </td>
+
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.VisitorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @{
+
+//if (User.IsInRole("Edu") || User.IsInRole("ICT"))
+//{
+                            @Html.ActionLink("Edit", "Edit", new { id = item.BLGeneralID }, new { @class = "btn btn-primary btn-sm" });
+                        @*}*@
+
+                    }
+                </td>
+
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.varified)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VarifiedBy)
+                    </td>*@
+                @*<td>
+
+                        @{
+                            if (!item.varified)
+                            {
+                                @Html.ActionLink("Verify", "Edit", new { id = item.BLGeneralID }, new { @class = "btn btn-primary btn-sm" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Details", "Edit", new { id = item.BLGeneralID }, new { @class = "btn btn-primary btn-sm" })
+                            }
+                        }
+                        @Html.ActionLink("Details", "Details", new { id=item.BLGeneralID }, new { @class = "btn btn-primary btn-sm"})
+
+                        @Html.ActionLink("Delete", "Delete", new { id=item.BLGeneralID }, new { @class = "btn btn-white btn-sm"})
+                    </td>*@
+            </tr>
+        }
+
+    </tbody>
+</table>
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+
+<script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // $('#Region-DropdownID').val(null).change();
+        // alert('JQuery Entered')
+        $(document).ready(function () {
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $('.dataTables-example').DataTable({
+                "scrollY": 350,
+                //"processing": true, // for show progress bar
+                //"bJQueryUI": true,
+                //"bServerSide": true,
+                //"sAjaxSource": "SchoolList",
+                "bPaginate": false,
+                "ordering": false,
+                dom: '<"html5buttons"B>lTfigtp',
+
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel', title: 'ExampleFile' },
+                    { extend: 'pdf', title: 'ExampleFile' },
+
+
+                ]
+
+            });
+            //alert('Table Generated')
+        });
+        //alert('Table Generated')
+    });
+
+</script>

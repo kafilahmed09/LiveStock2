@@ -1,0 +1,82 @@
+﻿@model IEnumerable<BES.Models.Data.BaselineGeneral>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+
+
+<div>
+    <form id="myform" autocomplete="off">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Region</label>
+                    <select id="RegionID" class="form-control" asp-items="ViewBag.RegionID" tabindex="1"></select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">District</label>
+                    <select id="DistrictID" class="form-control" asp-items="@(new SelectList(string.Empty,"DistrictID","DistrictName"))" tabindex="2"></select>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="dynamicContentContainer"></div>
+        </div>
+    </div>
+</div>
+<div id="dynamicContentContainer"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+          $.get('@Url.Action("FilterView",new { id = 0 })', function (content) {           
+            $("#dynamicContentContainer").html(content);
+            $("#divLoading").hide();
+        });       
+       
+
+        // on Region ID 
+        $('#RegionID').change(function () {
+           
+            var url = '@Url.Content("~/baselinegenerals")' + "/GetDistrict";
+            var ddlsource = "#RegionID";
+            $.getJSON(url, { RegionID: $(ddlsource).val() }, function (data) {
+                var items = '';
+
+                $("#DistrictID").empty();
+                $.each(data, function (i, designation) {
+                items += "<option value='" + designation.value + "'>" + designation.text + "</option>";
+                });
+                $("#DistrictID").html(items);
+            });
+
+            //FilterView Code
+            var RID = $(this).val();
+            //alert(RegionID);
+            $("#divLoading").show();
+            $.get('@Url.Action("FilterView")', { RID: RID}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+          $('#DistrictID').change(function () {
+            var DID = $(this).val();
+            $("#divLoading").show();
+            $.get('@Url.Action("FilterView")', { DID: DID}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+}

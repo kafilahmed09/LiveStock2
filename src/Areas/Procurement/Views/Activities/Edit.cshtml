@@ -1,0 +1,144 @@
+﻿@model BES.Areas.Procurement.Models.Activity
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="row" style="margin:10px">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div>
+                <h3 class="box-title">Edit Activity</h3>
+                @{
+                    if (ViewBag.Error != null)
+                    {
+                        <h4 style="color:darkred">@ViewBag.Error</h4>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+
+
+<div class="row" style="margin:0 15px 0 15px">
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <input type="hidden" asp-for="ActivityID" />
+                    <label asp-for="ProjectNo" class="control-label"></label>
+                    <select asp-for="ProjectNo" class="form-control" asp-items="ViewBag.ProjectNo"></select>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="ProcurementPlanID" class="control-label"></label>
+                    <select asp-for="ProcurementPlanID" class="form-control" name="Name" asp-items="ViewBag.ProcurementPlanID"></select>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="ProcurementFor" class="control-label"></label>
+                    <select asp-for="ProcurementFor" class="form-control" asp-items="ViewBag.ProcurementFor"></select>
+                    <span asp-validation-for="ProcurementFor" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="ReviewType" class="control-label"></label>
+                    <select asp-for="ReviewType" class="form-control" asp-items="ViewBag.ReviewType"></select>
+                    <span asp-validation-for="ReviewType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="MethodID" class="control-label"></label>
+                    <select asp-for="MethodID" class="form-control" asp-items="ViewBag.MethodID"></select>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="ActualCost" class="control-label"></label>
+                    <input asp-for="ActualCost" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="ActualCost" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="ActivityNo" class="control-label"></label>
+                    <input asp-for="ActivityNo" class="form-control" />
+                    <span asp-validation-for="ActivityNo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-6 col-sm-6">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="EstimatedCost" class="control-label"></label>
+                    <input asp-for="EstimatedCost" class="form-control" />
+                    <span asp-validation-for="EstimatedCost" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="LotTotal" class="control-label"></label>
+                    <input asp-for="LotTotal" class="form-control" />
+                    <span asp-validation-for="LotTotal" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-2 col-sm-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-3 col-sm-3">
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    @Html.ActionLink("Lots", "Create", "Lots", new { id = 6 }, new { @class = "btn btn-primary" })
+                </div>
+            </div>           
+            <div class="col-md-1" id="divLoading">
+                <img src="~/img/sspinner.gif" width="40" height="40" />
+            </div>
+        </div>
+    </form>
+    @*<div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+    <div id="dynamicContentContainer"></div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+
+    $.get('@Url.Action("Index", "ActivityDetails")', {id : @Model.ActivityID}, function(content){
+        $("#dynamicContentContainer").html(content);
+        $("#divLoading").hide();
+        });
+    </script>
+}

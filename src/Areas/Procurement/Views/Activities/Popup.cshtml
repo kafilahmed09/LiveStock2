@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.Activity>
+<div class="ibox-content">
+
+    <table class="table table-striped dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActivityNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Method.Name)
+                </th>
+                <th>Actual Cost</th>
+                @{
+                    if (ViewBag.PointOut == 1)
+                    {
+                        <th>Estimated Cost</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.ActivityNo)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Method.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualCost)
+                    </td>
+                    @{
+                        if (ViewBag.PointOut == 1)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EstimatedCost)
+                            </td>
+                        }
+                    }
+
+                </tr>
+            }
+        </tbody>
+        @{
+            if (ViewBag.PointOut == 1)
+            {
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th></th>
+                        <th>@Model.Sum(a => a.EstimatedCost)</th>
+                        <th>@Model.Sum(a => a.ActualCost)</th>
+                    </tr>
+                </tfoot>
+            }
+        }
+
+    </table>
+
+</div>
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}

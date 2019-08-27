@@ -1,0 +1,376 @@
+﻿@model Tuple<List<BES.Areas.Procurement.Models.ActivityDetail>, List<BES.Areas.Procurement.Models.Lot>, IEnumerable<BES.Areas.Procurement.Models.Addendum>, IEnumerable<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail>>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+    dt {
+        font-weight: 500;
+    }
+
+    dd {
+        padding-top: 5px;
+    }
+
+    .dataTables_wrapper {
+        padding-bottom: 0;
+    }
+</style>
+
+
+<div style="margin:10px">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Activity No.@Model.Item1.ElementAt(0).Activity.ActivityNo - @Model.Item1.ElementAt(0).Activity.Name</h5>
+                </div>
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div>
+                                <dl class="dl-horizontal">
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Method.Name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.Method.Name)
+                                    </dd>
+
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.EstimatedCost)
+                                    </dt>
+
+                                    <dd>
+                                        <text>@String.Format("{0:#,##}", Model.Item1.ElementAt(0).Activity.EstimatedCost)</text>
+                                    </dd>
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.ActualCost)
+                                    </dt>
+
+                                    <dd>
+                                        <text>@String.Format("{0:#,##}", Model.Item1.ElementAt(0).Activity.ActualCost)</text>
+                                    </dd>
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.ReviewType)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.ReviewType)
+                                    </dd>
+
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Status)
+                                    </dt>
+
+                                    <dd>
+                                        @{
+                                            if (Model.Item1.ElementAt(0).Activity.Status == 1)
+                                            {
+                                                <text>Not Initiated</text>
+                                            }
+                                            else if (Model.Item1.ElementAt(0).Activity.Status == 2)
+                                            {
+                                                <text>In Process</text>
+                                            }
+                                            else if (Model.Item1.ElementAt(0).Activity.Status == 3)
+                                            {
+                                                <text>Completed</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Cancelled</text>
+                                            }
+                                        }
+                                    </dd>
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.IsCenceled)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.IsCenceled)
+                                    </dd>
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Remarks)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.Remarks)
+                                    </dd>
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.CreatedBy)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.CreatedBy)
+                                    </dd>
+                                    <dt class="btn btn-success btn-sm">
+                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.CreatedDate)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.CreatedDate)
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="jumbotron">
+                                <h2>Activity No.@Model.Item1.ElementAt(0).Activity.ActivityNo </h2>
+                                <p style="font-size:14px">Activity No.@Model.Item1.ElementAt(0).Activity.Description </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-title">
+                    <h4>List of Activity Steps</h4>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered  dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Step.SerailNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Step.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Item1.ElementAt(0).PlannedDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ActualDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Attachment)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Item1)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Step.SerailNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Step.Name)
+                                    </td>
+                                    @{
+                                        if (item.NotApplicable == false)
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PlannedDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ActualDate)
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <text>N/A</text>
+                                            </td>
+                                            <td>
+                                                <text>N/A</text>
+                                            </td>
+                                        }
+                                    }
+                                    @{
+                                        if (item.Attachment != null)
+                                        {
+                                            <td>
+                                                <a href='@Url.Content(item.Attachment)' target="_blank">
+                                                    View Evidence
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <text>No Attachment</text>
+                                            </td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="ibox-title">
+                    <h4>List of Activity Lots</h4>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered  dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <text>List of Lots</text>
+                                </th>
+                                <th>
+                                    <text>Estimated Amount</text>
+                                </th>
+                                <th>
+                                    <text>Vendor</text>
+                                </th>
+                                <th>
+                                    <text>Contract Agreement</text>
+                                </th>
+                                <th>
+                                    <text>Contract Addendum</text>
+                                </th>
+                                <th>
+                                    <text>Actual Award Amount</text>
+                                </th>
+                                <th>
+                                    <text>Contract Expiry</text>
+                                </th>
+                                @*<th>
+                                        <text>Items</text>
+                                    </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int counter = 1;}
+                            @foreach (var item in Model.Item4)
+                            {
+                                <tr>
+                                    <td>Lot-@item.lotno <a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPLotItems", new { id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a></td>
+                                    <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.EstimatedUnitRate)</a></td>
+                                    <td><a class="search" data-url='@Url.Action("details", "Contractors", new { area = "", id = item.ContractorID })' data-toggle="modal" data-target="#exampleModalLong1">@item.CompanyName</a></td>
+                                    @{
+                                        if (item.Attachment != null)
+                                        {
+                                            <td>
+                                                <a href='@Url.Content(item.Attachment)' target="_blank">
+                                                    View Evidence
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <text>No Attachment</text>
+                                            </td>
+                                        }
+                                    }
+                                    @{ int val = 0;
+                                        if (ViewData["Data"] != null)
+                                        {
+                                            val = ((int[])ViewData["Data"])[counter];
+                                        }
+                                    }
+                                    <td>
+                                        @{
+                                            if (val > 0)
+                                            {
+                                                <text>(@val) Addendum </text><a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPAddendums", new {id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <text>No</text>
+                                            }
+                                        }
+                                    </td>
+                                    <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "2" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.ActualUnitRate)</a></td>
+                                    <td>
+                                        @{
+                                            if (item.AddendumTypeId == null || item.AddendumTypeId == 1)
+                                            {
+                                                <text>@item.ActualDate.Value.ToString("dd MMMM yyyy")</text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.ExpiryDate</text>
+                                            }
+                                        }
+                                    </td>
+                                    @*<td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">View Detail</a></td>*@
+                                    @{ counter = counter + 2;}
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="ibox-title">
+                    <h4>List of Received Lot Items</h4>
+                </div>
+                <div class="ibox-content" style="padding:2px">
+                    <div id="CMManagementIndex2"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal1 -->
+<div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
+    <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="partial">Loading....</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+
+<div id="dynamicContentContainer"></div>
+@section Scripts {
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $(document).ready(function () {
+                // $('#Region-DropdownID').val(null).change();
+                // alert('JQuery Entered')
+                $('.dataTables-example').DataTable({
+                    "scrollY": 350,
+                    //"processing": true, // for show progress bar
+                    //"bJQueryUI": true,
+                    //"bServerSide": true,
+                    //"sAjaxSource": "SchoolList",
+                    "bPaginate": false,
+                    "ordering": false,
+                    dom: '<"html5buttons"B>lTfigtp',
+
+                    buttons: [
+                        { extend: 'copy' },
+                        { extend: 'csv' },
+                        { extend: 'excel', title: 'ExampleFile' },
+                        { extend: 'pdf', title: 'ExampleFile' },
+
+
+                    ]
+
+                });
+                //alert('Table Generated')
+            });
+            //alert('Table Generated')
+        });
+
+    </script>
+
+    }

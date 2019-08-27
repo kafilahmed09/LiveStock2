@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.Lot>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.lotno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lotDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Attachment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Activity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contractor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.lotno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lotDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attachment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activity.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contractor.Address)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.lotId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.lotId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.lotId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

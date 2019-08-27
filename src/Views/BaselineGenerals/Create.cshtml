@@ -1,0 +1,99 @@
+﻿@model BES.Models.Data.BaselineGeneral
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>BaselineGeneral</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UCID" class="control-label"></label>
+                <input asp-for="UCID" class="form-control" />
+                <span asp-validation-for="UCID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SchoolID" class="control-label"></label>
+                <select asp-for="SchoolID" class ="form-control" asp-items="ViewBag.SchoolID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SchoolType" class="control-label"></label>
+                <input asp-for="SchoolType" class="form-control" />
+                <span asp-validation-for="SchoolType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClusterBEMISCode" class="control-label"></label>
+                <input asp-for="ClusterBEMISCode" class="form-control" />
+                <span asp-validation-for="ClusterBEMISCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BEMISCode" class="control-label"></label>
+                <input asp-for="BEMISCode" class="form-control" />
+                <span asp-validation-for="BEMISCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SName" class="control-label"></label>
+                <input asp-for="SName" class="form-control" />
+                <span asp-validation-for="SName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitorName" class="control-label"></label>
+                <input asp-for="VisitorName" class="form-control" />
+                <span asp-validation-for="VisitorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="varified" /> @Html.DisplayNameFor(model => model.varified)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="VarifiedBy" class="control-label"></label>
+                <input asp-for="VarifiedBy" class="form-control" />
+                <span asp-validation-for="VarifiedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

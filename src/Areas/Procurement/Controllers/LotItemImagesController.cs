@@ -1,0 +1,161 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using BES.Areas.Procurement.Models;
+using BES.Data;
+
+namespace BES.Areas.Procurement.Controllers
+{
+    [Area("Procurement")]
+    public class LotItemImagesController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+
+        public LotItemImagesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Procurement/LotItemImages
+        public async Task<IActionResult> Index()
+        {
+            var applicationDbContext = _context.LotItemImage.Include(l => l.LotItem);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: Procurement/LotItemImages/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lotItemImage = await _context.LotItemImage
+                .Include(l => l.LotItem)
+                .FirstOrDefaultAsync(m => m.ItemImageId == id);
+            if (lotItemImage == null)
+            {
+                return NotFound();
+            }
+
+            return View(lotItemImage);
+        }
+
+        // GET: Procurement/LotItemImages/Create
+        public IActionResult Create()
+        {
+            ViewData["LotItemId"] = new SelectList(_context.LotItem, "LotItemId", "LotItemId");
+            return View();
+        }
+
+        // POST: Procurement/LotItemImages/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ItemImageId,LotItemId,ImagePath,Visibility")] LotItemImage lotItemImage)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(lotItemImage);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["LotItemId"] = new SelectList(_context.LotItem, "LotItemId", "LotItemId", lotItemImage.LotItemId);
+            return View(lotItemImage);
+        }
+
+        // GET: Procurement/LotItemImages/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lotItemImage = await _context.LotItemImage.FindAsync(id);
+            if (lotItemImage == null)
+            {
+                return NotFound();
+            }
+            ViewData["LotItemId"] = new SelectList(_context.LotItem, "LotItemId", "LotItemId", lotItemImage.LotItemId);
+            return View(lotItemImage);
+        }
+
+        // POST: Procurement/LotItemImages/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ItemImageId,LotItemId,ImagePath,Visibility")] LotItemImage lotItemImage)
+        {
+            if (id != lotItemImage.ItemImageId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(lotItemImage);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LotItemImageExists(lotItemImage.ItemImageId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["LotItemId"] = new SelectList(_context.LotItem, "LotItemId", "LotItemId", lotItemImage.LotItemId);
+            return View(lotItemImage);
+        }
+
+        // GET: Procurement/LotItemImages/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lotItemImage = await _context.LotItemImage
+                .Include(l => l.LotItem)
+                .FirstOrDefaultAsync(m => m.ItemImageId == id);
+            if (lotItemImage == null)
+            {
+                return NotFound();
+            }
+
+            return View(lotItemImage);
+        }
+
+        // POST: Procurement/LotItemImages/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var lotItemImage = await _context.LotItemImage.FindAsync(id);
+            _context.LotItemImage.Remove(lotItemImage);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool LotItemImageExists(int id)
+        {
+            return _context.LotItemImage.Any(e => e.ItemImageId == id);
+        }
+    }
+}
