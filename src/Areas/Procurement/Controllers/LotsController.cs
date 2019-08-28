@@ -21,7 +21,7 @@ namespace BES.Areas.Procurement.Controllers
         public LotsController(ApplicationDbContext context)
         {
             _context = context;
-        }
+        } 
 
         // GET: Procurement/Lots
         public async Task<IActionResult> Index()
