@@ -11,7 +11,7 @@
     <hr />
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-sm-6 col-md-6 col-lg-6">
                 <input type="hidden" value="@ViewBag.PPName" name="PPName" />
                 <div class="form-group">
                     <label asp-for="Activity.Name" class="control-label"></label>
@@ -19,19 +19,21 @@
                     <span asp-validation-for="Activity.Name" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Step.Name" class="control-label"></label>
-                    <input asp-for="Step.Name" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="Step.Name" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-1">
+            <div class="col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
                     <label class="control-label">Step.No</label>
                     <input asp-for="Step.SerailNo" class="form-control" readonly="readonly" />
                     <span asp-validation-for="Step.SerailNo" class="text-danger"></span>
                 </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label asp-for="CreatedBy" class="control-label"></label>
+                    <input asp-for="CreatedBy" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                
             </div>
         </div>
         @{
@@ -51,15 +53,14 @@
             }
         }
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-sm-4 col-md-4 col-lg-4">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="StepID" />
                 <input type="hidden" asp-for="ActivityID" />
                 <input type="hidden" asp-for="UpdatedBy" />
                 <input type="hidden" asp-for="UpdatedDate" />
-                <input type="hidden" asp-for="CreatedBy" />
-                <input type="hidden" asp-for="CreatedDate" />               
-                <input type="hidden" asp-for="Attachment" />               
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="Attachment" />
                 <div class="divHide">
                     <div class="form-group">
                         <label asp-for="PlannedDate" class="control-label"></label>
@@ -67,40 +68,39 @@
                         <span asp-validation-for="PlannedDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Activity.ActualCost" class="control-label"></label>
+                        <label class="control-label">Activity Actual Cost</label>
                         <input asp-for="Activity.ActualCost" name="ActualCost" class="form-control" required />
                         <span asp-validation-for="Activity.ActualCost" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group" id="divBtns">
+                </div>                             
+                @*<div class="form-group" id="divBtns">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Save" class="btn btn-primary" />
                         @{
                             if (Model.Step.SerailNo == 8)
                             {
-                                @*@Html.ActionLink("Assign Lots", "AssignLot", "Lots", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })*@
-                                <a asp-action="AssignLot" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID">Assign Lots</a>
+                                <a asp-action="AssignLotsInBulk" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Assign Lot</a>
                             }
                         }
                         @Html.ActionLink("Cancel", "Edit", "Activities", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
                     </div>
-                </div>
+                </div>*@
             </div>
-            <div class="col-md-4">
+            <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="divHide">
                     <div class="form-group">
                         <label asp-for="ActualDate" class="control-label"></label>
                         <input asp-for="ActualDate" class="form-control" />
                         <span asp-validation-for="ActualDate" class="text-danger"></span>
                     </div>
-                </div>
+                </div>                
                 <div class="form-group">
-                    <label asp-for="CreatedDate" class="control-label"></label>
-                    <input asp-for="CreatedDate" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                </div>
+                    <label asp-for="UpdatedBy" class="control-label"></label>
+                    <input asp-for="UpdatedBy" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+                </div>                
             </div>
-            <div class="col-md-4">
+            <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="divHide">
                     <div class="form-group">
                         <label asp-for="Attachment" class="control-label"></label>
@@ -116,18 +116,41 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label asp-for="UpdatedBy" class="control-label"></label>
-                    <input asp-for="UpdatedBy" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+                <div class="col-md-1" id="divLoading" style="margin-top:12px">
+                    <img src="~/img/sspinner.gif" width="40" height="40" />
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-10 col-lg-10">
+                <h4 style="font-weight:bold">Please Assign Lots to Suppliers</h4>
+                <a asp-action="Create2" asp-controller="Contractors" asp-route-id="1" class="btn-sm btn-primary search" data-toggle="modal" data-target="#exampleModalLong1"> Add New Supplier/Contractor</a>
+                <div id="dynamicContentContainer"></div>
             </div>
         </div>
     </form>
     <hr />
     <div>
         <a asp-action="Index">Back to List</a>
+    </div>
+    <!-- Modal1 -->
+    <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
+        <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="partial">Loading....</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -147,7 +170,19 @@
         }
         else {
             $(".divHide").show();             
-        }                        
+        } 
+        //$(function () {
+        //    $('.search').click(function () {
+        //        var url = $(this).data('url');
+        //        var route = url;
+        //        $('#partial').load(route);
+        //    });
+        //}); 
+
+         $.get('@Url.Action("AssignLotsInBulk", "Lots")', { id: 7 }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
     });
     $(document).ready(function () {
         $('#NotApplicable').click(function () {

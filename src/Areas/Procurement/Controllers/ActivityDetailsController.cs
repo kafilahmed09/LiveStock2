@@ -27,7 +27,7 @@ namespace BES.Areas.Procurement.Controllers
         {
             ViewBag.ActivityID = id;
             var activityDetail = _context.ActivityDetail.Include(p => p.Activity).Include(p => p.Step).Where(p => p.ActivityID == id);
-            int totalSteps = _context.Step.Where(p => p.ProcurementPlanID == activityDetail.Max(a => a.Activity.ProcurementPlanID)).Count();
+            int totalSteps = _context.Step.Where(p => p.ProcurementPlanID == _context.Activity.Where(a=>a.ActivityID == id).Select(a=>a.ProcurementPlanID).FirstOrDefault()).Count();
             if (totalSteps > 0 && activityDetail.Count() == totalSteps)
             {
                 ViewBag.IsReachedLast = true;
@@ -56,12 +56,45 @@ namespace BES.Areas.Procurement.Controllers
             return View(activityDetail);
         }
 
-        // GET: Procurement/ActivityDetails/Create
-        public IActionResult Create()
+        public short nextStepID(short stepNo, short PPID)
         {
-            ViewData["ActivityID"] = new SelectList(_context.Activity, "ActivityID", "Description");
-            ViewData["StepID"] = new SelectList(_context.Step, "StepID", "StepID");
-            return View();
+            var CurStep = _context.Step.Where(a => a.SerailNo == stepNo && a.ProcurementPlanID == PPID).FirstOrDefault();
+            short nextStepID = _context.Step.Where(a => a.ProcurementPlanID == CurStep.ProcurementPlanID && a.SerailNo == (CurStep.SerailNo + 1)).Select(a => a.StepID).FirstOrDefault();
+            return (nextStepID);
+        }
+        // GET: Procurement/ActivityDetails/Create
+        public IActionResult Create(short id)
+        {
+            ActivityDetail activityDetail = new ActivityDetail();
+            activityDetail.ActivityID = id;
+            short stepNo = (short)_context.ActivityDetail.Count(a => a.ActivityID == id);
+            Activity activity = _context.Activity.Find(id);            
+            if (stepNo == 0)
+            {
+                if (activity.ReviewType == "Post Review")
+                {
+                    stepNo++;
+                }
+                //PProcurementPlan plan = db.PProcurementPlans.Find(activity.ProcurementPlanID);
+                Step step = _context.Step.Where(a => a.ProcurementPlanID == activity.ProcurementPlanID).FirstOrDefault();
+                activityDetail.StepID = step.StepID;
+            }
+            else
+            {
+                activityDetail.StepID = nextStepID(stepNo, activity.ProcurementPlanID);
+                if (activity.ReviewType == "Post Review" && stepNo == 6)
+                {
+                    stepNo++;
+                }
+            }
+
+            activityDetail.Activity = _context.Activity.Find(id);
+            activityDetail.Step = _context.Step.Find(activityDetail.StepID);
+            ViewBag.PPName = _context.ProcurementPlan.Find(activityDetail.Step.ProcurementPlanID).Name;
+            activityDetail.PlannedDate = DateTime.Now;
+            activityDetail.CreatedDate = DateTime.Now;
+            activityDetail.CreatedBy = User.Identity.Name;
+            return View(activityDetail);
         }
 
         // POST: Procurement/ActivityDetails/Create
@@ -69,16 +102,48 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedDate,UpdatedBy")] ActivityDetail activityDetail)
+        public async Task<IActionResult> Create(string PPName, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment)
         {
             if (ModelState.IsValid)
             {
+                if (activityDetail.NotApplicable == true)
+                {
+                    activityDetail.Attachment = null;
+                    activityDetail.ActualDate = null;
+                    activityDetail.PlannedDate = null;
+                }
+                else
+                {
+                    if (Attachment != null)
+                    {
+                        var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
+                        string fileName = Path.GetFileName(Attachment.FileName);
+                        fileName = fileName.Replace("&", "n");
+                        string AName = _context.Activity.Find(activityDetail.ActivityID).Name;
+                        AName = AName.Replace("&", "n");
+                        //var PPName = _context.ProcurementPlan.Find(activityDetail.Step.ProcurementPlanID).Name;
+                        activityDetail.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//" + activityDetail.StepID + "//" + fileName);//Server Path                
+                                                                                                                                                          //_context.ActivityDetail.Add(activityDetail);
+                        string sPath = Path.Combine(rootPath + PPName + "/" + AName + "/", activityDetail.StepID.ToString());
+                        if (!System.IO.Directory.Exists(sPath))
+                        {
+                            System.IO.Directory.CreateDirectory(sPath);
+                        }
+                        string FullPathWithFileName = Path.Combine(sPath, fileName);
+                        using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                        {
+                            await Attachment.CopyToAsync(stream);
+                        }
+                    }
+                }
+                activityDetail.CreatedDate = DateTime.Now.Date;
+                //Activity activityObj = _context.Activity.Find(activityDetail.ActivityID);                
+                //_context.Update(activityObj);
                 _context.Add(activityDetail);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ActivityID"] = new SelectList(_context.Activity, "ActivityID", "Description", activityDetail.ActivityID);
-            ViewData["StepID"] = new SelectList(_context.Step, "StepID", "StepID", activityDetail.StepID);
+                return RedirectToAction(nameof(Edit),"Activities",new { activityDetail.ActivityID});
+            }           
             return View(activityDetail);
         }
 
@@ -93,13 +158,12 @@ namespace BES.Areas.Procurement.Controllers
             var activityDetail = await _context.ActivityDetail.Where(a=>a.ActivityID== ActivityID&& a.StepID==StepID).FirstOrDefaultAsync();
             activityDetail.Activity = _context.Activity.Find(ActivityID);
             activityDetail.Step = _context.Step.Find(StepID);
+            activityDetail.UpdatedBy = User.Identity.Name;
             ViewBag.PPName = _context.ProcurementPlan.Find(activityDetail.Step.ProcurementPlanID).Name;
             if (activityDetail == null)
             {
                 return NotFound();
-            }
-            ViewData["ActivityID"] = new SelectList(_context.Activity, "ActivityID", "Name", activityDetail.ActivityID);
-            ViewData["StepID"] = new SelectList(_context.Step, "StepID", "Name", activityDetail.StepID);
+            }            
             return View(activityDetail);
         }
 
@@ -108,7 +172,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short ActivityID, string PPName, int ActualCost, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedDate,UpdatedBy")] ActivityDetail activityDetail, IFormFile Attachment)
+        public async Task<IActionResult> Edit( string PPName, int ActualCost, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment)
         {
             //if (id != activityDetail.ActivityID)
             //{
@@ -135,8 +199,8 @@ namespace BES.Areas.Procurement.Controllers
                             fileName = fileName.Replace("&", "n");
                             string AName = _context.Activity.Find(activityDetail.ActivityID).Name;
                             AName = AName.Replace("&", "n");
-                            //var PPName = _context.ProcurementPlan.Find(activityDetail.Step.ProcurementPlanID).Name;
-                            activityDetail.Attachment = Path.Combine(rootPath + PPName + "/" + "//" + AName + "//" + activityDetail.StepID + "//" + fileName);//Server Path                
+                            //var PPName = _context.ProcurementPlan.Find(activityDetail.Step.ProcurementPlanID).Name;                                    
+                            activityDetail.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//" + activityDetail.StepID + "//" + fileName);//Server Path                
                             //_context.ActivityDetail.Add(activityDetail);
                             string sPath = Path.Combine(rootPath + PPName + "/" + AName + "/", activityDetail.StepID.ToString());
                             if (!System.IO.Directory.Exists(sPath))

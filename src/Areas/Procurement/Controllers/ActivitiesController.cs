@@ -120,11 +120,11 @@ namespace BES.Areas.Procurement.Controllers
         }
 
         // GET: Procurement/Activities/Create
-        public IActionResult Create(short PPID)
+        public IActionResult Create(short id)
         {
             ViewBag.MethodID = new SelectList(_context.Method, "MethodID", "Name");
             ViewBag.ProjectNo = new SelectList(_context.Project.Where(a=>a.ProjectNo == 2), "ProjectNo", "ProjectName");
-            ViewBag.ProcurementPlanID = new SelectList(_context.ProcurementPlan.Where(a => a.ProcurementPlanID == PPID), "ProcurementPlanID", "Name");
+            ViewBag.ProcurementPlanID = new SelectList(_context.ProcurementPlan.Where(a => a.ProcurementPlanID == id), "ProcurementPlanID", "Name");
             ViewBag.ProcurementFor = new SelectList(new[]
                    {
                          new { Id = "1", Name = "Schools" },
@@ -137,7 +137,7 @@ namespace BES.Areas.Procurement.Controllers
                     }, "Id", "Name");
             Activity pPActivity = new Activity();
             pPActivity.CreatedBy = User.Identity.Name;
-            ViewBag.PPID = PPID;
+            ViewBag.PPID = id;
             return View(pPActivity);
         }
 
@@ -146,19 +146,20 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ActivityID,ProcurementPlanID,ActivityNo,Name,LotTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,UpdatedDate,ProjectNo")] Activity activity, short PPID)
+        public async Task<IActionResult> Create(short id,[Bind("ActivityID,ProcurementPlanID,ActivityNo,Name,LotTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,CreatedDate,CreatedBy,UpdatedBy,UpdatedDate,ProjectNo")] Activity activity)
         {
             if (ModelState.IsValid)
             {               
-                var val = _context.Activity.Count(a => a.ActivityNo == activity.ActivityNo && a.ProcurementPlanID == PPID);
+                var val = _context.Activity.Count(a => a.ActivityNo == activity.ActivityNo && a.ProcurementPlanID == id);
                 if (val == 0)
                 {
                     activity.ActualCost = 0;
                     activity.CreatedDate = DateTime.Now;
                     activity.Status = 1;
+                    activity.ProcurementPlanID = id;
                     _context.Add(activity);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index),new { PPID });                    
+                    return RedirectToAction(nameof(Index),new { PPID = id });                    
                 }
                 else
                 {
@@ -177,7 +178,7 @@ namespace BES.Areas.Procurement.Controllers
                     }, "Id", "Name", activity.ProcurementFor);
             ViewBag.MethodID = new SelectList(_context.Method, "MethodID", "Name", activity.MethodID);
             ViewBag.PPProjectNo = new SelectList(_context.Project, "PPProjectNo", "ProjectName", 2);
-            ViewBag.ProcurementPlanID = new SelectList(_context.ProcurementPlan.Where(a => a.ProcurementPlanID == PPID), "ProcurementPlanID", "Name", activity.ProcurementPlanID);
+            ViewBag.ProcurementPlanID = new SelectList(_context.ProcurementPlan.Where(a => a.ProcurementPlanID == id), "ProcurementPlanID", "Name", activity.ProcurementPlanID);
             return View(activity);
         }
 

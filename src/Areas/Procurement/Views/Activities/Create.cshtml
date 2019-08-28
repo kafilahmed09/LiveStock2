@@ -21,41 +21,41 @@
         </div>
         <hr />
         <div class="row" style="margin:15px 15px 0 15px">
-            <form asp-action="Create">
+            <form asp-action="Create">                   
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
                             <label asp-for="ProjectNo" class="control-label"></label>
                             <select asp-for="ProjectNo" class="form-control" asp-items="ViewBag.ProjectNo"></select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
-                            <label asp-for="ProcurementPlanID" class="control-label"></label>
-                            <select asp-for="ProcurementPlanID" class="form-control" name="Name" asp-items="ViewBag.ProcurementPlanID"></select>
+                            <label  class="control-label">Head</label>
+                            <select asp-for="ProcurementPlanID" class="form-control" asp-items="ViewBag.ProcurementPlanID"></select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
-                            <label asp-for="ProcurementFor" class="control-label"></label>
+                            <label class="control-label">Proc.For</label>
                             <select asp-for="ProcurementFor" class="form-control" asp-items="ViewBag.ProcurementFor"></select>
                             <span asp-validation-for="ProcurementFor" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
                             <label asp-for="ReviewType" class="control-label"></label>
                             <select asp-for="ReviewType" class="form-control" asp-items="ViewBag.ReviewType"></select>
                             <span asp-validation-for="ReviewType" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
                             <label asp-for="MethodID" class="control-label"></label>
                             <select asp-for="MethodID" class="form-control" asp-items="ViewBag.MethodID"></select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
                             <label asp-for="ActualCost" class="control-label"></label>
                             <input asp-for="ActualCost" class="form-control" readonly="readonly" />
@@ -64,49 +64,47 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
-                            <label asp-for="ActivityNo" class="control-label"></label>
+                            <label  class="control-label">Activity#</label>
                             <input asp-for="ActivityNo" class="form-control" />
                             <span asp-validation-for="ActivityNo" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="form-group">
                             <label asp-for="Name" class="control-label"></label>
                             <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
                             <label asp-for="EstimatedCost" class="control-label"></label>
                             <input asp-for="EstimatedCost" class="form-control" />
                             <span asp-validation-for="EstimatedCost" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="form-group">
                             <label asp-for="LotTotal" class="control-label"></label>
                             <input asp-for="LotTotal" class="form-control" />
                             <span asp-validation-for="LotTotal" class="text-danger"></span>
                         </div>
                     </div>
-                </div>
+                </div>               
                 <div class="row">
-                    <div class="col-md-2">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    </div>
-                    <div class="col-md-2">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-lg-10 col-md-10 col-sm-10">
                         <div class="form-group">
                             <label asp-for="Description" class="control-label"></label>
                             <input asp-for="Description" class="form-control" />
                             <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <div class="form-group">
+                            <label asp-for="CreatedBy" class="control-label"></label>
+                            <input asp-for="CreatedBy" class="form-control" readonly="readonly" />                            
                         </div>
                     </div>
                 </div>

@@ -29,6 +29,23 @@ namespace BES.Areas.Procurement.Controllers
             var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor);
             return View(await applicationDbContext.ToListAsync());
         }
+        public async Task<IActionResult> AssignLotsInBulk(int id)
+        {
+            //var result = _context.Contractor
+            //    .Where(a => a.ContractorTypeID == 1)
+            //       .Select(x => new
+            //       {
+            //           x.ContractorID,
+            //           Name = x.Name + " - " + x.CompanyName.ToString()
+            //       });
+            //ViewBag.ContractorID = new SelectList(result, "ContractorID", "Name");
+            List<Contractor> contractorList = new List<Contractor>();
+            contractorList = _context.Contractor.Where(a=>a.ContractorTypeID == 1).ToList();
+            contractorList.Insert(0, new Contractor { ContractorID = 0, CompanyName = "Select" });
+            ViewData["ContractorID"] = new SelectList(contractorList, "ContractorID", "CompanyName");
+            var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor).Where(a=>a.ActivityID == id);
+            return PartialView(await applicationDbContext.ToListAsync());
+        }
         public async Task<IActionResult> Index2(int id)
         {
             var pplots = _context.Lot.Include(p => p.Contractor).Include(p => p.Activity).Where(a => a.ActivityID == id);

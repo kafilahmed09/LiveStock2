@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h1>Test</h1>
+
 <div style="margin:10px 10px 0 10px">
     <div class="row">
         <div class="col-sm-6">
@@ -62,7 +62,7 @@
                     <h3 class="box-title">Planned Activities</h3>
                     <h2>
                         @{string complete = ViewBag.TotalGActivitiesCompleted; complete = complete.PadLeft(2, '0');}
-                        <a href="#" style="color:#00a65a !important" class="search" data-url='/Procurement/Activities/Popup/3' data-toggle="modal" data-target="#exampleModalLong1">@complete</a> @*of <a class="search" data-url='@Url.Action("Popup", "Activity")' data-toggle="modal" data-target="#exampleModalLong1">@total</a>*@
+                        <a href="#" style="color:#00a65a !important" class="search" data-url='/Procurement/Activities/Popup/3' data-toggle="modal" data-target="#exampleModalLong1">@complete</a>
                     </h2>
                     <small>Completed @*- <text style="font-size:13px;font-weight:bold">12%</text>*@</small>
                 </div>
@@ -115,7 +115,7 @@
         <div class="col-lg-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-header">List of  @Model.Select(a => a.PProcurementPlan.Name).FirstOrDefault() Activities @Html.ActionLink("Create New Activity", "Create", new { PPID = ViewBag.PPID }, new { @class = "btn btn-primary btn-xs" })</h3>
+                    <h3 class="box-header">List of  @Model.Select(a => a.PProcurementPlan.Name).FirstOrDefault() Activities @Html.ActionLink("Create New Activity", "Create", new { id = ViewBag.PPID }, new { @class = "btn btn-primary btn-xs" })</h3>
                 </div>
                 <div>
 
