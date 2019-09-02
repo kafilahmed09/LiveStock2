@@ -45,15 +45,25 @@
                     @String.Format("{0:#,##}", item.EstimatedUnitRate)
                 </td>
                 <td>
-                    @String.Format("{0:#,##}", item.ActualUnitRate)
+                    @{if (@String.Format("{0:#,##}", item.ActualUnitRate) == "")
+                        {<text>-</text>}
+                    else
+                    {
+                        @String.Format("{0:#,##}", item.ActualUnitRate)
+                    }
+                    }
                 </td>
                 <td>
                     @String.Format("{0:#,##}", ((item.Quantity * item.EstimatedUnitRate)))
                 </td>
                 <td>
-                    @String.Format("{0:#,##}", ((item.Quantity * item.ActualUnitRate) ?? 0))
+                    @{if (@String.Format("{0:#,##}", ((item.Quantity * item.ActualUnitRate) ?? 0)) == "")
+                        {<text>-</text>}
+                    else
+                    {@String.Format("{0:#,##}", ((item.Quantity * item.ActualUnitRate) ?? 0)) }
+                    }
                 </td>
-                <td>@Html.ActionLink("Images", "ViewImages", "PPLotItemImages", new { id = item.LotItemId }, new { @class = "btn btn-primary btn-sm" })</td>
+                <td>@Html.ActionLink("Images", "ViewImages", "LotItemImages", new { id = item.LotItemId }, new { @class = "btn btn-primary btn-sm" })</td>
                 <td>
                     @*@Html.ActionLink("Details", "Details", new { id=item.PPLotItemId }, new { @class = "btn btn-primary btn-sm"})*@
                     @Html.ActionLink("Edit", "Edit", new { id = item.LotItemId }, new { @class = "btn btn-white btn-sm" })

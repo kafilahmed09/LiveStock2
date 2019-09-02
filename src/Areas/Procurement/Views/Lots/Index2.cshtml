@@ -20,44 +20,58 @@
         <th>Actual Amount</th>
         @*<th>Lot</th>*@
         <th>Lot</th>
+        <th>Addendum</th>
         @*<th>GRN Management</th>*@
     </tr>
     @{ int counter = 1;}
     @foreach (var item in Model)
     {
-        <tr>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Contractor.CompanyName)
-                </td>*@
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.PPActivity.Name)
-                </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.lotno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.lotDescription)
-            </td>
-            @{
-                if (ViewData["Data"] != null)
-                {
-                    <td>@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter])) </td>
-                    <td>@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter + 1])) </td>
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Contractor.CompanyName)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.PPActivity.Name)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.lotno)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lotDescription)
+        </td>
+        @{
+            if ((int)ViewData["DataCount"] >= counter)
+            {
+                <td>
+                    @{if (@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter])) == "")
+                        {<text>-</text>}
+                    else
+                    {@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter])) }
+                    }
+                </td>
+                <td>
+                    @{if (@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter + 1])) == "")
+                        {<text>-</text>}
+                    else
+                    {@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter + 1])) }
+                    }
+                </td>
                 }
                 else
                 {
-                    <td></td>
-                    <td></td>
+                <td>Pending</td>
+                <td>Pending</td>
                 }
-            }
-            @{ counter = counter + 3;}
-            @*<td>
-                @Html.ActionLink("Details", "Details", new { id=item.lotId }, new { @class = "btn btn-primary btn-sm"})
-                @Html.ActionLink("Edit / Assign Lot", "Edit", new { id = item.lotId }, new { @class = "btn btn-white btn-sm" })
-            </td>*@
-            <td>@Html.ActionLink("View / Add Items", "Create", "LotItems", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>
-            @*<td>@Html.ActionLink("Receiving Items", "Create", "PPGRNManagements", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>*@
-        </tr>
+                }
+                @{ counter = counter + 3;}
+                @*<td>
+                    @Html.ActionLink("Details", "Details", new { id=item.lotId }, new { @class = "btn btn-primary btn-sm"})
+                    @Html.ActionLink("Edit / Assign Lot", "Edit", new { id = item.lotId }, new { @class = "btn btn-white btn-sm" })
+                </td>*@
+                <td>@Html.ActionLink("View / Add Items", "Create", "LotItems", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>
+                <td>@Html.ActionLink("Add", "Create", "Addenda", new { id = item.lotId, AID = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
+                @*<td>@Html.ActionLink("Receiving Items", "Create", "PPGRNManagements", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>*@
+            </tr>
     }
 
 </table>

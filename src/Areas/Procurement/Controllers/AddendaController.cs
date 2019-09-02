@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -26,7 +28,14 @@ namespace BES.Areas.Procurement.Controllers
             var applicationDbContext = _context.Addendum.Include(a => a.AddendumType).Include(a => a.Lot);
             return View(await applicationDbContext.ToListAsync());
         }
-
+        // GET: Procurement/Addenda
+        public async Task<IActionResult> PartialIndex(int id, int AID)
+        {
+            var applicationDbContext = _context.Addendum.Include(a => a.AddendumType).Include(a => a.Lot).Where(a=>a.LotId == id);
+            //ViewBag.Expiry = _context.ActivityDetail.Include(a => a.Step).Where(a => a.ActivityID == AID && a.Step.SerailNo == 9).Select(a => a.ActualDate).FirstOrDefault().ToString();
+            //ViewBag.AID = AID;
+            return PartialView(await applicationDbContext.ToListAsync());
+        }
         // GET: Procurement/Addenda/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,10 +57,19 @@ namespace BES.Areas.Procurement.Controllers
         }
 
         // GET: Procurement/Addenda/Create
-        public IActionResult Create()
+        public IActionResult Create(int id, int AID)
         {
-            ViewData["AddendumTypeId"] = new SelectList(_context.Set<AddendumType>(), "AddendumTypeId", "AddendumTypeId");
-            ViewData["LotId"] = new SelectList(_context.Lot, "lotId", "lotId");
+            ViewBag.ActivityId = AID; //db.PPLots.Where(a => a.lotId == id).Select(a => a.ActivityID).FirstOrDefault();
+            var result = _context.Lot
+               .Where(a => a.lotId == id)
+                  .Select(x => new
+                  {
+                      x.lotId,
+                      lotDescription = "Lot No - " + x.lotno.ToString()
+                  }).OrderBy(a => a.lotId);
+            ViewData["LotId"] = new SelectList(result, "lotId", "lotDescription");
+            ViewData["AddendumTypeId"] = new SelectList(_context.AddendumType, "AddendumTypeId", "Name");
+            ViewBag.LotNo = result.Select(a => a.lotDescription).FirstOrDefault();                        
             return View();
         }
 
@@ -60,13 +78,38 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AddendumId,LotId,AddendumTypeId,Attachment,Remarks,ExpiryDate")] Addendum addendum)
+        public async Task<IActionResult> Create(int id, int AID, [Bind("AddendumId,LotId,AddendumTypeId,Attachment,Remarks,ExpiryDate")] Addendum addendum, IFormFile Attachment)
         {
             if (ModelState.IsValid)
             {
+                if (Attachment != null)
+                {
+                    var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
+                    string fileName = Path.GetFileName(Attachment.FileName);
+                    fileName = fileName.Replace("&", "n");
+                    string AName = _context.Lot.Include(a => a.Activity).Where(a => a.lotId == id).Select(a => a.Activity.Name).FirstOrDefault().ToString();
+                    AName = AName.Replace("&", "n");
+                    var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(AID).ProcurementPlanID).Name;
+                    addendum.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Addendum//" + addendum.AddendumId.ToString() + "//" + fileName);//Server Path                
+                    string sPath = Path.Combine(rootPath + PPName + "/" + AName + "//Addendum//" + addendum.AddendumId.ToString());
+                    if (!System.IO.Directory.Exists(sPath))
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                    }
+                    string FullPathWithFileName = Path.Combine(sPath, fileName);
+                    using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                    {
+                        await Attachment.CopyToAsync(stream);
+                    }
+                }                
+                if (addendum.AddendumTypeId == 1)
+                {
+                    addendum.ExpiryDate = _context.ActivityDetail.Include(a => a.Step).Where(a => a.ActivityID == AID && a.Step.SerailNo == 9).Select(a => a.ActualDate).FirstOrDefault();
+                }
                 _context.Add(addendum);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create), new { id, AID });
             }
             ViewData["AddendumTypeId"] = new SelectList(_context.Set<AddendumType>(), "AddendumTypeId", "AddendumTypeId", addendum.AddendumTypeId);
             ViewData["LotId"] = new SelectList(_context.Lot, "lotId", "lotId", addendum.LotId);

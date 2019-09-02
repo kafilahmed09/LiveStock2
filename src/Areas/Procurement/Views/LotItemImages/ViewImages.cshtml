@@ -1,0 +1,130 @@
+﻿
+
+@model List<BES.Areas.Procurement.Models.LotItemImage>
+
+
+@{
+    ViewBag.Title = "Images";
+}
+
+<style>
+    ul {
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+    }
+
+    .ulli {
+        list-style: none;
+        margin-bottom: 25px;
+    }
+
+            ul li img {
+                cursor: pointer;
+            }
+
+    .modal-body {
+        padding: 5px !important;
+    }
+
+    .modal-content {
+        border-radius: 0;
+    }
+
+    .modal-dialog img {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .controls {
+        width: 50px;
+        display: block;
+        font-size: 11px;
+        padding-top: 8px;
+        font-weight: bold;
+    }
+
+    .next {
+        float: right;
+        text-align: right;
+    }
+    /*override modal for demo only*/
+    .modal-dialog {
+        max-width: 500px;
+        padding-top: 90px;
+    }
+</style>
+
+
+<div style="margin:15px 15px 0 15px">
+    <div class="row">
+        <div class="col-lg-12">
+            <div>
+                <div class="ibox-title">
+                    <h4>
+                        @{
+                            if (Model.Count > 0)
+                            {
+                                <strong>
+                                    Activity: @Model.ElementAt(0).LotItem.Lot.Activity.Name,
+                                    Lot No. @Model.ElementAt(0).LotItem.Lot.lotno
+                                </strong>
+                            }
+                        }
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            @{
+                if (Model.Count() > 0)
+                {
+                    <h5>
+                        @{
+                            if (Model.Count > 0)
+                            {
+                                <strong>
+                                    Estimated Unit Cost: Rs.@Model.ElementAt(0).LotItem.EstimatedUnitRate,
+                                    Actual Unit Cost: Rs.@Model.ElementAt(0).LotItem.ActualUnitRate
+                                </strong>
+                            }
+                        }
+                    </h5>
+                            }
+                            else
+                            {
+                    <label>Images are not uploaded.</label>
+                            }
+            }
+
+        </div>
+    </div>
+    <ul class="row">
+        @{ 
+            @for (var item = 0; item < Model.Count(); item++)
+            {
+                if (Model[item].Visibility == true)
+                {                  
+                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-5 ulli">
+                        <img class="img-responsive" src="@Model[item].ImagePath" style="width:200px;height:200px">
+                    </li>
+                }                
+            }
+        }       
+    </ul>
+</div> <!-- /container -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/photo-gallery.js"></script>   
+}

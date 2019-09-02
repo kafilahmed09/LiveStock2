@@ -1,0 +1,45 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.Lot>
+<div class="ibox-content">
+
+    <table class="table table-striped dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.lotno)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Attachment)
+                </th>
+                <th style="min-width:150px">
+                    <text>Contractors/Supplier</text>
+                </th>
+                <th>Enter Actual Cost</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lotno)
+                    </td>
+                    <td>
+                        <input type="file" name="Attachment" accept="application/pdf" />
+                    </td>
+                    <td>
+                        <select class="form-control" asp-items="ViewBag.ContractorID"></select>
+                    </td>
+                    <td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Actual Cost of Items</a></td>
+                    <td><img src="~/img/cross.png" width="38" height="30" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}

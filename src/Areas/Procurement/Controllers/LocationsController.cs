@@ -26,6 +26,10 @@ namespace BES.Areas.Procurement.Controllers
             return View(await _context.Location.ToListAsync());
         }
 
+        public void CopyFile()
+        {
+
+        }
         // GET: Procurement/Locations/Details/5
         public async Task<IActionResult> Details(short? id)
         {

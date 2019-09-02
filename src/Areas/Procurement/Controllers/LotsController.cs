@@ -21,13 +21,30 @@ namespace BES.Areas.Procurement.Controllers
         public LotsController(ApplicationDbContext context)
         {
             _context = context;
-        }
+        } 
 
         // GET: Procurement/Lots
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor);
             return View(await applicationDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> AssignLotsInBulk(int id)
+        {
+            //var result = _context.Contractor
+            //    .Where(a => a.ContractorTypeID == 1)
+            //       .Select(x => new
+            //       {
+            //           x.ContractorID,
+            //           Name = x.Name + " - " + x.CompanyName.ToString()
+            //       });
+            //ViewBag.ContractorID = new SelectList(result, "ContractorID", "Name");
+            List<Contractor> contractorList = new List<Contractor>();
+            contractorList = _context.Contractor.Where(a=>a.ContractorTypeID == 1).ToList();
+            contractorList.Insert(0, new Contractor { ContractorID = 0, CompanyName = "Select" });
+            ViewData["ContractorID"] = new SelectList(contractorList, "ContractorID", "CompanyName");
+            var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor).Where(a=>a.ActivityID == id);
+            return PartialView(await applicationDbContext.ToListAsync());
         }
         public async Task<IActionResult> Index2(int id)
         {
@@ -52,6 +69,7 @@ namespace BES.Areas.Procurement.Controllers
             {
                 int[] arrStrings = data.ToArray();
                 ViewData["Data"] = arrStrings;
+                ViewData["DataCount"] = result.Count;
             }
             return PartialView(await pplots.ToListAsync());
         }
@@ -106,13 +124,15 @@ namespace BES.Areas.Procurement.Controllers
                 lotActual.Attachment = lot.Attachment;
                 if (Attachment != null)
                 {
+                    var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
                     string fileName = Path.GetFileName(Attachment.FileName);
                     fileName = fileName.Replace("&", "n");
                     string AName = _context.Activity.Find(lot.ActivityID).Name;
                     AName = AName.Replace("&", "n");
                     var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(lot.ActivityID).ProcurementPlanID).Name;
-                    lotActual.Attachment = Path.Combine("~/Areas/EU/PPA/" + PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//" + fileName);//Server Path                
-                    string sPath = Path.Combine("~/Areas/EU/PPA/" + PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//");
+                    lotActual.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//" + fileName);//Server Path                
+                    string sPath = Path.Combine(rootPath + PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//");
                     if (!System.IO.Directory.Exists(sPath))
                     {
                         System.IO.Directory.CreateDirectory(sPath);

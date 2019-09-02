@@ -22,19 +22,25 @@
 
 
 <div class="row" style="margin:0 15px 0 15px">
-    <form asp-action="Create">
+    <form asp-action="Edit">
         <div class="row">
             <div class="col-md-2 col-md-2 col-sm-2">
                 <div class="form-group">
                     <input type="hidden" asp-for="ActivityID" />
+                    <input type="hidden" asp-for="ActualCost" />
+                    <input type="hidden" asp-for="Status" />
+                    <input type="hidden" asp-for="CreatedBy" />
+                    <input type="hidden" asp-for="CreatedDate" />
+                    <input type="hidden" asp-for="ProcurementPlanID" />
+                    <input type="hidden" asp-for="UpdatedBy" />
                     <label asp-for="ProjectNo" class="control-label"></label>
                     <select asp-for="ProjectNo" class="form-control" asp-items="ViewBag.ProjectNo"></select>
                 </div>
             </div>
             <div class="col-md-2 col-md-2 col-sm-2">
                 <div class="form-group">
-                    <label asp-for="ProcurementPlanID" class="control-label"></label>
-                    <select asp-for="ProcurementPlanID" class="form-control" name="Name" asp-items="ViewBag.ProcurementPlanID"></select>
+                    <label class="control-label">Head</label>
+                    <select asp-for="ProcurementPlanID" class="form-control" asp-items="ViewBag.ProcurementPlanID"></select>
                 </div>
             </div>
             <div class="col-md-2 col-md-2 col-sm-2">
@@ -68,8 +74,8 @@
         <div class="row">
             <div class="col-md-2 col-md-2 col-sm-2">
                 <div class="form-group">
-                    <label asp-for="ActivityNo" class="control-label"></label>
-                    <input asp-for="ActivityNo" class="form-control" />
+                    <label class="control-label">Activity#</label>
+                    <input asp-for="ActivityNo" class="form-control" readonly="readonly" />
                     <span asp-validation-for="ActivityNo" class="text-danger"></span>
                 </div>
             </div>
@@ -94,21 +100,19 @@
                     <span asp-validation-for="LotTotal" class="text-danger"></span>
                 </div>
             </div>
-        </div>
+        </div>        
         <div class="row">
-            <div class="col-md-2 col-md-2 col-sm-2">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            </div>
-            <div class="col-md-2 col-md-2 col-sm-2">
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-lg-10 col-md-10 col-sm-10">
                 <div class="form-group">
                     <label asp-for="Description" class="control-label"></label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="UpdatedBy" class="control-label"></label>
+                    <input asp-for="UpdatedBy" class="form-control" readonly="readonly"/>                    
                 </div>
             </div>
         </div>
@@ -116,7 +120,7 @@
             <div class="col-md-3 col-md-3 col-sm-3">
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
-                    @Html.ActionLink("Lots", "Create", "Lots", new { id = 6 }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Lots", "Create", "Lots", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
                 </div>
             </div>           
             <div class="col-md-1" id="divLoading">

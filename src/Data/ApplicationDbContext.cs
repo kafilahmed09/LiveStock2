@@ -109,6 +109,7 @@ namespace BES.Data
 
 
         public DbSet<BES.Areas.Procurement.Models.Addendum> Addendum { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.AddendumType> AddendumType { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
 

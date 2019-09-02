@@ -15,21 +15,21 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5">
+                    <div class="col-sm-5 col-md-5 col-lg-5">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label class="control-label">Activity Name</label>
                             <select asp-for="ActivityID" class="form-control" asp-items="ViewBag.ActivityID"></select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-sm-2 col-md-2 col-lg-2">
                         <div class="form-group">
                             <label asp-for="lotno" class="control-label"></label>
                             <input asp-for="lotno" class="form-control" value="@ViewBag.NextLot" readonly="readonly" />
                             <span asp-validation-for="lotno" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
                         <div class="form-group">
                             <label asp-for="ItemTotal" class="control-label"></label>
                             <input asp-for="ItemTotal" class="form-control" />
@@ -38,14 +38,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-sm-9 col-md-9 col-lg-9">
                         <div class="form-group">
                             <label asp-for="lotDescription" class="control-label"></label>
                             <input asp-for="lotDescription" class="form-control" />
                             <span asp-validation-for="lotDescription" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-sm-2 col-md-2 col-lg-2">
                         <div class="form-group" style="margin-top:25px">
                             <input type="submit" value="Add New Lot" class="btn btn-primary" />
                         </div>

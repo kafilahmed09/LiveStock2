@@ -21,17 +21,20 @@ namespace BES.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IMailManager _emailSender;
+        private RoleManager<IdentityRole> RoleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            IMailManager emailSender)
+            IMailManager emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            RoleManager = roleManager;
         }
 
         [BindProperty]
@@ -82,14 +85,19 @@ namespace BES.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
-                    
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
-
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
-                    //var u = _context.Users.Find();
+                    if (!await RoleManager.RoleExistsAsync("Procurement"))
+                    {
+                        var users = new IdentityRole("Procurement");
+                        var res = await RoleManager.CreateAsync(users);
+                        if (res.Succeeded)
+                        {
+                            await _userManager.AddToRoleAsync(user, "Procurement");
+                            _logger.LogInformation("User created a new account with password.");
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                            await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
+                        }
+                    }
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }
                 foreach (var error in result.Errors)
