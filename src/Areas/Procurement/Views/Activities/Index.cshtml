@@ -32,7 +32,7 @@
                     <h3 class="box-title">Commit Cost</h3>
                     <h2 class="no-margins font-bold">
                         @{ s = ViewBag.TotalGACommit;}
-                        @(String.Format("{0:#,##}", int.Parse(s)).PadLeft(2, '0'))
+                        @(String.Format("{0:#,##}", int.Parse(s)).PadLeft(2, '0')) @*Change test*@
                     </h2>
                     <small>Payment Released</small>
                 </div>
