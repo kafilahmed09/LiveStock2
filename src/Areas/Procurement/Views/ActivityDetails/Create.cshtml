@@ -35,6 +35,14 @@
                 </div>
             </div>
         </div>
+        <div class=" row">
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="form-group">
+                    <label asp-for="Step.Name" class="control-label"></label>
+                    <input asp-for="Step.Name" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+        </div>
         @{
             if (Model.Step.SerailNo == 1 || Model.Step.SerailNo == 6)
             {
@@ -69,13 +77,12 @@
                 <div class="form-group" id="divBtns">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Save" class="btn btn-primary" />
-                        @{
+                        @*@{
                             if (Model.Step.SerailNo == 8)
-                            {
-                                @*@Html.ActionLink("Assign Lots", "AssignLot", "Lots", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })*@
+                            {                                
                                 <a asp-action="AssignLot" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID">Assign Lots</a>
                             }
-                        }
+                        }*@
                         @Html.ActionLink("Cancel", "Edit", "Activities", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
                     </div>
                 </div>

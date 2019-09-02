@@ -4,48 +4,74 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<div style="margin:0 15px 0 15px">
+    <h3>Create New Addendum</h3>
 
-<h4>Addendum</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="LotId" class="control-label"></label>
-                <select asp-for="LotId" class ="form-control" asp-items="ViewBag.LotId"></select>
+    <hr />
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" id="AID" value="@ViewBag.ActivityId" name="AID" />
+                <div class="form-group">
+                    <label asp-for="LotId" class="control-label"></label>
+                    <select asp-for="LotId" class="form-control" asp-items="ViewBag.LotId"></select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="AddendumTypeId" class="control-label"></label>
-                <select asp-for="AddendumTypeId" class ="form-control" asp-items="ViewBag.AddendumTypeId"></select>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label asp-for="AddendumTypeId" class="control-label"></label>
+                    <select asp-for="AddendumTypeId" class="form-control" asp-items="ViewBag.AddendumTypeId"></select>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Attachment" class="control-label"></label>
-                <input asp-for="Attachment" class="form-control" />
-                <span asp-validation-for="Attachment" class="text-danger"></span>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label asp-for="ExpiryDate" class="control-label"></label>
+                    <input asp-for="ExpiryDate" class="form-control" />
+                    <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Remarks" class="control-label"></label>
-                <input asp-for="Remarks" class="form-control" />
-                <span asp-validation-for="Remarks" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    <label asp-for="Attachment" class="control-label"></label>
+                    <input type="file" name="Attachment" accept="application/pdf" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add New" class="btn btn-default" />
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ExpiryDate" class="control-label"></label>
-                <input asp-for="ExpiryDate" class="form-control" />
-                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            <div class="col-sm-8 col-md-8 col-lg-8">
+                <div class="form-group">
+                    <label asp-for="Remarks" class="control-label"></label>
+                    <input asp-for="Remarks" class="form-control" />
+                    <span asp-validation-for="Remarks" class="text-danger"></span>
+                </div>
+                <div id="divLoading">
+                    <img src="~/img/sspinner.gif" width="40" height="40" />
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
+    </form>
+    <h4 style="font-weight:bold">List of Already Assigned Addendums to @ViewBag.LotNo</h4>
+    <div id="dynamicContentContainer"></div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            var lot = $("#LotId").val();
+            $.get('@Url.Action("PartialIndex", "Addenda")', { id: lot, AID: @ViewBag.ActivityId }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
 }

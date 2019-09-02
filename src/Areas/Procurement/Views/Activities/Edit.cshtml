@@ -22,7 +22,7 @@
 
 
 <div class="row" style="margin:0 15px 0 15px">
-    <form asp-action="Create">
+    <form asp-action="Edit">
         <div class="row">
             <div class="col-md-2 col-md-2 col-sm-2">
                 <div class="form-group">
@@ -30,7 +30,9 @@
                     <input type="hidden" asp-for="ActualCost" />
                     <input type="hidden" asp-for="Status" />
                     <input type="hidden" asp-for="CreatedBy" />
-                    <input type="hidden" asp-for="CreatedDate" />                    
+                    <input type="hidden" asp-for="CreatedDate" />
+                    <input type="hidden" asp-for="ProcurementPlanID" />
+                    <input type="hidden" asp-for="UpdatedBy" />
                     <label asp-for="ProjectNo" class="control-label"></label>
                     <select asp-for="ProjectNo" class="form-control" asp-items="ViewBag.ProjectNo"></select>
                 </div>
@@ -38,7 +40,7 @@
             <div class="col-md-2 col-md-2 col-sm-2">
                 <div class="form-group">
                     <label class="control-label">Head</label>
-                    <select asp-for="ProcurementPlanID" class="form-control" name="Name" asp-items="ViewBag.ProcurementPlanID"></select>
+                    <select asp-for="ProcurementPlanID" class="form-control" asp-items="ViewBag.ProcurementPlanID"></select>
                 </div>
             </div>
             <div class="col-md-2 col-md-2 col-sm-2">
@@ -73,7 +75,7 @@
             <div class="col-md-2 col-md-2 col-sm-2">
                 <div class="form-group">
                     <label class="control-label">Activity#</label>
-                    <input asp-for="ActivityNo" class="form-control" />
+                    <input asp-for="ActivityNo" class="form-control" readonly="readonly" />
                     <span asp-validation-for="ActivityNo" class="text-danger"></span>
                 </div>
             </div>

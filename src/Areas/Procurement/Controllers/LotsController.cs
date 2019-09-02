@@ -69,6 +69,7 @@ namespace BES.Areas.Procurement.Controllers
             {
                 int[] arrStrings = data.ToArray();
                 ViewData["Data"] = arrStrings;
+                ViewData["DataCount"] = result.Count;
             }
             return PartialView(await pplots.ToListAsync());
         }
@@ -123,13 +124,15 @@ namespace BES.Areas.Procurement.Controllers
                 lotActual.Attachment = lot.Attachment;
                 if (Attachment != null)
                 {
+                    var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
                     string fileName = Path.GetFileName(Attachment.FileName);
                     fileName = fileName.Replace("&", "n");
                     string AName = _context.Activity.Find(lot.ActivityID).Name;
                     AName = AName.Replace("&", "n");
                     var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(lot.ActivityID).ProcurementPlanID).Name;
-                    lotActual.Attachment = Path.Combine("~/Areas/EU/PPA/" + PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//" + fileName);//Server Path                
-                    string sPath = Path.Combine("~/Areas/EU/PPA/" + PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//");
+                    lotActual.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//" + fileName);//Server Path                
+                    string sPath = Path.Combine(rootPath + PPName + "/" + "//" + AName + "//Lots//" + lot.lotno.ToString() + "//");
                     if (!System.IO.Directory.Exists(sPath))
                     {
                         System.IO.Directory.CreateDirectory(sPath);

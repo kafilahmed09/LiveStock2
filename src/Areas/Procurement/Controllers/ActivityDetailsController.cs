@@ -142,7 +142,7 @@ namespace BES.Areas.Procurement.Controllers
                 //_context.Update(activityObj);
                 _context.Add(activityDetail);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Edit),"Activities",new { activityDetail.ActivityID});
+                return RedirectToAction(nameof(Edit),"Activities",new { id = activityDetail.ActivityID});
             }           
             return View(activityDetail);
         }

@@ -100,7 +100,7 @@ namespace BES.Areas.Procurement.Controllers
                         AName = AName.Replace("&", "n");
                         string ItemName = lotItem.ItemName.Replace("&", "n");
                         var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(_context.Lot.Find(lotItem.lotId).ActivityID).ProcurementPlanID).Name;
-                        ImgObj.ImagePath = Path.Combine(rootPath, PPName + "/" + "//" + AName + "//Lot//" + lotItem.lotId.ToString() + "//" + ItemName + "//" + fileName);//Server Path                
+                        ImgObj.ImagePath = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Lot//" + lotItem.lotId.ToString() + "//" + ItemName + "//" + fileName);//Server Path                
                         string sPath = Path.Combine(rootPath, PPName + "/" + AName + "//Lot//" + lotItem.lotId.ToString() + "//" + ItemName);
                         if (!System.IO.Directory.Exists(sPath))
                         {
@@ -113,10 +113,10 @@ namespace BES.Areas.Procurement.Controllers
                         }                        
                         ImgObj.LotItemId = _context.LotItem.Max(a => a.LotItemId);
                         ImgObj.Visibility = true;
-                        _context.LotItemImage.Add(ImgObj);
-                        _context.SaveChanges();
+                        _context.LotItemImage.Add(ImgObj);                        
                     }
                 }
+                _context.SaveChanges();
                 ViewBag.LId = lotItem.lotId;
                 ViewBag.UnitId = new SelectList(_context.Unit, "UnitId", "Name", lotItem.UnitId);
                 return RedirectToAction(nameof(Create), new { lotItem.lotId});
@@ -152,8 +152,15 @@ namespace BES.Areas.Procurement.Controllers
             {
                 return NotFound();
             }
-            ViewData["lotId"] = new SelectList(_context.Lot, "lotId", "lotId", lotItem.lotId);
-            ViewData["UnitId"] = new SelectList(_context.Unit, "UnitId", "UnitId", lotItem.UnitId);
+            var result = _context.Lot
+                .Where(a => a.lotId == lotItem.lotId)
+                   .Select(x => new
+                   {
+                       lotId = x.lotId,
+                       lotDescription = "Lot No - " + x.lotno.ToString()
+                   });
+            ViewBag.UnitId = new SelectList(_context.Unit, "UnitId", "Name", lotItem.UnitId);
+            ViewBag.lotId = new SelectList(result, "lotId", "lotDescription", lotItem.lotId);
             return View(lotItem);
         }
 
@@ -194,6 +201,58 @@ namespace BES.Areas.Procurement.Controllers
             return View(lotItem);
         }
 
+        // GET: Procurement/LotItems/Edit/5
+        public async Task<IActionResult> EditPopup(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var lotItemList = _context.LotItem.Where(a=>a.lotId == id);
+            if (lotItemList == null)
+            {
+                return NotFound();
+            }          
+            return PartialView( await lotItemList.ToListAsync());
+        }
+
+        // POST: Procurement/LotItems/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPopup(int id, [Bind("LotItemId,lotId,ItemName,Quantity,EstimatedUnitRate,ActualUnitRate,UnitId,Description")] LotItem lotItem)
+        {
+            if (id != lotItem.LotItemId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(lotItem);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!LotItemExists(lotItem.LotItemId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["lotId"] = new SelectList(_context.Lot, "lotId", "lotId", lotItem.lotId);
+            ViewData["UnitId"] = new SelectList(_context.Unit, "UnitId", "UnitId", lotItem.UnitId);
+            return PartialView(lotItem);
+        }
         // GET: Procurement/LotItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

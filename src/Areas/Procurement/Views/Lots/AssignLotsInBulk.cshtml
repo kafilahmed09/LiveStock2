@@ -30,8 +30,8 @@
                     <td>
                         <select class="form-control" asp-items="ViewBag.ContractorID"></select>
                     </td>
-                    <td><a class="btn btn-primary">Actual Cost of Items</a></td>
-                    <td><img src="~/img/cross.png" width="30" height="30" /></td>
+                    <td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Actual Cost of Items</a></td>
+                    <td><img src="~/img/cross.png" width="38" height="30" /></td>
                 </tr>
             }
         </tbody>

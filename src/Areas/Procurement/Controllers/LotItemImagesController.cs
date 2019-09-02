@@ -26,7 +26,12 @@ namespace BES.Areas.Procurement.Controllers
             var applicationDbContext = _context.LotItemImage.Include(l => l.LotItem);
             return View(await applicationDbContext.ToListAsync());
         }
-
+        public ActionResult ViewImages(int id)
+        {
+            List<LotItemImage> ItemImagesListArray = new List<LotItemImage>();
+            ItemImagesListArray = _context.LotItemImage.Include(l => l.LotItem.Lot.Activity).Where(a=>a.LotItemId == id).ToList();
+            return View(ItemImagesListArray);
+        }
         // GET: Procurement/LotItemImages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -71,20 +76,16 @@ namespace BES.Areas.Procurement.Controllers
         }
 
         // GET: Procurement/LotItemImages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            List<LotItemImage> ItemImagesListArray = new List<LotItemImage>();
+            ItemImagesListArray = await _context.LotItemImage.Include(p => p.LotItem.Lot.Activity).Where(a => a.LotItemId == id).ToListAsync();
+            
+            if (ItemImagesListArray == null)
             {
                 return NotFound();
-            }
-
-            var lotItemImage = await _context.LotItemImage.FindAsync(id);
-            if (lotItemImage == null)
-            {
-                return NotFound();
-            }
-            ViewData["LotItemId"] = new SelectList(_context.LotItem, "LotItemId", "LotItemId", lotItemImage.LotItemId);
-            return View(lotItemImage);
+            }            
+            return View(ItemImagesListArray);
         }
 
         // POST: Procurement/LotItemImages/Edit/5

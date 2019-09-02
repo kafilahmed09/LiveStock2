@@ -208,6 +208,7 @@ namespace BES.Areas.Procurement.Controllers
                          new { Id = "1", Name = "Schools" },
                         new { Id = "2", Name = "Office" },
                     }, "Id", "Name", activity.ProcurementFor);
+            activity.UpdatedBy = User.Identity.Name;
             return View(activity);
         }
 
@@ -216,7 +217,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("ActivityID,ProcurementPlanID,ActivityNo,Name,LotTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,UpdatedDate,ProjectNo")] Activity activity)
+        public async Task<IActionResult> Edit(short id, [Bind("ActivityID,ProcurementPlanID,ActivityNo,Name,LotTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,CreatedBy,CreatedDate,UpdatedDate,ProjectNo")] Activity activity)
         {
             if (id != activity.ActivityID)
             {
@@ -226,7 +227,8 @@ namespace BES.Areas.Procurement.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                {                    
+                    activity.UpdatedDate = DateTime.Now.Date;
                     _context.Update(activity);
                     await _context.SaveChangesAsync();
                 }
@@ -241,7 +243,7 @@ namespace BES.Areas.Procurement.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit),new { id = activity.ActivityID});
             }
             ViewData["MethodID"] = new SelectList(_context.Method, "MethodID", "Name", activity.MethodID);
             ViewData["ProjectNo"] = new SelectList(_context.Project, "ProjectNo", "ProjectName", activity.ProjectNo);
