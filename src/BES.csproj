@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Education\Controllers\" />
+    <Folder Include="Areas\Education\Data\" />
+    <Folder Include="Areas\Education\Models\" />
+    <Folder Include="Areas\Education\Views\" />
     <Folder Include="Areas\Procurement\Data\" />
   </ItemGroup>
 </Project>
