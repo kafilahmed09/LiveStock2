@@ -18,6 +18,6 @@ namespace BES.Models.Data
         public short SequenceNo        {get;set;}
         public bool IsEvidenceRequire {get;set;}
 
-        //public virtual part
+        public virtual Partner Partner { get; set; }
     }
 }

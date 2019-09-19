@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BES.Models.Data.Indicator>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <h2>Index</h2>
+    <div class="box box-default">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IndicatorName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SequenceNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsEvidenceRequire)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Partner)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IndicatorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SequenceNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsEvidenceRequire)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Partner.PartnerName)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IndicatorID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.IndicatorID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.IndicatorID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

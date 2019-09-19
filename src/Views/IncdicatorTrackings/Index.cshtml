@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BES.Models.Data.School>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<section class="content-header">
+    <div class="row">
+        <h1>
+           @ViewBag.Section Progress & Evidance Tracking
+            @*<small>BES</small>*@
+        </h1>
+        @*<div class="col-sm-10">
+            <ol class="breadcrumb">
+                <li> @Html.ActionLink("List", "Index") </li>
+                <li class="active">
+                    <strong>Edit</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-sm-2">
+            <div class="title-action">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>*@
+    </div>
+</section>
+<section class="content">
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.UCName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SName)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UC.Tehsil.District.RegionID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UC.Tehsil.District.DistrictName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UC.Tehsil.TehsilName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UC.UCName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SName)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Update", "Update", new {  id=item.SchoolID, SecID= ViewBag.SectionID }) 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </section>
