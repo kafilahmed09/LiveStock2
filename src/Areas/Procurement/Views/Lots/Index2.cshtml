@@ -19,7 +19,7 @@
         <th>Estimated Amount</th>
         <th>Actual Amount</th>
         @*<th>Lot</th>*@
-        <th>Lot</th>
+        <th>Add Items</th>
         <th>Addendum</th>
         @*<th>GRN Management</th>*@
     </tr>
@@ -56,22 +56,39 @@
                     {@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter + 1])) }
                     }
                 </td>
-                }
-                else
-                {
+            }
+            else
+            {
                 <td>Pending</td>
                 <td>Pending</td>
-                }
-                }
-                @{ counter = counter + 3;}
-                @*<td>
-                    @Html.ActionLink("Details", "Details", new { id=item.lotId }, new { @class = "btn btn-primary btn-sm"})
-                    @Html.ActionLink("Edit / Assign Lot", "Edit", new { id = item.lotId }, new { @class = "btn btn-white btn-sm" })
-                </td>*@
-                <td>@Html.ActionLink("View / Add Items", "Create", "LotItems", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>
-                <td>@Html.ActionLink("Add", "Create", "Addenda", new { id = item.lotId, AID = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
-                @*<td>@Html.ActionLink("Receiving Items", "Create", "PPGRNManagements", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>*@
-            </tr>
+            }
+        }
+        @{ counter = counter + 3;}
+        @*<td>
+            @Html.ActionLink("Details", "Details", new { id=item.lotId }, new { @class = "btn btn-primary btn-sm"})
+            @Html.ActionLink("Edit / Assign Lot", "Edit", new { id = item.lotId }, new { @class = "btn btn-white btn-sm" })
+        </td>*@
+                <td>                    
+                        <a href='@Url.Action("Create", "LotItems", new { id = item.lotId})'>
+                            <img src='@Url.Content("~/images/plus.png")' width="30" height="30" />
+                        </a>
+                </td>
+        @{
+            if (item.ExpiryDate == null)
+            {
+                <td>
+                    <a href='@Url.Action("Create", "Addenda", new { id = item.lotId, AID = item.ActivityID })'>
+                        <img src='@Url.Content("~/images/plus.png")' width="30" height="30" />
+                    </a>
+                </td>
+            }
+            else
+            {
+                <td style="color:dodgerblue;font-weight:bold">Contract Pending</td>
+            }
+        }
+        @*<td>@Html.ActionLink("Receiving Items", "Create", "PPGRNManagements", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>*@
+    </tr>
     }
 
 </table>

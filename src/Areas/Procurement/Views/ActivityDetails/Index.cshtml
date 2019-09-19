@@ -52,7 +52,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.ActualDate)
                             </th>
-                            <th></th>
+                            <th>Update</th>
                         </tr>
 
                         @foreach (var item in Model)
@@ -80,11 +80,14 @@
                                         <td><text>N/A</text></td>
                                     }
                                 }
-                                <td>
-                                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary btn-sm"})*@
-                                    @Html.ActionLink("Edit", "Edit", new { ActivityID = item.ActivityID, StepID = item.StepID }, new { @class = "btn btn-primary btn-sm" })
-                                    @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-white btn-sm"})*@
-                                </td>
+                                        <td>
+                                            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary btn-sm"})*@
+                                            @*@Html.ActionLink("Edit", "Edit", new { ActivityID = item.ActivityID, StepID = item.StepID }, new { @class = "btn btn-primary btn-sm" })*@
+                                            <a href='@Url.Action("Edit", "ActivityDetails", new { ActivityID = item.ActivityID, StepID = item.StepID })'>
+                                                <img src='@Url.Content("~/images/edit.png")' width="25" height="25" />
+                                            </a>
+                                            @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-white btn-sm"})*@
+                                        </td>
                             </tr>
                         }
 

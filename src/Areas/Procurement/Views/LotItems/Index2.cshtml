@@ -22,7 +22,7 @@
             <th><text>Total Estimated</text></th>
             <th><text>Total Actual</text></th>
             <th>Images</th>
-            <th></th>
+            <th>Edit</th>
         </tr>
     </thead>
     <tbody>
@@ -63,10 +63,16 @@
                     {@String.Format("{0:#,##}", ((item.Quantity * item.ActualUnitRate) ?? 0)) }
                     }
                 </td>
-                <td>@Html.ActionLink("Images", "ViewImages", "LotItemImages", new { id = item.LotItemId }, new { @class = "btn btn-primary btn-sm" })</td>
+                <td>                    
+                    <a href='@Url.Action("ViewImages", "LotItemImages", new { id = item.LotItemId})'>
+                        <img src='@Url.Content("~/images/viewPic.png")' width="25" height="25" />
+                    </a>
+                </td>
                 <td>
-                    @*@Html.ActionLink("Details", "Details", new { id=item.PPLotItemId }, new { @class = "btn btn-primary btn-sm"})*@
-                    @Html.ActionLink("Edit", "Edit", new { id = item.LotItemId }, new { @class = "btn btn-white btn-sm" })
+                    @*@Html.ActionLink("Details", "Details", new { id=item.PPLotItemId }, new { @class = "btn btn-primary btn-sm"})*@                    
+                    <a href='@Url.Action("Edit", "LotItems", new { id = item.LotItemId})'>
+                        <img src='@Url.Content("~/images/edit.png")' width="25" height="25" />
+                    </a>
                     @*@Html.ActionLink("Delete", "Delete", new { id=item.PPLotItemId }, new { @class = "btn btn-white btn-sm"})*@
                 </td>
             </tr>
