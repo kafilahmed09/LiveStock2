@@ -42,10 +42,14 @@
                 </td>
 
                 <td>
-                    @{ if (item.IsUpload == true)
+                    @{ 
+                        
+                        if (item.IsUpload == true)
                         { @Html.DisplayFor(modelItem => item.IsUpload)}
-                    else
-                    { <input type="file" name="Attachment" /> }
+                        else
+                        {
+                            string AttachID = "Attach" + @item.IndicatorID;
+                            <input type="file" name="Attachment" id=@item.IndicatorID /> }
                     }
                 </td>
                 <td>
@@ -57,7 +61,7 @@
                 </td>
 
                 <td>
-                    <input type="submit" value="Save" class="kk btn btn-primary" id=@item.IndicatorID onclick="submit_by_Script()" />
+                    <input type="submit" value="Save" class="kk btn btn-primary"  onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower())" />
 
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
@@ -72,8 +76,13 @@
     
         <script type="text/javascript">
             
-            function submit_by_Script() {
-                alert("submit by Script");
+            function submit_by_Script(elmnt, iId,sId,isEvid) {
+                 var AttachID = "Attach" + iId;
+                var fileInput = document.getElementById(iId);
+                //var id = fileInput[0].id;
+                var file = fileInput.files[0];
+                alert(fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
+
             }
         </script>
     }
