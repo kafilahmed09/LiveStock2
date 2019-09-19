@@ -1,0 +1,79 @@
+﻿@model IEnumerable<BES.Models.Data.IncdicatorTracking>
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<h2>Update</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IndicatorName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IsUpload)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfUpload)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.isEvidence)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndicatorName)
+                </td>
+
+                <td>
+                    @{ if (item.IsUpload == true)
+                        { @Html.DisplayFor(modelItem => item.IsUpload)}
+                    else
+                    { <input type="file" name="Attachment" /> }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfUpload)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.isEvidence)
+                </td>
+
+                <td>
+                    <input type="submit" value="Save" class="kk btn btn-primary" id=@item.IndicatorID onclick="submit_by_Script()" />
+
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    
+        <script type="text/javascript">
+            
+            function submit_by_Script() {
+                alert("submit by Script");
+            }
+        </script>
+    }

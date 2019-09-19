@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
+using BES.Models.Data;
 
 namespace BES.Data
 {
@@ -34,7 +35,7 @@ namespace BES.Data
         public DbSet<BES.Models.Data.BLTeacherPresent> BLTeacherPresents { get; set; }
         public DbSet<BES.Models.Data.BLTeacherSection> BLTeacherSections { get; set; }
         public DbSet<BES.Models.Data.Contractor> Contractor { get; set; }
-        //public DbSet<BES.Models.Data.>  { get; set; }
+        public DbSet<BES.Models.Data.Partner> Partners { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
 
 
@@ -47,6 +48,11 @@ namespace BES.Data
             builder.Entity<BES.Areas.Procurement.Models.ActivityDetail>().HasKey(table => new {
                 table.ActivityID,
                 table.StepID
+            });
+
+            builder.Entity<BES.Models.Data.IncdicatorTracking>().HasKey(table => new {
+                table.SchoolID,
+                table.IndicatorID
             });
         }
         //public DbSet<BES.Models.Data.>  { get; set; }
@@ -126,5 +132,7 @@ namespace BES.Data
 
         public DbSet<BES.Areas.Procurement.Models.SCManagementItem> SCManagementItem { get; set; }
         public DbSet<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail> VLotItemDetail { get; set; }
+        public DbSet<BES.Models.Data.Indicator> Indicator { get; set; }
+        public DbSet<BES.Models.Data.IncdicatorTracking> IncdicatorTracking { get; set; }
     }
 }
