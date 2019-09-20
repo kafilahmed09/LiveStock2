@@ -28,17 +28,21 @@ namespace BES.Areas.Procurement.Controllers
         {
             var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor);
             return View(await applicationDbContext.ToListAsync());
+        }     
+        [HttpPost]
+        public ActionResult AssignLot2(int LotId, int CID, DateTime EDate)
+        {
+            if (ModelState.IsValid)
+            {
+                if (true)
+                {                                           
+                    IFormFile file = Request.Form.Files[0];
+                }
+            }
+            return Json(new { success = true, responseText = "Your message successfuly sent!" });
         }
         public async Task<IActionResult> AssignLotsInBulk(int id)
         {
-            //var result = _context.Contractor
-            //    .Where(a => a.ContractorTypeID == 1)
-            //       .Select(x => new
-            //       {
-            //           x.ContractorID,
-            //           Name = x.Name + " - " + x.CompanyName.ToString()
-            //       });
-            //ViewBag.ContractorID = new SelectList(result, "ContractorID", "Name");
             List<Contractor> contractorList = new List<Contractor>();
             contractorList = _context.Contractor.Where(a=>a.ContractorTypeID == 1).ToList();
             contractorList.Insert(0, new Contractor { ContractorID = 0, CompanyName = "Select" });
@@ -114,7 +118,7 @@ namespace BES.Areas.Procurement.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AssignLot(int? id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID")] Lot lot, IFormFile Attachment)
+        public async Task<IActionResult> AssignLot(int? id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot, IFormFile Attachment)
         {
             if (ModelState.IsValid)
             {
@@ -179,7 +183,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID")] Lot lot)
+        public async Task<IActionResult> Create([Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot)
         {
             if (ModelState.IsValid)
             {
@@ -229,7 +233,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID")] Lot lot)
+        public async Task<IActionResult> Edit(int id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot)
         {
             if (id != lot.lotId)
             {
