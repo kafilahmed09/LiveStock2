@@ -30,16 +30,14 @@ namespace BES.Areas.Procurement.Controllers
             return View(await applicationDbContext.ToListAsync());
         }     
         [HttpPost]
-        public ActionResult AssignLot2(int LotId, int ContractorID, DateTime ExpiryDate, IFormFile Attachment)//int? id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot, IFormFile Attachment)
+        public ActionResult AssignLot2(int LotId, int CID, DateTime EDate)
         {
             if (ModelState.IsValid)
             {
-                //Lot lotActual = _context.Lot.Find(lot.lotId);
-                //lotActual.ActivityID = lot.ActivityID;
-                //lotActual.ContractorID = lot.ContractorID;
-                //lotActual.Attachment = lot.Attachment;
-                //_context.Add(lot);
-                //await _context.SaveChangesAsync();                
+                if (true)
+                {                                           
+                    IFormFile file = Request.Form.Files[0];
+                }
             }
             return Json(new { success = true, responseText = "Your message successfuly sent!" });
         }
