@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="form-group">
+                <div class="form-group" id="EDate">
                     <label asp-for="ExpiryDate" class="control-label"></label>
                     <input asp-for="ExpiryDate" class="form-control" />
                     <span asp-validation-for="ExpiryDate" class="text-danger"></span>
@@ -36,7 +36,7 @@
             <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="form-group">
                     <label asp-for="Attachment" class="control-label"></label>
-                    <input type="file" name="Attachment" accept="application/pdf" />
+                    <input type="file" name="Attachment" accept="application/pdf" required/>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Add New" class="btn btn-default" />
@@ -72,6 +72,16 @@
                 $("#dynamicContentContainer").html(content);
                 $("#divLoading").hide();
             });
-        });
-    </script>
+            $(function () {
+                $('#EDate').hide();
+                $('#AddendumTypeId').change(function () {                    
+                    if ($('#AddendumTypeId').val() == 1) {
+                        $('#EDate').hide();
+                    } else {
+                        $('#EDate').show();
+                    }
+                });
+            });
+        });        
+    </script>  
 }

@@ -1,41 +1,49 @@
 ﻿@model IEnumerable<BES.Areas.Procurement.Models.Lot>
-<div class="ibox-content">
-
-    <table class="table table-striped dataTables-example">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.lotno)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Attachment)
-                </th>
-                <th style="min-width:150px">
-                    <text>Contractors/Supplier</text>
-                </th>
-                <th>Enter Actual Cost</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+<div class="ibox-content"> 
+    <form id="form1">
+        <table class="table table-striped dataTables-example">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.lotno)
-                    </td>
-                    <td>
-                        <input type="file" name="Attachment" accept="application/pdf" />
-                    </td>
-                    <td>
-                        <select class="form-control" asp-items="ViewBag.ContractorID"></select>
-                    </td>
-                    <td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Actual Cost of Items</a></td>
-                    <td><img src="~/img/cross.png" width="38" height="30" /></td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.lotno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Attachment)
+                    </th>
+                    <th style="min-width:150px">
+                        <text>Contractors/Supplier</text>
+                    </th>
+                    <th>Expiry Date</th>
+                    <th>Process</th>
+                    <th>Enter Actual Cost</th>
+                    <th>Status</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.lotno)
+                        </td>
+                        <td>
+                            <input type="file" id="@("Attachment" + item.lotId)" name="@("Attachment" + item.lotId)" accept="application/pdf" required />
+                        </td>
+                        <td>
+                            <select class="form-control" asp-items="ViewBag.ContractorID" id="@("ContractorID" + item.lotId)"></select>
+                        </td>
+                        <td><input id="@("ExpiryDate" + item.lotId)" type="date" class="form-control datepicker" /></td>
+                        <td>
+                            <input id="@("btn" + item.lotId)" type="button" value="Done" class="btn btn-primary btn-sm btnDone" onclick="ActionCall(@item.lotId)" />
+                        </td>
+                        <td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Actual Cost of Items</a></td>
+                        <td><img src="~/img/cross.png" width="38" height="30" /></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
 </div>
 
 
@@ -43,3 +51,51 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
 }
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>        
+ 
+        function ActionCall(id) {  
+
+            var cid = document.getElementById('ContractorID' + id).value;
+            var edate = document.getElementById('ExpiryDate' + id).value;            
+            var fileUpload = $("#Attachment"+id).get(0); 
+            var files = fileUpload.files;
+
+            if (files.length < 1) {
+                alert("Please attach contract agrement");
+                return;
+            }
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object  
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            //// Adding one more key to FormData object  
+            //fileData.append('username', 'Manas');
+                $.ajax({
+                    type: "POST",
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    data: fileData,  
+                    url: "/Procurement/Lots/AssignLot2?LotId="+ id +"&CID=" + cid + "&EDate=" + edate,
+                    dataType: 'json',                    
+                    
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.responseText);
+                        } else {
+                            // DoSomethingElse()
+                            alert(response.responseText);
+                        }
+                    },
+                    error: function (response) {
+                        alert("error!");  //
+                    }
+
+                });
+            }       
+
+    </script>
