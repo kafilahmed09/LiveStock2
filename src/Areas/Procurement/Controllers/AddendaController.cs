@@ -16,7 +16,7 @@ namespace BES.Areas.Procurement.Controllers
     public class AddendaController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        
         public AddendaController(ApplicationDbContext context)
         {
             _context = context;
@@ -32,7 +32,7 @@ namespace BES.Areas.Procurement.Controllers
         public async Task<IActionResult> PartialIndex(int id, int AID)
         {
             var applicationDbContext = _context.Addendum.Include(a => a.AddendumType).Include(a => a.Lot).Where(a=>a.LotId == id);
-            //ViewBag.Expiry = _context.ActivityDetail.Include(a => a.Step).Where(a => a.ActivityID == AID && a.Step.SerailNo == 9).Select(a => a.ActualDate).FirstOrDefault().ToString();
+            ViewBag.Expiry = _context.ActivityDetail.Include(a => a.Step).Where(a => a.ActivityID == AID && a.Step.SerailNo == 9).Select(a => a.ActualDate).FirstOrDefault().ToString();
             //ViewBag.AID = AID;
             return PartialView(await applicationDbContext.ToListAsync());
         }
@@ -57,7 +57,7 @@ namespace BES.Areas.Procurement.Controllers
         }
 
         // GET: Procurement/Addenda/Create
-        public IActionResult Create(int id, int AID)
+        public IActionResult Create(int id, short AID)
         {
             ViewBag.ActivityId = AID; //db.PPLots.Where(a => a.lotId == id).Select(a => a.ActivityID).FirstOrDefault();
             var result = _context.Lot
@@ -78,7 +78,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id, int AID, [Bind("AddendumId,LotId,AddendumTypeId,Attachment,Remarks,ExpiryDate")] Addendum addendum, IFormFile Attachment)
+        public async Task<IActionResult> Create(int id, short AID, [Bind("AddendumId,LotId,AddendumTypeId,Attachment,Remarks,ExpiryDate")] Addendum addendum, IFormFile Attachment)
         {
             if (ModelState.IsValid)
             {

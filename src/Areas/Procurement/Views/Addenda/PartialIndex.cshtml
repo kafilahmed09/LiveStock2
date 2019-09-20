@@ -16,7 +16,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Remarks)
             </th>            
-            <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
                 @Html.DisplayFor(modelItem => item.AddendumType.Name)
             </td>
             @{
-                if (item.AddendumTypeId == 1)
+                if (item.AddendumTypeId != 1)
                 {
                     <td>@ViewBag.Expiry</td>
                 }
@@ -54,10 +54,10 @@
                 }
             }
             <td>@Html.DisplayFor(modelItem => item.Remarks)</td>
-            <td>
+            @*<td>
                 <a asp-action="Edit" asp-route-id="@item.AddendumId" asp-route-AID="@ViewBag.AID">Edit</a> |
-                @*<a asp-action="AddAddendumItems" asp-controller="AddendumDetails" asp-route-id="@item.AddendumId">Detail</a>*@           
-            </td>
+                <a asp-action="AddAddendumItems" asp-controller="AddendumDetails" asp-route-id="@item.AddendumId">Detail</a>       
+            </td>*@
         </tr>
         }
     </tbody>

@@ -85,10 +85,10 @@ namespace BES.Areas.Procurement.Controllers
             {
                 _context.Add(lotItem);
                 await _context.SaveChangesAsync();
-                IFormFile picture = null;
-                LotItemImage ImgObj = new LotItemImage();
+                IFormFile picture = null;                
                 foreach (var file in images)
                 {
+                    LotItemImage ImgObj = new LotItemImage();
                     if (file != null && file.Length > 0)
                     {
                         picture = file;
@@ -169,7 +169,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LotItemId,lotId,ItemName,Quantity,EstimatedUnitRate,ActualUnitRate,UnitId,Description")] LotItem lotItem)
+        public async Task<IActionResult> Edit(int id, [Bind("LotItemId,lotId,ItemName,Quantity,EstimatedUnitRate,ActualUnitRate,UnitId,Description")] LotItem lotItem, IEnumerable<IFormFile> images)
         {
             if (id != lotItem.LotItemId)
             {
@@ -182,6 +182,39 @@ namespace BES.Areas.Procurement.Controllers
                 {
                     _context.Update(lotItem);
                     await _context.SaveChangesAsync();
+                    IFormFile picture = null;                   
+                    foreach (var file in images)
+                    {
+                        LotItemImage ImgObj = new LotItemImage();
+                        if (file != null && file.Length > 0)
+                        {
+                            picture = file;
+                            var rootPath = Path.Combine(
+                                    Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
+                            string fileName = Path.GetFileName(picture.FileName);
+                            fileName = fileName.Replace("&", "n");
+                            string AName = _context.Lot.Include(a => a.Activity).Where(a => a.lotId == lotItem.lotId).Select(a => a.Activity.Name).FirstOrDefault().ToString();
+                            AName = AName.Replace("&", "n");
+                            string ItemName = lotItem.ItemName.Replace("&", "n");
+                            var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(_context.Lot.Find(lotItem.lotId).ActivityID).ProcurementPlanID).Name;
+                            ImgObj.ImagePath = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Lot//" + lotItem.lotId.ToString() + "//" + ItemName + "//" + fileName);//Server Path                
+                            string sPath = Path.Combine(rootPath, PPName + "/" + AName + "//Lot//" + lotItem.lotId.ToString() + "//" + ItemName);
+                            if (!System.IO.Directory.Exists(sPath))
+                            {
+                                System.IO.Directory.CreateDirectory(sPath);
+                            }
+                            string FullPathWithFileName = Path.Combine(sPath, fileName);
+                            using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                            {
+                                await picture.CopyToAsync(stream);
+                            }
+                            ImgObj.LotItemId = _context.LotItem.Max(a => a.LotItemId);
+                            ImgObj.Visibility = true;
+                            _context.LotItemImage.Add(ImgObj);                            
+                        }
+                    }
+                    _context.SaveChanges();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -194,10 +227,17 @@ namespace BES.Areas.Procurement.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create),new { id = lotItem.lotId});
             }
-            ViewData["lotId"] = new SelectList(_context.Lot, "lotId", "lotId", lotItem.lotId);
-            ViewData["UnitId"] = new SelectList(_context.Unit, "UnitId", "UnitId", lotItem.UnitId);
+            var result = _context.Lot
+               .Where(a => a.lotId == lotItem.lotId)
+                  .Select(x => new
+                  {
+                      x.lotId,
+                      lotDescription = "Lot No - " + x.lotno.ToString()
+                  });
+            ViewBag.UnitId = new SelectList(_context.Unit, "UnitId", "Name", lotItem.UnitId);
+            ViewBag.lotId = new SelectList(result, "lotId", "lotDescription", lotItem.lotId);
             return View(lotItem);
         }
 

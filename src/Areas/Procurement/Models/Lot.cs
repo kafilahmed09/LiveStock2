@@ -24,6 +24,7 @@ namespace BES.Areas.Procurement.Models
         public Int16 ActivityID { get; set; }
         [DisplayName("Contractor/Supplier")]
         public Int16 ContractorID { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         public virtual Activity Activity { get; set; }
         public virtual BES.Models.Data.Contractor Contractor { get; set; }
