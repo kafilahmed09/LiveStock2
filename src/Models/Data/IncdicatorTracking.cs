@@ -17,7 +17,7 @@ namespace BES.Models.Data
         public int SchoolID { get; set; }
         public string ImageURL { get; set; }
         public bool Verified { get; set; }
-        public bool? IsUpload { get; set; }
+        public bool IsUpload { get; set; }
         public DateTime? DateOfUpload { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreateDate { get; set; }
@@ -28,7 +28,7 @@ namespace BES.Models.Data
 
         [NotMapped]
         public string IndicatorName { get; set; }
-        public bool? isEvidence { get; set; }
+        public bool isEvidence { get; set; }
 
         public virtual School School { get; set; }
 

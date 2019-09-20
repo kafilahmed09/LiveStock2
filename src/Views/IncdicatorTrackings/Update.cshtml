@@ -17,7 +17,7 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.IsUpload)
+                @Html.DisplayName("Evidence/Done")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfUpload)
@@ -43,14 +43,21 @@
 
                 <td>
                     @{ 
-                        
+
                         if (item.IsUpload == true)
                         { @Html.DisplayFor(modelItem => item.IsUpload)}
                         else
                         {
-                            string AttachID = "Attach" + @item.IndicatorID;
-                            <input type="file" name="Attachment" id=@item.IndicatorID /> }
-                    }
+                            if (item.isEvidence)
+                            {
+                                string AttachID = "Attach" + @item.IndicatorID;
+                            <input type="file" multiple name="Attachment" id=@item.IndicatorID /> }
+                            else
+                            {
+                                <input type="checkbox" id=@item.IndicatorID />
+                            }
+                        }
+                        }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateOfUpload)
@@ -80,9 +87,25 @@
                  var AttachID = "Attach" + iId;
                 var fileInput = document.getElementById(iId);
                 //var id = fileInput[0].id;
-                var file = fileInput.files[0];
-                alert(fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
-
+                //var file = fileInput.files[0];
+                if (isEvid == true) {
+                    if (fileInput.files.length > 0) {
+                        alert("Ready to Post");
+                    }
+                    else {
+                        alert("Please Select Evidence");
+                    }
+                    //alert("total files=: " + fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
+                }
+                else {
+                    if (fileInput.checked == true) {
+                        alert("Checkbox Ready to post");
+                    }
+                    else {
+                        alert("Please check 'done' ")
+                    }
+                    //alert("Checkbox=:"+fileInput.checked);
+                }
             }
         </script>
     }
