@@ -1,8 +1,14 @@
-﻿@model IEnumerable<BES.Models.Data.IncdicatorTracking>
+﻿@model IEnumerable<BES.Models.Data.IndicatorTracking>
 
 @{
     ViewData["Title"] = "Update";
+    int dataLength = Model.Count();
 }
+@section Styles {
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="~/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+}
+
 
 <h2>Update</h2>
 
@@ -42,18 +48,41 @@
                 </td>
 
                 <td>
-                    @{ 
-                        
+                    @{
+
                         if (item.IsUpload == true)
                         { @Html.DisplayFor(modelItem => item.IsUpload)}
-                        else
+                    else
+                    {
+                        if (item.isEvidence==true)
                         {
                             string AttachID = "Attach" + @item.IndicatorID;
-                            <input type="file" name="Attachment" id=@item.IndicatorID /> }
+                            <input type="file" multiple name="Attachment" id=@item.IndicatorID /> }
+                        else
+                        {
+                            <input type="checkbox" id=@item.IndicatorID />
+                        }
+                    }
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateOfUpload)
+                    @{
+
+                        if (item.IsUpload == true)
+                        {
+                            @Html.DisplayFor(modelItem => item.DateOfUpload)}
+                        else
+                        {
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id=@("datepicker" + item.IndicatorID) >
+                            </div>
+
+
+                        }
+                    }
                 </td>
 
                 <td>
@@ -61,7 +90,7 @@
                 </td>
 
                 <td>
-                    <input type="submit" value="Save" class="kk btn btn-primary"  onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower())" />
+                    <input type="submit" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower())" />
 
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                         @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
@@ -73,16 +102,111 @@
 </table>
 
 @section Scripts{
-    
-        <script type="text/javascript">
-            
-            function submit_by_Script(elmnt, iId,sId,isEvid) {
-                 var AttachID = "Attach" + iId;
-                var fileInput = document.getElementById(iId);
-                //var id = fileInput[0].id;
-                var file = fileInput.files[0];
-                alert(fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
+    <!-- bootstrap datepicker -->
+    <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
 
+        function submit_by_Script(elmnt, iId, sId, isEvid) {
+            var AttachID = "Attach" + iId;
+            var dpID = "datepicker" + iId;
+            var fileUpload = document.getElementById(iId);
+            var datepick = document.getElementById(dpID);
+            var flag = true;
+            var dateVal = datepick.value;
+            //var id = fileInput[0].id;
+            //var files = fileUpload.files;
+            if (isEvid == true) { 
+                if (fileUpload.files.length > 0) {
+                    //alert("Ready to Post");
+                }
+                else {
+                    alert("Please Select Evidence file(s) to upload");
+                    flag = false;
+                    
+                }
+                //alert("total files=: " + fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
             }
-        </script>
-    }
+            
+            else { // validate checkbox
+                if (fileUpload.checked == true) {
+                    //alert("Checkbox Ready to post");
+                }
+                else {
+                    alert("Please check Indicator as done ")
+                    flag = false;
+                }
+                //alert("Checkbox=:"+fileInput.checked);
+            }
+            if (datepick.value.length == 0) {
+                alert("Please Select Date of Achievement");
+                flag = false;
+            }
+            if (flag == true) {
+
+                if (isEvid == true) {
+                    alert("Ready to post from flag" + datepick.value);
+                    var fileData = new FormData();
+                    // Looping over all files and add it to FormData object  
+                    for (var i = 0; i < fileUpload.files.length; i++) {
+                        fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
+                    }
+
+                    //// Adding one more key to FormData object  
+                    //fileData.append('username', 'Manas');
+                    $.ajax({
+                        type: "POST",
+                        contentType: false, // Not to set any content header  
+                        processData: false, // Not to process data  
+                        data: fileData,
+                        url: "/IncdicatorTrackings/Update?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID,
+                        dataType: 'json',
+
+                        //success: function (response) {
+                        //    if (response.success) {
+                        //        alert(response.responseText);
+                        //    } else {
+                        //        // DoSomethingElse()
+                        //        alert(response.responseText);
+                        //    }
+                        //},
+                        //error: function (response) {
+                        //    alert("error!");  //
+                        //}
+
+                    });
+                }
+                else {
+                    window.location.assign("/IncdicatorTrackings/Update?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID);
+                }
+            }
+
+        }
+
+
+    $(document).ready(function () {
+        //Date picker
+
+        for (var i = 1; i < 50; i++) {
+            var dt = "#datepicker" + i;
+            $(dt).datepicker({
+                autoclose: true
+            })
+        }
+        @*var model = @Html.Raw(Json.Serialize(Model));
+        alert(model.lenght);     
+            for (var i = 0; i < model.lenght; i++){
+            alert(model[i].IndicatorID);
+        }*@
+        //$.each(model, function (index, item) 
+        //{
+        //    alert("Indi=" + model[index].IndicatorID+ ", index="+index);
+        //     var dt = "#datepicker" + model[index].IndicatorID;
+        //     $(dt).datepicker({
+        //        autoclose: true
+        //    })
+        
+        
+        //});
+    });
+    </script>
+}

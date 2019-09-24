@@ -9,7 +9,7 @@ namespace BES.Models.Data
 {
     [Table("IncdicatorTracking", Schema = "Proj")]
 
-    public class IncdicatorTracking
+    public class IndicatorTracking
     {
         [Key]
         public int IndicatorID { get; set; }
@@ -22,12 +22,13 @@ namespace BES.Models.Data
         public string CreatedBy { get; set; }
         public DateTime CreateDate { get; set; }
         public string UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         public string VerifiedBy { get; set; }
-        public DateTime VerifiedDate { get; set; }
+        public DateTime? VerifiedDate { get; set; }
 
         [NotMapped]
         public string IndicatorName { get; set; }
+        [NotMapped]
         public bool? isEvidence { get; set; }
 
         public virtual School School { get; set; }
