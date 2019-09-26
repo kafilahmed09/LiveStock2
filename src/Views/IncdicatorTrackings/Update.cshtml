@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Update";
     int dataLength = Model.Count();
+    int ii = 1;
 }
 @section Styles {
     <!-- bootstrap datepicker -->
     <link rel="stylesheet" href="~/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
 }
 
-
+<input type="hidden" id="dataCnt" value="@dataLength" />
 <h2>Update</h2>
 
 <p>
@@ -19,18 +20,18 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IndicatorName)
+                @Html.DisplayNameFor(model => model.Indicator)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.IsUpload)
+               uploaded / Done
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfUpload)
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.isEvidence)
+               Evidance Requried
             </th>
 
             <th></th>
@@ -44,25 +45,35 @@
             <tr>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.IndicatorName)
+                    @Html.DisplayFor(modelItem => item.Indicator)
                 </td>
 
                 <td>
                     @{
 
                         if (item.IsUpload == true)
-                        { @Html.DisplayFor(modelItem => item.IsUpload)}
-                    else
-                    {
-                        if (item.isEvidence==true)
                         {
-                            string AttachID = "Attach" + @item.IndicatorID;
-                            <input type="file" multiple name="Attachment" id=@item.IndicatorID /> }
+                            if (item.isEvidence == true)
+                            {
+                                @Html.DisplayFor(modelItem => item.TotalFilesUploaded) <text> files </text>
+                            }
+                            else
+                            {
+                                <img src="~/img/checked-checkbox-16.png" />
+                            }
+                        }
+
                         else
                         {
-                            <input type="checkbox" id=@item.IndicatorID />
+                            if (item.isEvidence == true)
+                            {
+                                string AttachID = "Attach" + @item.IndicatorID;
+                                <input type="file" multiple name="Attachment" id=@item.IndicatorID /> }
+                            else
+                            {
+                                <input type="checkbox" id=@item.IndicatorID />
+                            }
                         }
-                    }
                     }
                 </td>
                 <td>
@@ -77,7 +88,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" id=@("datepicker" + item.IndicatorID) >
+                                <input type="text" class="form-control pull-right" id=@("datepicker" + ii++) >
                             </div>
 
 
@@ -86,15 +97,29 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.isEvidence)
-                </td>
+                   @{ 
+                       if (item.isEvidence == true)
+                       { <text>Yes</text>}
+                       else
+                       { <text>No</text>}
+                   }
 
                 <td>
-                    <input type="submit" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower())" />
 
+                    @{
+                        if (item.IsUpload == true)
+                        {
+                            if (item.isEvidence == true)
+                            { <input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />}
+                        }
+                        else
+                        { 
+                            <input type="submit" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
+                        }
+                    }
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                 </td>
             </tr>
         }
@@ -106,13 +131,16 @@
     <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript">
 
-        function submit_by_Script(elmnt, iId, sId, isEvid) {
+        function submit_by_Script(elmnt, iId, sId, isEvid, SecID) {
             var AttachID = "Attach" + iId;
             var dpID = "datepicker" + iId;
             var fileUpload = document.getElementById(iId);
             var datepick = document.getElementById(dpID);
+           
             var flag = true;
             var dateVal = datepick.value;
+
+           
             //var id = fileInput[0].id;
             //var files = fileUpload.files;
             if (isEvid == true) { 
@@ -142,15 +170,15 @@
                 flag = false;
             }
             if (flag == true) {
-
+                var fileData = new FormData();
                 if (isEvid == true) {
-                    alert("Ready to post from flag" + datepick.value);
-                    var fileData = new FormData();
+                    alert("Ready to post with Pix");
+
                     // Looping over all files and add it to FormData object  
                     for (var i = 0; i < fileUpload.files.length; i++) {
                         fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
                     }
-
+                }
                     //// Adding one more key to FormData object  
                     //fileData.append('username', 'Manas');
                     $.ajax({
@@ -158,26 +186,28 @@
                         contentType: false, // Not to set any content header  
                         processData: false, // Not to process data  
                         data: fileData,
-                        url: "/IncdicatorTrackings/Update?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID,
+                        url: "/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID,
                         dataType: 'json',
 
-                        //success: function (response) {
-                        //    if (response.success) {
-                        //        alert(response.responseText);
-                        //    } else {
-                        //        // DoSomethingElse()
-                        //        alert(response.responseText);
-                        //    }
-                        //},
-                        //error: function (response) {
-                        //    alert("error!");  //
-                        //}
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.responseText);
+                                window.location.href = "/IncdicatorTrackings/Update/" + sId + "?SecID=" + SecID;
+                            } else {
+                                // DoSomethingElse()
+                                alert(response.responseText);
+                                //window.location.href =
+                            }
+                        },
+                        error: function (response) {
+                            alert("error!");  //
+                        }
 
                     });
-                }
-                else {
-                    window.location.assign("/IncdicatorTrackings/Update?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID);
-                }
+                
+                @*else {
+                    window.location.assign("/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID);
+                }*@
             }
 
         }
@@ -185,8 +215,9 @@
 
     $(document).ready(function () {
         //Date picker
-
-        for (var i = 1; i < 50; i++) {
+        var hiddenLength = document.getElementById("dataCnt");
+       // alert(hiddenLength.value);
+        for (var i = 1; i < hiddenLength.value; i++) {
             var dt = "#datepicker" + i;
             $(dt).datepicker({
                 autoclose: true

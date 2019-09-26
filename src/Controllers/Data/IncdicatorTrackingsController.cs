@@ -45,17 +45,23 @@ namespace BES.Controllers.Data
                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Proj_Indicator.IndicatorID equals Proj_IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
                                        from Proj_IncdicatorTracking in Proj_IncdicatorTracking_join.DefaultIfEmpty()
                                        where
-                                         Proj_Indicator.PartnerID==PId
+                                         Proj_Indicator.PartnerID == PId &&
+                                        (Proj_IncdicatorTracking.SchoolID == id ||
+                                        Proj_IncdicatorTracking.SchoolID == null)
+
                                        orderby
                                          Proj_Indicator.SequenceNo
                                        select new IndicatorTracking
                                        {
                                            IndicatorID = Proj_Indicator.IndicatorID,
-                                           IndicatorName= Proj_Indicator.IndicatorName,
+                                           Indicator= Proj_Indicator.IndicatorName,
                                            isEvidence= Proj_Indicator.IsEvidenceRequire,
                                            ImageURL = Proj_IncdicatorTracking.ImageURL,
                                            DateOfUpload = Proj_IncdicatorTracking.DateOfUpload,
                                            SchoolID = id,
+                                           IsUpload=Proj_IncdicatorTracking.IsUpload,
+                                           TotalFilesUploaded= Proj_IncdicatorTracking.TotalFilesUploaded,
+                                           
                                           // Proj_Indicator.SequenceNo
                                        };
 
@@ -67,7 +73,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int sID,int iID, DateTime EDate, int SecID)
+        public async Task<IActionResult> UpdatePost(int sID,int iID, DateTime EDate, int SecID)
         {
             // Save uploaded files
             var files = Request.Form.Files;
@@ -75,7 +81,7 @@ namespace BES.Controllers.Data
             string District = _context.Schools.Include(a => a.UC.Tehsil.District)
                                   .Where(a=>a.SchoolID==sID)
                                 .Select(a => a.UC.Tehsil.District.DistrictName).FirstOrDefault();
-
+            //string 
             var rootPath = Path.Combine(
                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\IndicatorEvidences\\");
 
@@ -95,10 +101,12 @@ namespace BES.Controllers.Data
                 }
                 
             }
+            //create record
             IndicatorTracking IndiTrack = new IndicatorTracking();
             IndiTrack.IndicatorID = iID;
             IndiTrack.SchoolID = sID;
             IndiTrack.IsUpload = true;
+            IndiTrack.TotalFilesUploaded = (short) files.Count;
             IndiTrack.DateOfUpload = EDate;
             IndiTrack.ImageURL= Path.Combine("/Documents/IndicatorEvidences/", District +  "//" + iID + "//" + sID);//Server Path
             IndiTrack.CreateDate = DateTime.Now;
@@ -115,10 +123,11 @@ namespace BES.Controllers.Data
             catch(Exception ex)
             {
                 Console.Write(ex.InnerException);
-                return View();
+                return Json(new { success = false, responseText = ex.InnerException.Message });
             }
             //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", incdicatorTracking.SchoolID);
-            return RedirectToAction("Update", new { id = sID, SecID = SecID });
+            //return RedirectToAction(nameof(Update), new { id = sID, SecID = SecID });
+            return Json(new { success = true, responseText = "Sucessfully Updated" }); //, sID = sID, SecID = SecID });
         }
         // GET: IncdicatorTrackings/Details/5
         public async Task<IActionResult> Details(int? id)
