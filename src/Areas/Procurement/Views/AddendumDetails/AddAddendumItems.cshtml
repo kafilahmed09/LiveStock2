@@ -1,0 +1,75 @@
+﻿
+
+@model BES.Areas.Procurement.Models.AddendumDetail
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<div style="margin:10px 10px 0 10px">
+    <form asp-action="AddAddendumItems" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="box-title" style="font-weight:bold">Add Addendum Item</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-4">
+                <input type="hidden" asp-for="AddendumId" />
+                <div class="form-group">
+                    <label asp-for="LotItemId" class="control-label"></label>
+                    <select asp-for="LotItemId" class="form-control" asp-items="ViewBag.PPLotItemId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add Item" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-2 col-sm-2">
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <h4 style="font-weight:bold">List of Item in Addendum</h4>
+    <div id="divLoading">
+        <img src="~/img/sspinner.gif" width="40" height="40" />
+    </div>
+    <div id="dynamicContentContainer"></div>
+
+    <div>
+        <a asp-action="Create" asp-controller="Addenda" asp-route-id="@ViewBag.LId">Back to List</a>
+    </div>
+</div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type='text/javascript'>
+            $(document).ready(
+         $.get('@Url.Action("Index2", "AddendumDetails", new {id = ViewBag.AddID })', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            }));
+         @*$('#LotId').change(function () {
+            var url = '@Url.Action("FetchItems", "Addendums")';
+            var PDD = $("#LotItemId");
+            var ODD = $("#LotId").val();
+            $.getJSON(url, { LId: ODD}, function (response) {
+                PDD.empty();
+                debugger;
+                $.each(response, function (index, item) {
+                    debugger;
+                    var p = new Option(item.Text, item.Value);
+                    PDD.append(p);
+                });
+            });
+            //alert("ss")
+        });*@
+</script>
+    }
+

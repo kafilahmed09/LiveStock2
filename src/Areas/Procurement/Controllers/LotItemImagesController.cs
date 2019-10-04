@@ -93,35 +93,25 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemImageId,LotItemId,ImagePath,Visibility")] LotItemImage lotItemImage)
-        {
-            if (id != lotItemImage.ItemImageId)
-            {
-                return NotFound();
-            }
+        public async Task<IActionResult> Edit(int id, List<LotItemImage> models, string[] ckboxarray)
+        {           
 
             if (ModelState.IsValid)
             {
-                try
+                foreach (var obj in models)
                 {
-                    _context.Update(lotItemImage);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LotItemImageExists(lotItemImage.ItemImageId))
+                    if (ckboxarray.Contains(obj.ItemImageId.ToString()))
                     {
-                        return NotFound();
+                        obj.Visibility = false;
+                        obj.ImagePath = null;
+                        obj.LotItem = null;
+                        _context.Remove(obj);
+                        await _context.SaveChangesAsync();
                     }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["LotItemId"] = new SelectList(_context.LotItem, "LotItemId", "LotItemId", lotItemImage.LotItemId);
-            return View(lotItemImage);
+                }                
+                return RedirectToAction(nameof(Edit), new { id });
+            }            
+            return View(models);
         }
 
         // GET: Procurement/LotItemImages/Delete/5

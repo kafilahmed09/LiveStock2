@@ -1,6 +1,95 @@
-﻿@model IEnumerable<BES.Areas.Procurement.Models.Lot>
-<div class="ibox-content"> 
+﻿@model IEnumerable<BES.Areas.Procurement.Models.LotItemDetail>
+
+<style>
+    table, tr, td, th {
+        /*border: 1px solid black;*/
+        border-collapse: collapse;
+    }
+
+    .bullet {
+        display: list-item;
+        list-style: disc inside;
+        margin: 0;
+        font-weight: bolder
+    }
+    /*tr.header {
+            cursor: pointer;
+        }
+
+    .header .sign:after {
+        content: "+";
+        display: inline-block;
+    }*/
+
+    /*.header.expand .sign:after {
+        content: "-";
+    }*/
+</style>
+<div class="ibox-content">
     <form id="form1">
+        @*<table class="table table-striped dataTables-example">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.lotno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Attachment)
+                        </th>
+                        <th style="min-width:150px">
+                            <text>Contractors/Supplier</text>
+                        </th>
+                        <th>Expiry Date</th>
+                        <th>Process</th>
+                        <th>Actual Cost of Items</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.lotno)
+                            </td>
+                            @{
+                                if (item.ContractorID == null)
+                                {
+                                    <td>
+                                        <label class="control-label">Upload here</label>
+                                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" id="@("Attachment" + item.lotId)" name="@("Attachment" + item.lotId)" accept="application/pdf" required></span>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" asp-items="ViewBag.ContractorID" id="@("ContractorID" + item.lotId)"></select>
+                                    </td>
+                                    <td><input id="@("ExpiryDate" + item.lotId)" type="date" class="form-control datepicker" /></td>
+                                    <td>
+                                        <input id="@("btn" + item.lotId)" type="button" value="Process" class="btn btn-primary btn-sm btnDone" onclick="ActionCall(@item.lotId)" />
+                                    </td>
+                                    <td><img src="~/images/pending.png" width="45" height="33" /></td>
+                                    <td><img src="~/img/cross.png" width="35" height="25" /></td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a class="btn-success btn-sm" href='@Url.Content(item.Attachment)' target="_blank">
+                                            View Contract
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <label>@item.Contractor.CompanyName</label>
+                                    </td>
+                                    <td>@item.ExpiryDate</td>
+                                    <td><input id="@("btn" + item.lotId)" type="button" value="Done" class="btn btn-success btn-sm btnDone" onclick="ActionCall(@item.lotId)" disabled="disabled" /></td>
+                                    <td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary btn-sm search" data-toggle="modal" data-target="#exampleModalLong1">Submit Actual Cost</a></td>
+                                    <td><img src="~/img/cross.png" width="35" height="25" /></td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>*@
+
         <table class="table table-striped dataTables-example">
             <thead>
                 <tr>
@@ -8,40 +97,118 @@
                         @Html.DisplayNameFor(model => model.lotno)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Attachment)
+                        @*@Html.DisplayNameFor(model => model.Attachment)*@
+                        <text>Cont.Agreement</text>
                     </th>
                     <th style="min-width:150px">
-                        <text>Contractors/Supplier</text>
+                        <text>Supplier</text>
                     </th>
                     <th>Expiry Date</th>
+                    <th style="min-width:100px">Actual Cost</th>
                     <th>Process</th>
-                    <th>Enter Actual Cost</th>
+                    <th>Items</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
+                @{ int counter = 1;}
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.lotno)
-                        </td>
-                        <td>
-                            <input type="file" id="@("Attachment" + item.lotId)" name="@("Attachment" + item.lotId)" accept="application/pdf" required />
-                        </td>
-                        <td>
-                            <select class="form-control" asp-items="ViewBag.ContractorID" id="@("ContractorID" + item.lotId)"></select>
-                        </td>
-                        <td><input id="@("ExpiryDate" + item.lotId)" type="date" class="form-control datepicker" /></td>
-                        <td>
-                            <input id="@("btn" + item.lotId)" type="button" value="Done" class="btn btn-primary btn-sm btnDone" onclick="ActionCall(@item.lotId)" />
-                        </td>
-                        <td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Actual Cost of Items</a></td>
-                        <td><img src="~/img/cross.png" width="38" height="30" /></td>
+                    //var style = (item.ContractorID == null) ? "" : "header expand";
+                <tr class="header" id="r" + @counter>
+                    <td class="bullet">
+                        @Html.DisplayFor(modelItem => item.lotno)
+                    </td>
+                    @{
+                        if (item.ContractorID == null)
+                        {
+                            <td>
+                                <label class="control-label">Upload here</label>
+                                <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" id="@("Attachment" + item.lotId)" name="@("Attachment" + item.lotId)" accept="application/pdf" required></span>
+                            </td>
+                            <td>
+                                <select class="form-control" asp-items="ViewBag.ContractorID" id="@("ContractorID" + item.lotId)"></select>
+                            </td>
+                            <td><input id="@("ExpiryDate" + item.lotId)" type="date" class="form-control datepicker" /></td>
+                            <td><input id="@("ActualCost" + item.lotId)" type="number" class="form-control" /></td>
+                            <td>
+                                <input id="@("btn" + item.lotId)" type="button" value="Process" class="btn btn-primary btn-sm btnDone" onclick="ActionCall(@item.lotId)" />
+                            </td>
+                            <td><img src="~/images/pending.png" width="45" height="33" /></td>
+                            <td><img src="~/img/cross.png" width="35" height="25" /></td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a class="btn-success btn-sm" href='@Url.Content(item.Attachment)' target="_blank">
+                                    View Contract
+                                </a>
+                            </td>
+                            <td>
+                                <label>@item.Contractor.CompanyName</label>
+                            </td>
+                            <td>@item.ExpiryDate</td>
+                            <td>@String.Format("{0:#,##}", item.ActualCost)</td>
+                            <td><input id="@("btn" + item.lotId)" type="button" value="Done" class="btn btn-success btn-sm btnDone" onclick="ActionCall(@item.lotId)" disabled="disabled" /></td>
+                            @*<td><a asp-action="EditPopup" asp-controller="LotItems" asp-route-id="@item.lotId" class="btn btn-primary btn-sm search" data-toggle="modal" data-target="#exampleModalLong1">Submit Actual Cost</a></td>*@
+                            <td><a href="#"><img src="~/images/collapse.png" width="35" height="25" /></a></td>
+                            if (item.IsMatched)
+                            {
+                                <td><img id="@("LotStatus" + item.lotId)" src="~/img/tick.png" width="35" height="25" /></td>
+                            }
+                            else
+                            {
+                                <td><img id="@("LotStatus" + item.lotId)" src="~/img/cross.png" width="35" height="25" /></td>
+                            }
+                        }
+                    }
+                    @{ counter = counter + 1;}
+                </tr>
+                    <tr style="font-size:12px">
+                        @{
+                            if (item.ContractorID != null)
+                            {
+                                <th style="min-width:150px">Item Name</th>
+                                <th style="min-width:80px">Quantity</th>
+                                <th style="min-width:80px">Estimated Unit</th>
+                                <th style="min-width:100px">Actual Unit Rate</th>
+                            }
                         }
                     </tr>
+                    @foreach (var LItem in item.Items)
+                    {
+                        <tr style="font-size:10px">
+                            @{
+                                if (item.ContractorID != null)
+                                {
+                                    <td><b>@LItem.ItemName</b></td>
+                                    <td>@String.Format("{0:#,##}", LItem.Quantity)</td>
+                                    <td>@String.Format("{0:#,##}", LItem.EstimatedUnitRate)</td>
+
+                                    if (LItem.ActualUnitRate == null)
+                                    {
+                                        <td><input type="number" style="height:24px;font-size:11px;max-width:100px" class="form-control" id="@("AAmount" + LItem.LotItemId)" /></td>
+                                        <td><img id=@("Innerbtn" + LItem.LotItemId) src="~/img/submit.png" style="cursor:pointer;padding:0;margin:0" width="60" height="25" onclick="ActionUpdateActualAmount(@item.lotId,@item.ActualCost,@LItem.LotItemId)" /></td>
+                                    }
+                                    else
+                                    {
+                                        <td><input type="number" class="form-control" readonly="readonly" value="@LItem.ActualUnitRate" style="height:24px;font-size:11px;" /></td>
+                                        <td><img src="~/img/tick.png" width="25" height="20" /></td>
+                                    }
+                                }
+                            }
+                        </tr>
+                    }
+                    @*<tr>
+                            @{
+                                if (item.ContractorID != null)
+                                {
+                                    <td><input type="button" value="Submit" class="btn btn-primary btn-sm" /></td>
+                                }
+                            }
+                        </tr>*@
                 }
-            </tbody>
+
         </table>
     </form>
 </div>
@@ -52,50 +219,120 @@
     <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
 }
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>        
- 
-        function ActionCall(id) {  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#r1').toggleClass('expand').nextUntil('tr.header').slideToggle(100);
+        $('#r2').toggleClass('expand').nextUntil('tr.header').slideToggle(100);
+    });
+    $('.header').click(function () {
+        $(this).toggleClass('expand').nextUntil('tr.header').slideToggle(100);
+        var targetOffset = 300;
+        $('html, body').animate({ scrollTop: targetOffset }, 1000);
+    });
 
-            var cid = document.getElementById('ContractorID' + id).value;
-            var edate = document.getElementById('ExpiryDate' + id).value;            
-            var fileUpload = $("#Attachment"+id).get(0); 
-            var files = fileUpload.files;
+    function ActionCall(id) {
 
-            if (files.length < 1) {
-                alert("Please attach contract agrement");
-                return;
+        var cid = document.getElementById('ContractorID' + id).value;
+        var edate = document.getElementById('ExpiryDate' + id).value;
+        var ActualCost = document.getElementById('ActualCost' + id).value;
+        var fileUpload = $("#Attachment" + id).get(0);
+        var files = fileUpload.files;
+
+        if (edate == "") {
+            alert("Please select the contract expiry date");
+            return;
+        }
+        if (ActualCost == "" || ActualCost < 1) {
+            alert("Please enter the actual cost of Lot!");
+            return;
+        }
+        if (files.length < 1) {
+            alert("Please attach contract agrement");
+            return;
+        }
+        if (cid == 0) {
+            alert("Please select supplier!");
+            return;
+        }
+        if (edate == null) {
+            alert("Please select expiry date!");
+            return;
+        }
+        var fileData = new FormData();
+
+        // Looping over all files and add it to FormData object
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        //// Adding one more key to FormData object
+        //fileData.append('username', 'Manas');
+        $.ajax({
+            type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: fileData,
+            url: "/Procurement/Lots/AssignLot2?LotId=" + id + "&CID=" + cid + "&EDate=" + edate + "&ACost=" + ActualCost,
+            dataType: 'json',
+
+            success: function (response) {
+                if (response.success) {
+                    var buttons = document.getElementById("btn" + id);
+                    buttons.innerHTML = '<img src="img\tick.png" />';
+                    location.reload();
+                } else {
+                    // DoSomethingElse()
+                    alert(response.responseText);
+                }
+            },
+            error: function (response) {
+                alert("error!");  //
             }
-            var fileData = new FormData();
 
-            // Looping over all files and add it to FormData object  
-            for (var i = 0; i < files.length; i++) {
-                fileData.append(files[i].name, files[i]);
-            }
+        });
+    }
 
-            //// Adding one more key to FormData object  
-            //fileData.append('username', 'Manas');
-                $.ajax({
-                    type: "POST",
-                    contentType: false, // Not to set any content header  
-                    processData: false, // Not to process data  
-                    data: fileData,  
-                    url: "/Procurement/Lots/AssignLot2?LotId="+ id +"&CID=" + cid + "&EDate=" + edate,
-                    dataType: 'json',                    
-                    
-                    success: function (response) {
-                        if (response.success) {
-                            alert(response.responseText);
-                        } else {
-                            // DoSomethingElse()
-                            alert(response.responseText);
-                        }
-                    },
-                    error: function (response) {
-                        alert("error!");  //
+    function ActionUpdateActualAmount(lotid, lotactualcost, id) {
+
+        var amount = document.getElementById('AAmount' + id).value;
+        //alert(amount)
+        if (amount == "" || amount == null || amount < 0) {
+            alert("Please enter required amount");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            data: { LotId: lotid, LotActualCost: lotactualcost, LotItemId: id, ItemUnitCost: amount },
+            url: "/Procurement/Lots/AssignActualAmount",
+            dataType: 'json',
+
+            success: function (response) {
+                if (response.success) {
+                    //alert(id)
+                    var btn = document.getElementById("Innerbtn" + id);
+                    btn.src = '/img/tick.png';
+                    btn.width = "25";
+                    btn.height = "20";
+                    btn.onclick = "";
+                    $('#AAmount' + id).prop('readonly', true);
+                    var targetOffset = $('#AAmount' + id).offset().top;
+                    $('html, body').animate({ scrollTop: targetOffset }, 1000);
+                    if (response.responseText == "1") {
+                        alert(lotid)
+                        var lotStatus = document.getElementById("LotStatus" + lotid);
+                        lotStatus.src = '/img/tick.png';
                     }
+                } else {
+                    // DoSomethingElse()
+                    alert(response.responseText);
+                }
 
-                });
-            }       
+            },
+            error: function (response) {
+                alert("error!");  //
+            }
 
-    </script>
+        });
+    }
+</script>

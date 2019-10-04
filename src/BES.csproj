@@ -28,4 +28,10 @@
     <Folder Include="Areas\Education\Views\" />
     <Folder Include="Areas\Procurement\Data\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CBSCustomerAPI">
+      <HintPath>C:\Users\Kafil\Desktop\CBSCustomerAPI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

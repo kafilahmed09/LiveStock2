@@ -13,10 +13,10 @@
             <th>
                 <text>Contract Agreement</text>
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Remarks)
-            </th>            
-            @*<th></th>*@
+            </th>*@            
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -33,7 +33,7 @@
                 }
                 else
                 {
-                    <td>@Html.DisplayFor(modelItem => item.ExpiryDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Lot.ExpiryDate)</td>
                 }
             }
 
@@ -53,11 +53,23 @@
                     </td>
                 }
             }
-            <td>@Html.DisplayFor(modelItem => item.Remarks)</td>
-            @*<td>
-                <a asp-action="Edit" asp-route-id="@item.AddendumId" asp-route-AID="@ViewBag.AID">Edit</a> |
-                <a asp-action="AddAddendumItems" asp-controller="AddendumDetails" asp-route-id="@item.AddendumId">Detail</a>       
-            </td>*@
+            @*<td>@Html.DisplayFor(modelItem => item.Remarks)</td>*@
+            @{
+                if (item.AddendumTypeId == 2)
+                {
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.AddendumId" asp-route-AID="@ViewBag.AID">Edit</a> |*@                        
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.AddendumId" asp-route-AID="@ViewBag.AID">Edit</a> |*@
+                        <a asp-action="AddAddendumItems" asp-controller="AddendumDetails" asp-route-id="@item.AddendumId">Addendum Items</a>
+                    </td>
+
+                }
+            }
         </tr>
         }
     </tbody>

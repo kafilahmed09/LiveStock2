@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.AddendumDetail>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+            @Html.DisplayNameFor(model => model.Addendum)
+        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.LotItem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.LotItem.ActualUnitRate)</th>
+            <th><text>Total Amount</text></th>
+            <th>Image</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Addendum.AddendumId)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.LotItem.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.AddendumDetailId">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.AddendumDetailId">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.AddendumDetailId">Delete</a>*@
+                @String.Format("{0:#,##}", item.LotItem.ActualUnitRate)
+            </td>
+            <td>
+                @String.Format("{0:#,##}", ((item.Quantity * item.LotItem.ActualUnitRate) ?? 0))
+            </td>
+            <td><a href='@Url.Action("ViewImages", "LotItemImages", new { id = item.LotItemId})'>
+                    <img src='@Url.Content("~/images/viewPic.png")' width="25" height="25" />
+                </a>
+            </td>
+            <td><a asp-action="Edit" asp-route-id="@item.AddendumDetailId">Edit</a></td>
+        </tr>
+        }
+    </tbody>
+</table>

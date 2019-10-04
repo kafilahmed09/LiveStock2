@@ -30,25 +30,107 @@ namespace BES.Areas.Procurement.Controllers
             return View(await applicationDbContext.ToListAsync());
         }     
         [HttpPost]
-        public ActionResult AssignLot2(int LotId, int CID, DateTime EDate)
+        public async Task<IActionResult> AssignLot2(int LotId, short CID, DateTime EDate, int ACost)
         {
             if (ModelState.IsValid)
             {
-                if (true)
+                Lot CurrentLot = _context.Lot.Find(LotId);
+                CurrentLot.ContractorID = CID;
+                CurrentLot.ExpiryDate = EDate;
+                CurrentLot.ActualCost = ACost;
+                try
                 {                                           
                     IFormFile file = Request.Form.Files[0];
+                    var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
+                    string fileName = Path.GetFileName(file.FileName);
+                    fileName = fileName.Replace("&", "n");
+                    string AName = _context.Activity.Find(CurrentLot.ActivityID).Name;
+                    AName = AName.Replace("&", "n");
+                    var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(CurrentLot.ActivityID).ProcurementPlanID).Name;
+                    CurrentLot.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Lots//" + CurrentLot.lotno.ToString() + "//" + fileName);//Server Path                
+                    string sPath = Path.Combine(rootPath + PPName + "/" + "//" + AName + "//Lots//" + CurrentLot.lotno.ToString() + "//");
+                    if (!System.IO.Directory.Exists(sPath))
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                    }
+                    string FullPathWithFileName = Path.Combine(sPath, fileName);
+                    using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    _context.Update(CurrentLot);
+                    await _context.SaveChangesAsync();
                 }
+                catch(Exception e)
+                {
+
+                }
+
             }
             return Json(new { success = true, responseText = "Your message successfuly sent!" });
         }
-        public async Task<IActionResult> AssignLotsInBulk(int id)
+
+        [HttpPost]
+        public async Task<IActionResult> AssignActualAmount(int LotId,int LotItemId, int LotActualCost, int ItemUnitCost)
+        {
+            if (ModelState.IsValid)
+            {
+                LotItem ObjItem = _context.LotItem.Find(LotItemId);
+                ObjItem.ActualUnitRate = ItemUnitCost;
+                _context.Update(ObjItem);
+                await _context.SaveChangesAsync();
+                var CurrentCost = _context.LotItem.Where(a => a.lotId == LotId).Sum(a => (a.ActualUnitRate ?? 0) * a.Quantity);
+                if (CurrentCost == LotActualCost)
+                {
+                    Lot ObjLot = _context.Lot.Find(LotId);
+                    ObjLot.IsMatched = true;
+                    _context.Update(ObjLot);
+                    await _context.SaveChangesAsync();
+                }                               
+                //CurrentLot.ContractorID = CID;
+                //CurrentLot.ExpiryDate = EDate;
+                //try
+                //{                   
+                //    _context.Update(CurrentLot);
+                //    await _context.SaveChangesAsync();
+                //}
+                //catch (Exception e)
+                //{
+
+                //}
+                return Json(new { success = true, responseText = (CurrentCost == LotActualCost ? "1" : "0") });
+            }
+            return Json(new { success = false, responseText = "0" });
+        }
+        public ActionResult AssignLotsInBulk(int id)
         {
             List<Contractor> contractorList = new List<Contractor>();
             contractorList = _context.Contractor.Where(a=>a.ContractorTypeID == 1).ToList();
             contractorList.Insert(0, new Contractor { ContractorID = 0, CompanyName = "Select" });
             ViewData["ContractorID"] = new SelectList(contractorList, "ContractorID", "CompanyName");
             var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor).Where(a=>a.ActivityID == id);
-            return PartialView(await applicationDbContext.ToListAsync());
+            List<LotItemDetail> model = new List<LotItemDetail>();
+            foreach (Lot obj in _context.Lot.Include(l => l.Activity).Include(l => l.Contractor).Where(a => a.ActivityID == id))
+            {
+                model.Add(new LotItemDetail
+                {
+                    ActivityID = obj.ActivityID,
+                    Attachment = obj.Attachment,
+                    ContractorID = obj.ContractorID,
+                    ExpiryDate = obj.ExpiryDate,
+                    IsMatched = obj.IsMatched,
+                    ActualCost = obj.ActualCost,
+                    ItemTotal = obj.ItemTotal,
+                    lotDescription = obj.lotDescription,
+                    lotId = obj.lotId,
+                    lotno = obj.lotno,
+                    Items = _context.LotItem.Where(o => o.lotId == obj.lotId).ToList(),
+                    Contractor = obj.Contractor,
+                    Activity = obj.Activity
+                });
+            }
+            return PartialView(model);
         }
         public async Task<IActionResult> Index2(int id)
         {
@@ -74,6 +156,10 @@ namespace BES.Areas.Procurement.Controllers
                 int[] arrStrings = data.ToArray();
                 ViewData["Data"] = arrStrings;
                 ViewData["DataCount"] = result.Count;
+            }
+            else
+            {
+                ViewData["DataCount"] = 0;
             }
             return PartialView(await pplots.ToListAsync());
         }
@@ -118,7 +204,7 @@ namespace BES.Areas.Procurement.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AssignLot(int? id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot, IFormFile Attachment)
+        public async Task<IActionResult> AssignLot(int? id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate,ActualCost,IsMatched")] Lot lot, IFormFile Attachment)
         {
             if (ModelState.IsValid)
             {
@@ -183,11 +269,11 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot)
+        public async Task<IActionResult> Create([Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate,ActualCost,IsMatched")] Lot lot)
         {
             if (ModelState.IsValid)
             {
-                lot.ContractorID = 62;
+                lot.IsMatched = false;
                 _context.Add(lot);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Create), new {lot.ActivityID });
@@ -233,7 +319,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate")] Lot lot)
+        public async Task<IActionResult> Edit(int id, [Bind("lotId,lotno,ItemTotal,lotDescription,Attachment,ActivityID,ContractorID,ExpiryDate,ActualCost,IsMatched")] Lot lot)
         {
             if (id != lot.lotId)
             {

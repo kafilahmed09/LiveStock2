@@ -31,7 +31,7 @@
                         <div class="col-lg-6">
                             <div>
                                 <dl class="dl-horizontal">
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Method.Name)
                                     </dt>
 
@@ -39,21 +39,21 @@
                                         @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.Method.Name)
                                     </dd>
 
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.EstimatedCost)
                                     </dt>
 
                                     <dd>
                                         <text>@String.Format("{0:#,##}", Model.Item1.ElementAt(0).Activity.EstimatedCost)</text>
                                     </dd>
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.ActualCost)
                                     </dt>
 
                                     <dd>
                                         <text>@String.Format("{0:#,##}", Model.Item1.ElementAt(0).Activity.ActualCost)</text>
                                     </dd>
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.ReviewType)
                                     </dt>
 
@@ -61,7 +61,7 @@
                                         @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.ReviewType)
                                     </dd>
 
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Status)
                                     </dt>
 
@@ -85,28 +85,28 @@
                                             }
                                         }
                                     </dd>
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.IsCenceled)
                                     </dt>
 
                                     <dd>
                                         @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.IsCenceled)
                                     </dd>
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Remarks)
                                     </dt>
 
                                     <dd>
                                         @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.Remarks)
                                     </dd>
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.CreatedBy)
                                     </dt>
 
                                     <dd>
                                         @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.CreatedBy)
                                     </dd>
-                                    <dt class="btn btn-success btn-sm">
+                                    <dt class="btn btn-primary btn-sm">
                                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.CreatedDate)
                                     </dt>
 
@@ -119,7 +119,7 @@
                         <div class="col-lg-6">
                             <div class="jumbotron">
                                 <h2>Activity No.@Model.Item1.ElementAt(0).Activity.ActivityNo </h2>
-                                <p style="font-size:14px">Activity No.@Model.Item1.ElementAt(0).Activity.Description </p>
+                                <p style="font-size:14px"><b>Activity: </b>@Model.Item1.ElementAt(0).Activity.Description </p>
                             </div>
                         </div>
                     </div>
