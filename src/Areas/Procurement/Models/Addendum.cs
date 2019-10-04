@@ -14,6 +14,7 @@ namespace BES.Areas.Procurement.Models
         [Key]
         public int AddendumId { get; set; }
         public int LotId { get; set; }
+        [DisplayName("Addendum Type")]
         public short AddendumTypeId { get; set; }
         [DisplayName("Contract Agreement")]
         public string Attachment { get; set; }

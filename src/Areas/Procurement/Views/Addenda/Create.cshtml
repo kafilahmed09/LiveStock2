@@ -5,9 +5,9 @@
 }
 
 <div style="margin:0 15px 0 15px">
-    <h3>Create New Addendum</h3>
+    <h3>Add New Addendum</h3>
 
-    <hr />
+  
     <form asp-action="Create" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-4 col-lg-4 col-md-4">
@@ -58,7 +58,7 @@
     <div id="dynamicContentContainer"></div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Create" asp-controller="Lots" asp-route-id="@ViewBag.ActivityId">Back to List</a>
     </div>
 </div>
 

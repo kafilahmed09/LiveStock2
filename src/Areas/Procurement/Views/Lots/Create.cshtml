@@ -64,10 +64,10 @@
             <img src="~/img/sspinner.gif" width="40" height="40" />
         </div>
     </div>
-    <span style="font-size:14px">Total Lot: @ViewBag.LotTotal Created Lots: @ViewBag.CurrentLot Remaining Lots: @ViewBag.RemainingLot</span>
-<div id="dynamicContentContainer"></div>
+    <span style="font-size:14px;background-color:cornflowerblue;color:white;padding:5px;margin-left:5px">Total Lot: @ViewBag.LotTotal Created Lots: @ViewBag.CurrentLot Remaining Lots: @ViewBag.RemainingLot</span>
+<div id="dynamicContentContainer" style="margin:5px"></div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-controller="Activities" asp-route-id="@ViewBag.AID">Back to List</a>
 </div>
 </div>
     @section Scripts {
