@@ -50,7 +50,7 @@ namespace BES.Data
                 table.StepID
             });
 
-            builder.Entity<BES.Models.Data.IncdicatorTracking>().HasKey(table => new {
+            builder.Entity<BES.Models.Data.IndicatorTracking>().HasKey(table => new {
                 table.SchoolID,
                 table.IndicatorID
             });
@@ -133,6 +133,6 @@ namespace BES.Data
         public DbSet<BES.Areas.Procurement.Models.SCManagementItem> SCManagementItem { get; set; }
         public DbSet<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail> VLotItemDetail { get; set; }
         public DbSet<BES.Models.Data.Indicator> Indicator { get; set; }
-        public DbSet<BES.Models.Data.IncdicatorTracking> IncdicatorTracking { get; set; }
+        public DbSet<BES.Models.Data.IndicatorTracking> IncdicatorTracking { get; set; }
     }
 }
