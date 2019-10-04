@@ -34,6 +34,8 @@ namespace BES.Data
         public DbSet<BES.Models.Data.BLTeacherPost> BLTeacherPosts { get; set; }
         public DbSet<BES.Models.Data.BLTeacherPresent> BLTeacherPresents { get; set; }
         public DbSet<BES.Models.Data.BLTeacherSection> BLTeacherSections { get; set; }
+
+        public DbSet<BES.Models.Reports.BLEUDetailView> BLEUDetailViews { get; set; }
         public DbSet<BES.Models.Data.Contractor> Contractor { get; set; }
         public DbSet<BES.Models.Data.Partner> Partners { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }

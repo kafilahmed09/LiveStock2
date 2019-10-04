@@ -6,51 +6,54 @@
 <section class="content-header">
     <div class="row">
         <h1>
-           @ViewBag.Section Progress & Evidance Tracking
+            @ViewBag.Section Progress & Evidance Tracking
             @*<small>BES</small>*@
         </h1>
         @*<div class="col-sm-10">
-            <ol class="breadcrumb">
-                <li> @Html.ActionLink("List", "Index") </li>
-                <li class="active">
-                    <strong>Edit</strong>
-                </li>
-            </ol>
-        </div>
-        <div class="col-sm-2">
-            <div class="title-action">
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                <ol class="breadcrumb">
+                    <li> @Html.ActionLink("List", "Index") </li>
+                    <li class="active">
+                        <strong>Edit</strong>
+                    </li>
+                </ol>
             </div>
-        </div>*@
+            <div class="col-sm-2">
+                <div class="title-action">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                </div>
+            </div>*@
     </div>
 </section>
 <section class="content">
     <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UC.UCName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SName)
-                    </th>
-
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <table class="table table-striped table-bordered  dataTables-example">
+           @* <table class="table table-striped table-bordered">*@
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UC.UCName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.type)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.UC.Tehsil.District.RegionID)
@@ -68,12 +71,66 @@
                             @Html.DisplayFor(modelItem => item.SName)
                         </td>
 
+
                         <td>
-                            @Html.ActionLink("Update", "Update", new {  id=item.SchoolID, SecID= ViewBag.SectionID }) 
+                            @{
+                                switch (item.type)
+                                {
+                                    case 1: <text> Potentail </text> break;
+                                case 2: <text> Feeder </text> break;
+                            case 3: <text> Next Level </text> break;
+                    }
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Update", "Update", new { id = item.SchoolID, SecID = ViewBag.SectionID })
                         </td>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    </section>
+                    }
+                </tbody>
+            </table>
+</div>
+</section>
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+
+<div id="dynamicContentContainer"></div>
+@section Scripts {
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $(document).ready(function () {
+                // $('#Region-DropdownID').val(null).change();
+                // alert('JQuery Entered')
+                $('.dataTables-example').DataTable({
+                    "scrollY": 350,
+                    //"processing": true, // for show progress bar
+                    //"bJQueryUI": true,
+                    //"bServerSide": true,
+                    //"sAjaxSource": "SchoolList",
+                    "bPaginate": false,
+                    "ordering": false,
+                    dom: '<"html5buttons"B>lTfigtp',
+
+                    buttons: [
+                        { extend: 'copy' },
+                        { extend: 'csv' },
+                        { extend: 'excel', title: 'ExampleFile' },
+                        { extend: 'pdf', title: 'ExampleFile' },
+                    ]
+                });
+                //alert('Table Generated')
+            });
+            //alert('Table Generated')
+        });
+
+    </script>
+
+}

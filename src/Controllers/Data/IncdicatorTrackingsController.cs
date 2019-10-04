@@ -9,7 +9,7 @@ using BES.Data;
 using BES.Models.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-
+using System.Collections;
 namespace BES.Controllers.Data
 {
     public class IncdicatorTrackingsController : Controller
@@ -33,7 +33,12 @@ namespace BES.Controllers.Data
             {
                 ViewBag.Section = "Development Section";
             }
-            var applicationDbContext = _context.Schools.Where(a=>a.SchoolOf==2).Include(a=>a.UC).Include(a=>a.UC.Tehsil).Include(a => a.UC.Tehsil.District);
+            else
+            {
+                return RedirectToAction("index","BaselineGenerals" );
+            }
+            var applicationDbContext = _context.Schools.Where(a=>a.ProjectID==1 ).Include(a=>a.UC).Include(a=>a.UC.Tehsil).Include(a => a.UC.Tehsil.District).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+           
             return View(await applicationDbContext.ToListAsync());
         }
         // GET: IncdicatorTrackings/Update
@@ -41,31 +46,88 @@ namespace BES.Controllers.Data
         {
             int PId = SecID == 926982 ? 4 : 3;
             ViewBag.SecID = SecID;
+            var sch = _context.Schools.Find(id);
+            ViewBag.Sname = sch.SName;
+
+            if (SecID == 926982)
+            {
+                ViewBag.Section = "Education Section";
+            }
+            else if (SecID == 352769)
+            {
+                ViewBag.Section = "Development Section";
+            }
+            var indiTrack =  _context.IncdicatorTracking.Where(a => a.SchoolID == id);
             var applicationDbContext = from Proj_Indicator in _context.Indicator
-                                       join Proj_IncdicatorTracking in _context.IncdicatorTracking on Proj_Indicator.IndicatorID equals Proj_IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
+                                       join Proj_IncdicatorTracking in indiTrack on Proj_Indicator.IndicatorID equals Proj_IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
                                        from Proj_IncdicatorTracking in Proj_IncdicatorTracking_join.DefaultIfEmpty()
                                        where
-                                         Proj_Indicator.PartnerID == PId &&
-                                        (Proj_IncdicatorTracking.SchoolID == id ||
-                                        Proj_IncdicatorTracking.SchoolID == null)
+                                         Proj_Indicator.PartnerID == PId
+                                       // && (Proj_IncdicatorTracking.SchoolID == id ||
+                                       //Proj_IncdicatorTracking.SchoolID == null)
 
                                        orderby
                                          Proj_Indicator.SequenceNo
                                        select new IndicatorTracking
                                        {
                                            IndicatorID = Proj_Indicator.IndicatorID,
-                                           Indicator= Proj_Indicator.IndicatorName,
-                                           isEvidence= Proj_Indicator.IsEvidenceRequire,
+                                           Indicator = Proj_Indicator.IndicatorName,
+                                           isEvidence = Proj_Indicator.IsEvidenceRequire,
                                            ImageURL = Proj_IncdicatorTracking.ImageURL,
                                            DateOfUpload = Proj_IncdicatorTracking.DateOfUpload,
                                            SchoolID = id,
-                                           IsUpload=Proj_IncdicatorTracking.IsUpload,
-                                           TotalFilesUploaded= Proj_IncdicatorTracking.TotalFilesUploaded,
-                                           
-                                          // Proj_Indicator.SequenceNo
-                                       };
+                                           IsUpload = Proj_IncdicatorTracking.IsUpload,
+                                           TotalFilesUploaded = Proj_IncdicatorTracking.TotalFilesUploaded,
+                                           isPotential = Proj_Indicator.IsPotential,
+                                           isFeeder=Proj_Indicator.IsFeeder,
+                                           isNextLevel=Proj_Indicator.IsNextLevel,
+                                           //SchoolID = Proj_IncdicatorTracking.SchoolID == id ? id : Proj_IncdicatorTracking.SchoolID ==  null ? (int?)null : 0,
 
+                                           // Proj_Indicator.SequenceNo
+                                       };
+            switch(sch.type)
+            {
+                case 1:
+                    applicationDbContext = applicationDbContext.Where(a => a.isPotential == true);
+                    break;
+                case 2:
+                    applicationDbContext = applicationDbContext.Where(a => a.isFeeder == true);
+                    break;
+                case 3:
+                    applicationDbContext = applicationDbContext.Where(a => a.isNextLevel == true);
+                    break;
+            }
+            //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
+            //List<IndicatorTracking> indicatorTrackings = new List<IndicatorTracking>();
+            //foreach(var indi in applicationDbContext)
+            //{
+            //    if(indi.SchoolID!=id ||)
+            //}
+            ViewData["ids"] = applicationDbContext.Select(a => a.IndicatorID).ToArray();
             return View(applicationDbContext.ToList());
+        }
+        public ActionResult Popup(int? id, int? iId)
+        {
+            ViewBag.PointOut = iId;
+
+            string fpath = _context.IncdicatorTracking
+                            .Where(a => a.SchoolID == id && a.IndicatorID == iId)
+                            .Select(a => a.ImageURL).FirstOrDefault();
+
+            var rootPath = Path.Combine(
+                           Directory.GetCurrentDirectory(), "wwwroot"+fpath);
+            DirectoryInfo dir = new DirectoryInfo(rootPath);
+            FileInfo[] files = dir.GetFiles();
+            ArrayList list = new ArrayList();
+            List<string> filePaths = new List<string>();
+            foreach (FileInfo file in files)
+            {
+                filePaths.Add(Path.GetFileName(file.FullName));
+                //list.Add(file);
+            }
+            ViewData["filePaths"] = filePaths;
+            ViewBag.fPath = fpath;
+                return PartialView();
         }
 
         // POST: IncdicatorTrackings/Create
