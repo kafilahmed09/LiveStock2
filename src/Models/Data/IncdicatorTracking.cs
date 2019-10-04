@@ -35,6 +35,12 @@ namespace BES.Models.Data
         public string Indicator { get; set; }
         [NotMapped]
         public bool? isEvidence { get; set; }
+        [NotMapped]
+        public bool? isPotential { get; set; }
+        [NotMapped]
+        public bool? isFeeder { get; set; }
+        [NotMapped]
+        public bool? isNextLevel { get; set; }
 
         public virtual School School { get; set; }
 
