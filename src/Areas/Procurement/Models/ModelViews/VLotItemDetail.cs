@@ -16,6 +16,7 @@ namespace BES.Areas.Procurement.Models.ModelViews
         public short lotno { get; set; }
         [DisplayName("Activity")]
         public short ActivityID { get; set; }
+        [DisplayName("Addendum Type")]
         public short? AddendumTypeId { get; set; }
         public string Attachment { get; set; }
         public short ContractorID { get; set; }

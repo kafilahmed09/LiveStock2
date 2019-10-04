@@ -6,7 +6,7 @@
 
 <div style="margin:10px 10px 0 10px">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8 col-md-8 col-lg-8">
             <h3 style="color:darkslategrey">Procurement Plan Summary - @ViewBag.PPName</h3>
         </div>
     </div>
@@ -129,13 +129,16 @@
                                     @Html.DisplayNameFor(model => model.Name)
                                 </th>
                                 @*<th>
-                                        @Html.DisplayNameFor(model => model.EstimatedCost)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.ActualCost)
-                                    </th>*@
+                                    @Html.DisplayNameFor(model => model.EstimatedCost)
+                                </th>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.ActualCost)
+                                </th>*@
+                                                        @*<th>
                                     @Html.DisplayNameFor(model => model.Method.Name)
+                                </th>*@
+                                <th>
+                                    <text>Estimated</text>
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.ReviewType)
@@ -152,58 +155,61 @@
 
                             @foreach (var item in Model)
                             {
-                                <tr>
+                            <tr>
 
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.PProcurementPlan.Name)
-                                        </td>*@
-                                    <td style="color:#3c8dbc;font-weight:bold">
-                                        Activity-@Html.DisplayFor(modelItem => item.ActivityNo)
-                                    </td>
-                                    <td style="color:#3c8dbc;font-weight:bold">
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    @*<td>
-                                            <text>@String.Format("{0:#,##}", item.EstimatedCost)</text>
-                                        </td>
-                                        <td>
-                                            @{
-                                                if (item.ActualCost != 0)
-                                                {
-                                                    <text>@String.Format("{0:#,##}", item.ActualCost)</text>
-                                                }else
-                                                {
-                                                    <text>Nil</text>
-                                                }
-                                            }
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.PProcurementPlan.Name)
+        </td>*@
+                                <td style="color:#3c8dbc;font-weight:bold">
+                                    A#-@Html.DisplayFor(modelItem => item.ActivityNo)
+                                </td>
+                                <td style="color:#3c8dbc;font-weight:bold">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                @*<td>
+            <text>@String.Format("{0:#,##}", item.EstimatedCost)</text>
+        </td>
+        <td>
+            @{
+                if (item.ActualCost != 0)
+                {
+                    <text>@String.Format("{0:#,##}", item.ActualCost)</text>
+                }else
+                {
+                    <text>Nil</text>
+                }
+            }
 
-                                        </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Method.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ReviewType)
-                                    </td>
+                                </td>*@
+                                                        @*<td>
+                                    @Html.DisplayFor(modelItem => item.Method.Name)
+                                </td>*@
+                                <td>
+                                    @String.Format("{0:#,##}", item.EstimatedCost)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReviewType)
+                                </td>
 
-                                    @{
-                                        if (item.Status == 1)
-                                        {
-                                            <td><text class="label label-default" style="font-weight:bold">Not Initiated</text></td> }
-                                        else if (item.Status == 2)
-                                        {
-                                            <td><text class="label label-info" style="font-weight:bold"> In Process </text></td> }
-                                        else if (item.Status == 3)
-                                        {
-                                            <td><text class="label label-success" style="font-weight:bold"> Completed </text></td> }
-                                        else
-                                        {
-                                            <td><text class="label label-danger" style="font-weight:bold"> Cancelled </text></td> }
-                                    }
-                                    <td>
-                                        @Html.ActionLink("Steps", "Edit", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })
-                                    </td>
-                                    <td>@Html.ActionLink("View", "Details", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
-                                </tr>
+                                @{
+                                    if (item.Status == 1)
+                                    {
+                                        <td><text class="label label-default" style="font-weight:bold">Not Initiated</text></td> }
+                                    else if (item.Status == 2)
+                                    {
+                                        <td><text class="label label-info" style="font-weight:bold"> In Process </text></td> }
+                                    else if (item.Status == 3)
+                                    {
+                                        <td><text class="label label-success" style="font-weight:bold"> Completed </text></td> }
+                                    else
+                                    {
+                                        <td><text class="label label-danger" style="font-weight:bold"> Cancelled </text></td> }
+                                }
+                                <td>
+                                    @Html.ActionLink("Steps", "Edit", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })
+                                </td>
+                                <td>@Html.ActionLink("View", "Details", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
+                            </tr>
                             }
                         </tbody>
                     </table>

@@ -94,6 +94,12 @@ namespace BES.Areas.Procurement.Controllers
             activityDetail.PlannedDate = DateTime.Now;
             activityDetail.CreatedDate = DateTime.Now;
             activityDetail.CreatedBy = User.Identity.Name;
+            ViewBag.Status = "0";
+            if ((stepNo+1) == 9)
+            {
+                var val = _context.Lot.Where(a => a.ActivityID == activity.ActivityID && a.IsMatched == false).Count();
+                ViewBag.Status = (val > 0 ? "0" : "1");
+            }
             return View(activityDetail);
         }
 
@@ -172,7 +178,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( string PPName, int ActualCost, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment)
+        public async Task<IActionResult> Edit(string PPName, int ActualCost, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment)
         {
             //if (id != activityDetail.ActivityID)
             //{
@@ -231,7 +237,14 @@ namespace BES.Areas.Procurement.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Edit), "Activities", new { id = activityDetail.ActivityID });
+                if(activityDetail.StepID == 8)
+                {
+                    return RedirectToAction(nameof(Edit), new { activityDetail.ActivityID, activityDetail.StepID });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Edit), "Activities", new { id = activityDetail.ActivityID });
+                }                
             }
             ViewData["ActivityID"] = new SelectList(_context.Activity, "ActivityID", "Description", activityDetail.ActivityID);
             ViewData["StepID"] = new SelectList(_context.Step, "StepID", "StepID", activityDetail.StepID);
