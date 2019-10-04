@@ -11,11 +11,17 @@
 }
 
 <input type="hidden" id="dataCnt" value="@dataLength" />
-<h2>Update</h2>
+<h2>
+    @ViewBag.Section Progress Tracking sheet
+    
+    <br/><small>
+    @ViewBag.Sname
+</small>
+</h2>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table">
     <thead>
         <tr>
@@ -24,14 +30,14 @@
             </th>
 
             <th>
-               uploaded / Done
+                uploaded / Done
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfUpload)
             </th>
 
             <th>
-               Evidance Requried
+                Evidance Requried
             </th>
 
             <th></th>
@@ -88,21 +94,21 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" id=@("datepicker" + ii++) >
+                                <input type="text" class="form-control pull-right" id=@("datepicker" + item.IndicatorID)>
                             </div>
-
 
                         }
                     }
                 </td>
 
                 <td>
-                   @{ 
-                       if (item.isEvidence == true)
-                       { <text>Yes</text>}
-                       else
-                       { <text>No</text>}
-                   }
+                    @Html.DisplayFor(modelItem=> item.SchoolID)
+                    @*@{
+                        if (item.isEvidence == true)
+                        { <text>Yes</text>}
+                    else
+                    { <text>No</text>}
+                    }*@
 
                 <td>
 
@@ -110,51 +116,83 @@
                         if (item.IsUpload == true)
                         {
                             if (item.isEvidence == true)
-                            { <input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />}
+                            {
+                                var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
+                                <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
+
+                                @*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                        Modal
+                                    </button>*@
+                                @*<input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />*@
+                            }
                         }
                         else
-                        { 
-                            <input type="submit" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
+                        {
+                            <input type="submit" id ="button" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
                         }
                     }
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <div id="partial">Loading....</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 @section Scripts{
     <!-- bootstrap datepicker -->
     <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    @*<script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>*@
     <script type="text/javascript">
 
-        function submit_by_Script(elmnt, iId, sId, isEvid, SecID) {
+        function submit_by_Script(elmnt, iId, sId, isEvid, SecID,ii) {
             var AttachID = "Attach" + iId;
             var dpID = "datepicker" + iId;
             var fileUpload = document.getElementById(iId);
             var datepick = document.getElementById(dpID);
-           
+
             var flag = true;
             var dateVal = datepick.value;
 
-           
+
             //var id = fileInput[0].id;
             //var files = fileUpload.files;
-            if (isEvid == true) { 
+            if (isEvid == true) {
                 if (fileUpload.files.length > 0) {
                     //alert("Ready to Post");
                 }
                 else {
                     alert("Please Select Evidence file(s) to upload");
                     flag = false;
-                    
+
                 }
                 //alert("total files=: " + fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
             }
-            
+
             else { // validate checkbox
                 if (fileUpload.checked == true) {
                     //alert("Checkbox Ready to post");
@@ -174,17 +212,17 @@
                 if (isEvid == true) {
                     alert("Ready to post with Pix");
 
-                    // Looping over all files and add it to FormData object  
+                    // Looping over all files and add it to FormData object
                     for (var i = 0; i < fileUpload.files.length; i++) {
                         fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
                     }
                 }
-                    //// Adding one more key to FormData object  
+                    //// Adding one more key to FormData object
                     //fileData.append('username', 'Manas');
                     $.ajax({
                         type: "POST",
-                        contentType: false, // Not to set any content header  
-                        processData: false, // Not to process data  
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
                         data: fileData,
                         url: "/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID,
                         dataType: 'json',
@@ -204,7 +242,7 @@
                         }
 
                     });
-                
+
                 @*else {
                     window.location.assign("/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID);
                 }*@
@@ -215,29 +253,44 @@
 
     $(document).ready(function () {
         //Date picker
+        var model = JSON.parse('@Html.Raw(Json.Serialize(Model.Select(a=>a.Indicator).ToList()))');
+        var ids = @Html.Raw(Json.Serialize(ViewData["ids"]));
+        //alert(@ViewBag.SecID);
         var hiddenLength = document.getElementById("dataCnt");
-       // alert(hiddenLength.value);
-        for (var i = 1; i < hiddenLength.value; i++) {
-            var dt = "#datepicker" + i;
+
+        for (var i = 0; i < ids.length; i++) {
+           // alert(ids[i]);
+            var dt = "#datepicker" + ids[i];
             $(dt).datepicker({
                 autoclose: true
             })
         }
-        @*var model = @Html.Raw(Json.Serialize(Model));
-        alert(model.lenght);     
-            for (var i = 0; i < model.lenght; i++){
-            alert(model[i].IndicatorID);
-        }*@
-        //$.each(model, function (index, item) 
-        //{
-        //    alert("Indi=" + model[index].IndicatorID+ ", index="+index);
-        //     var dt = "#datepicker" + model[index].IndicatorID;
-        //     $(dt).datepicker({
+        // alert(hiddenLength.value);
+        
+
+        //for (var i = 1; i < hiddenLength.value; i++) {
+        //    var dt = "#datepicker" + i;
+        //    $(dt).datepicker({
         //        autoclose: true
         //    })
-        
-        
-        //});
-    });
+        //}
+
+
+        $(function () {
+            $('.search').click(function () {
+               //alert("Reached here");
+                var url = $(this).data('url');
+                var route = url;
+                $('#partial').load(route);
+            });
+        });
+        });
+
+        $('#modal-default').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+            var title = button.data('title')+ " Evidances"; //alert(title);
+            modal.find('.modal-title').text(title)
+        });
     </script>
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Models.Data;
 using BES.Data;
+using BES.Models.Reports;
 
 namespace BES.Controllers.Data
 {
@@ -42,7 +43,7 @@ namespace BES.Controllers.Data
         public async Task<IActionResult> FilterView(short? RID, short? DID, short? TID, short? UID, short? LID)
         {
             var applicationDbContext = _context.BaselineGenerals.Include(s => s.School).Include(u=>u.School.UC).Include(t=>t.School.UC.Tehsil).Include(d=>d.School.UC.Tehsil.District)
-                .Where(b=>b.School.SchoolOf==2);
+                .Where(b=>b.School.ProjectID==1);
 
             if (UID > 0)
                 applicationDbContext = applicationDbContext.Where(q => q.School.UCID == UID);
@@ -58,6 +59,54 @@ namespace BES.Controllers.Data
             return PartialView(await applicationDbContext.ToListAsync());
         }
 
+        public ActionResult Dashboard()
+        {
+
+            //if (!checkAuthentication())
+            //{
+            //    return RedirectToAction("Login", "Account", new { area = "" });
+            //}
+            var bLDashboardView = new BLDashboardView
+            {
+                filter = 0,
+                blV = _context.BLEUDetailViews.ToList()
+
+            };
+
+            return View(bLDashboardView);
+        }
+
+        [HttpPost]
+        public ActionResult Dashboard(BLDashboardView bLDashboardView)
+        {
+            //var bLEUDetailViews = db.BLEUDetailViews.Where(a => a.SchoolID > 0);
+            switch (bLDashboardView.filter)
+            {
+                case 1:
+                    bLDashboardView.blV = _context.BLEUDetailViews.Where(a => a.SchoolType == "Potentail").ToList();
+                    break;
+                case 2:
+                    bLDashboardView.blV = _context.BLEUDetailViews.Where(a => a.SchoolType == "Feeder").ToList(); ;
+                    break;
+                case 3:
+                    bLDashboardView.blV = _context.BLEUDetailViews.Where(a => a.SchoolType == "Next Level").ToList(); ;
+                    break;
+                default:
+                    bLDashboardView.blV = _context.BLEUDetailViews.ToList(); ;
+                    break;
+            }
+            //bLDashboardView.blV = bLEUDetailViews.ToList();
+            return View(bLDashboardView);
+        }
+        public ActionResult DashboardFilter(short? st)
+        {
+            var bLEUDetailViews = _context.BLEUDetailViews;
+
+            ViewBag.PotentailTotal = bLEUDetailViews.Count(a => a.SchoolType == "Potentail");
+
+            return PartialView(bLEUDetailViews.ToList());
+
+        }
         // GET: BaselineGenerals/Details/5
         public async Task<IActionResult> Details(short? id)
         {
@@ -117,7 +166,7 @@ namespace BES.Controllers.Data
                         new { Id = "True", Name = "Yes" },
                         new { Id = "False", Name = "No" }
                     }, "Id", "Name");
-           // BaselineGeneral baselinegeneral = db.BaselineGenerals.Find(id);
+           // BaselineGeneral baselinegeneral = _context.BaselineGenerals.Find(id);
             //if (baselineGeneral.School.UC.Tehsil.District.RegionID != loginUser.RegionID && !User.IsInRole("ICT"))
             //{
             //    return RedirectToAction("Login", "Account", new { area = "" });
@@ -167,39 +216,130 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("BLGeneralID,UCID,SchoolID,SchoolType,ClusterBEMISCode,BEMISCode,SName,Type,Latitude,Longitude,VisitorName,Date,varified,VarifiedBy,Remarks")] BaselineGeneral baselineGeneral)
+        public ActionResult Edit(ModelCollection modelCollection)
         {
-            if (id != baselineGeneral.BLGeneralID)
+            //modelCollection.baselineGeneral.School = _context.Schools.Find(modelCollection.baselineGeneral.SchoolID);
+            var Error1 = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+            int temp1 = 0;
+            for (int h = 0; h < Error1.Count; h++)
             {
-                return NotFound();
+                if (Error1[h][0].ErrorMessage != "")
+                {
+                    temp1 = 1;
+                }
             }
 
-            if (ModelState.IsValid)
+
+
+            if (ModelState.IsValid || temp1 == 0)
             {
-                try
+
+                var CurrentSchoolID = modelCollection.newSchool.SchoolID;
+                int ClusterSchoolID = 0;
+                if (modelCollection.baselineGeneral.SchoolType != 1)
                 {
-                    _context.Update(baselineGeneral);
-                    await _context.SaveChangesAsync();
+                    //ClusterSchoolID = _context.Schools.Where(a => a.BEMIS == modelCollection.newSchool.ClusterBEMIS && a.ProjectID == 1).Select(a => a.SchoolID).FirstOrDefault();
+                    //if (ClusterSchoolID == 0)
+                    //{
+                        ClusterSchoolID = _context.Schools.Where(a => a.ClusterBEMIS == modelCollection.baselineGeneral.ClusterBEMISCode && a.type == 1).Select(a => a.SchoolID).FirstOrDefault();
+                        if (ClusterSchoolID == 0)
+                        {
+                            ViewBag.Error = "Error: No Potentail school Exist against BEMIS Code " + modelCollection.baselineGeneral.ClusterBEMISCode;
+                            ViewBag.UCID = new SelectList(_context.UCs, "UCID", "UCName", modelCollection.baselineGeneral.UCID);
+                            return View(modelCollection);
+
+                        }
+                   // }
                 }
-                catch (DbUpdateConcurrencyException)
+                //else
+                //{
+                    modelCollection.newSchool.UCID = modelCollection.UCID;
+                    modelCollection.newSchool.type = (short) modelCollection.baselineGeneral.SchoolType;
+                    modelCollection.newSchool.BEMIS = modelCollection.baselineGeneral.BEMISCode;
+                    modelCollection.newSchool.ClusterBEMIS = (int) modelCollection.baselineGeneral.ClusterBEMISCode;
+                modelCollection.newSchool.SName = modelCollection.baselineGeneral.SName;
+                    modelCollection.newSchool.Latitude = modelCollection.baselineGeneral.Latitude;
+                    modelCollection.newSchool.Longitude = modelCollection.baselineGeneral.Longitude;
+                    modelCollection.newSchool.SLevel = Convert.ToInt16(modelCollection.baselineGeneral.Type);
+                    _context.Entry(modelCollection.newSchool).State = EntityState.Modified;
+                    _context.SaveChanges();
+                //}
+
+                modelCollection.baselineGeneral.VarifiedBy = User.Identity.Name;
+                modelCollection.baselineGeneral.UCID = modelCollection.UCID;
+                _context.Entry(modelCollection.baselineGeneral).State = EntityState.Modified;
+                _context.SaveChanges();
+                var CurrentBaselineID = modelCollection.baselineGeneral.BLGeneralID;
+                short Counter = 0;
+                if (modelCollection.baselineGeneral.Type == "1")
                 {
-                    if (!BaselineGeneralExists(baselineGeneral.BLGeneralID))
+                    Counter = 6;
+                }
+                else if (modelCollection.baselineGeneral.Type == "2")
+                {
+                    Counter = 9;
+                }
+                else
+                {
+                    Counter = 11;
+                }
+                for (short i = 0; i < Counter; i++)
+                {
+                    modelCollection.blEnrollmentList[i].BLGeneralID = CurrentBaselineID;
+                    modelCollection.blEnrollmentList[i].BLEnrollmentID = _context.BLEnrollments.Where(a => a.BLGeneralID == CurrentBaselineID && a.ClassID == i).Select(a => a.BLEnrollmentID).FirstOrDefault();
+                    modelCollection.blEnrollmentList[i].ClassID = i;
+                    if (modelCollection.blEnrollmentList[i].BLEnrollmentID == 0)
                     {
-                        return NotFound();
+                        //modelCollection.blEnrollmentList[i].
+                        _context.BLEnrollments.Add(modelCollection.blEnrollmentList[i]);
+
                     }
                     else
                     {
-                        throw;
+                        _context.Entry(modelCollection.blEnrollmentList[i]).State = EntityState.Modified;
                     }
+                    _context.SaveChanges();
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", baselineGeneral.SchoolID);
-            return View(baselineGeneral);
-        }
+                short temp = 0;
+                for (short i = 0; i < 9; i++)
+                {
+                    temp = i;
+                    temp++;
+                    modelCollection.blTeacherSectionList[i].BLGeneralID = CurrentBaselineID;
+                    modelCollection.blTeacherSectionList[i].BLTeacherSectionID = (short)_context.BLTeacherSections.Where(a => a.BLGeneralID == CurrentBaselineID && a.BLTeacherPostID == temp).Select(a => a.BLTeacherSectionID).FirstOrDefault();
+                    modelCollection.blTeacherSectionList[i].BLTeacherPostID = temp;
+                    _context.Entry(modelCollection.blTeacherSectionList[i]).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
 
-        // GET: BaselineGenerals/Delete/5
-        public async Task<IActionResult> Delete(short? id)
+                modelCollection.blLandAvailable.BLGeneralID = CurrentBaselineID;
+                _context.Entry(modelCollection.blLandAvailable).State = EntityState.Modified;
+                _context.SaveChanges();
+                modelCollection.blPTSMCInfo.BLGeneralID = CurrentBaselineID;
+                _context.Entry(modelCollection.blPTSMCInfo).State = EntityState.Modified;
+                _context.SaveChanges();
+                modelCollection.blFacilitiesInfo.BLGeneralID = CurrentBaselineID;
+                _context.Entry(modelCollection.blFacilitiesInfo).State = EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+
+            }
+            var Error = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+            List<string> errorList = new List<string>();
+            for (int z = 0; z < Error.Count; z++)
+            {
+                ModelState.AddModelError("", Error[z][0].ErrorMessage);
+                //    errorList.Add(Error[z][0].ErrorMessage);
+            }
+            ViewBag.UCID = new SelectList(_context.UCs.Where(a => a.TehsilID == _context.UCs.Where(b => b.UCID == modelCollection.baselineGeneral.UCID).Select(b => b.TehsilID).FirstOrDefault()), "UCID", "UCName", modelCollection.baselineGeneral.UCID);
+            return View(modelCollection);
+        }
+            // GET: BaselineGenerals/Delete/5
+            public async Task<IActionResult> Delete(short? id)
         {
             if (id == null)
             {

@@ -1,0 +1,15 @@
+﻿@model System.Collections.ArrayList
+@{
+    ViewData["Title"] = "Popup";
+    List<string> filePaths = (List<string>)ViewData["filePaths"];
+    string path = ViewBag.fPath;
+}
+
+@{
+    foreach (string f in filePaths)
+    {
+        @*<text> @(path + "/" + f) </text>*@
+        <img class="img-responsive" src="@(path + "/" + f)" style="width:100%;height:100%">
+        <br/>
+    }
+}
