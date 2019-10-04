@@ -4,9 +4,32 @@
     ViewData["Title"] = "Edit";
 }
 
+<style>
+
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+</style>
 
 <div class="row" style="margin:0 15px 0 15px">
-    <h3 class="box-title">Edit Activity Step</h3>
+    <h3 class="box-title">Update Activity Step</h3>
 
     <hr />
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
@@ -27,13 +50,24 @@
                 </div>
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3">
-                <div class="form-group">
+                @*<div class="form-group">
                     <label asp-for="CreatedBy" class="control-label"></label>
                     <input asp-for="CreatedBy" class="form-control" readonly="readonly" />
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="UpdatedBy" class="control-label"></label>
+                    <input asp-for="UpdatedBy" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="UpdatedBy" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-sm-3 col-md-3 col-lg-3">
 
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div class="form-group">
+                    <label asp-for="Step.Name" class="control-label"></label>
+                    <input asp-for="Step.Name" class="form-control" readonly="readonly" />
+                </div>
             </div>
         </div>
         @{
@@ -53,7 +87,7 @@
             }
         }
         <div class="row">
-            <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="col-sm-3 col-md-3 col-lg-3">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="StepID" />
                 <input type="hidden" asp-for="ActivityID" />
@@ -64,71 +98,106 @@
                 <div class="divHide">
                     <div class="form-group">
                         <label asp-for="PlannedDate" class="control-label"></label>
-                        <input asp-for="PlannedDate" class="form-control" />
-                        <span asp-validation-for="PlannedDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Activity Actual Cost</label>
-                        <input asp-for="Activity.ActualCost" name="ActualCost" class="form-control" required />
-                        <span asp-validation-for="Activity.ActualCost" class="text-danger"></span>
-                    </div>
-                </div>
-                @*<div class="form-group" id="divBtns">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-primary" />
-                            @{
-                                if (Model.Step.SerailNo == 8)
-                                {
-                                    <a asp-action="AssignLotsInBulk" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Assign Lot</a>
-                                }
+                        @{
+                            if (Model.ActualDate == null)
+                            {
+                                <input asp-for="PlannedDate" class="form-control" required />
+                                <span asp-validation-for="PlannedDate" class="text-danger"></span>
                             }
-                            @Html.ActionLink("Cancel", "Edit", "Activities", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
+                            else
+                            {
+                                <input asp-for="PlannedDate" class="form-control" style="min-width:150px" readonly="readonly" />                                
+                            }
+                        }
+                    </div>
+                    @*<div class="form-group">
+                <label class="control-label">Activity Actual Cost</label>
+                <input asp-for="Activity.ActualCost" name="ActualCost" class="form-control" required />
+                <span asp-validation-for="Activity.ActualCost" class="text-danger"></span>
+            </div>*@
+                </div>
+                @{
+                    if (Model.ActualDate == null)
+                    {
+                        <div class="form-group">
+                            <div>
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
                         </div>
-                    </div>*@
+                    }
+                }
+
+                @*<div class="form-group" id="divBtns">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @{
+                    if (Model.Step.SerailNo == 8)
+                    {
+                        <a asp-action="AssignLotsInBulk" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Assign Lot</a>
+                    }
+                }
+                @Html.ActionLink("Cancel", "Edit", "Activities", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
+        </div>*@
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="divHide">
                     <div class="form-group">
                         <label asp-for="ActualDate" class="control-label"></label>
-                        <input asp-for="ActualDate" class="form-control" />
+                        @{
+                            if (Model.ActualDate == null)
+                            {
+                                <input asp-for="ActualDate" class="form-control" required />
+                            }
+                            else
+                            {
+                                <input asp-for="ActualDate" class="form-control" style="min-width:150px" readonly="readonly" />
+                            }
+                        }
                         <span asp-validation-for="ActualDate" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="UpdatedBy" class="control-label"></label>
-                    <input asp-for="UpdatedBy" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="UpdatedBy" class="text-danger"></span>
-                </div>
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <div class="divHide">
-                    <div class="form-group">
-                        <label asp-for="Attachment" class="control-label"></label>
-                        <div>
-                            <input type="file" name="Attachment" accept="application/pdf" />
-                            @{
-                                if (Model.Attachment != null)
-                                { <a href='@Url.Content(Model.Attachment)' target="_blank">
-                                        View uploaded File
-                                    </a>
-                                }
-                            }
+            @{
+                if (Model.Step.SerailNo != 8)
+                {
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <div class="divHide">
+                            <div class="form-group">
+                                <label class="control-label">Upload file here</label>
+                                <div>
+                                    <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept="application/pdf"></span>
+                                    @{
+                                        if (Model.Attachment != null)
+                                        { <a href='@Url.Content(Model.Attachment)' target="_blank">
+                                                View Uploaded File
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>               
-            </div>
+                }
+            }
+
         </div>
-        <div class="row">
-            <div class="col-sm-10 col-md-10 col-lg-10">
-                <h4 style="font-weight:bold">Please Assign Lots to Suppliers<img id="divLoading" src="~/img/sspinner.gif" width="40" height="40" /></h4>
-                <a asp-action="Create2" asp-controller="Contractors" asp-route-id="1" class="btn-sm btn-primary search" data-toggle="modal" data-target="#exampleModalLong1"> Add New Supplier/Contractor</a>
-                <div id="dynamicContentContainer"></div>
-            </div>
-        </div>
+        @{
+            if (Model.Step.SerailNo == 8 && Model.ActualDate != null)
+            {
+                <div class="row">
+                    <div class="col-sm-10 col-md-10 col-lg-10">
+                        <h4 style="font-weight:bold">Please Assign Lots to Suppliers<img id="divLoading" src="~/img/sspinner.gif" width="40" height="40" /></h4>
+                        <a asp-action="Create2" asp-controller="Contractors" asp-route-id="1" class="btn-sm btn-primary search" data-toggle="modal" data-target="#exampleModalLong1"> Add New Supplier/Contractor</a>
+                        <div id="dynamicContentContainer"></div>
+                    </div>
+                </div>
+            }           
+        }
     </form>
-    <hr />
+    
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Edit" asp-controller="Activities" asp-route-id="@Model.ActivityID">Back to List</a>
     </div>
     <!-- Modal1 -->
     <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">

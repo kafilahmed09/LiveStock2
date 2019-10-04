@@ -23,7 +23,8 @@
         <th>Addendum</th>
         @*<th>GRN Management</th>*@
     </tr>
-    @{ int counter = 1;}
+    @{ int counter = 1;
+        var Amountlst = ViewData["Data"] as int[];}
     @foreach (var item in Model)
     {
     <tr>
@@ -40,20 +41,20 @@
             @Html.DisplayFor(modelItem => item.lotDescription)
         </td>
         @{
-            if ((int)ViewData["DataCount"] >= counter)
+            if (Amountlst != null && Amountlst.Length >= counter)
             {
                 <td>
-                    @{if (@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter])) == "")
+                    @{if (Amountlst[counter] == 0)
                         {<text>-</text>}
                     else
-                    {@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter])) }
+                    {@String.Format("{0:#,##}", Amountlst[counter]) }
                     }
                 </td>
                 <td>
-                    @{if (@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter + 1])) == "")
+                    @{if (Amountlst[counter+1] == 0)
                         {<text>-</text>}
                     else
-                    {@String.Format("{0:#,##}", (((int[])ViewData["Data"])[counter + 1])) }
+                    {@String.Format("{0:#,##}", Amountlst[counter+1]) }
                     }
                 </td>
             }
@@ -74,7 +75,7 @@
                         </a>
                 </td>
         @{
-            if (item.ExpiryDate == null)
+            if (item.ExpiryDate != null)
             {
                 <td>
                     <a href='@Url.Action("Create", "Addenda", new { id = item.lotId, AID = item.ActivityID })'>
@@ -84,7 +85,7 @@
             }
             else
             {
-                <td style="color:dodgerblue;font-weight:bold">Contract Pending</td>
+                <td style="color:darkred;">Contract Pending</td>
             }
         }
         @*<td>@Html.ActionLink("Receiving Items", "Create", "PPGRNManagements", new { id = item.lotId }, new { @class = "btn btn-primary btn-sm" })</td>*@

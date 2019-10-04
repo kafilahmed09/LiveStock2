@@ -208,7 +208,7 @@ namespace BES.Areas.Procurement.Controllers
                             {
                                 await picture.CopyToAsync(stream);
                             }
-                            ImgObj.LotItemId = _context.LotItem.Max(a => a.LotItemId);
+                            ImgObj.LotItemId = lotItem.LotItemId;
                             ImgObj.Visibility = true;
                             _context.LotItemImage.Add(ImgObj);                            
                         }

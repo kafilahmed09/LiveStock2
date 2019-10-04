@@ -177,7 +177,7 @@ namespace BES.Areas.Procurement.Controllers
                         new { Id = "2", Name = "Office" },
                     }, "Id", "Name", activity.ProcurementFor);
             ViewBag.MethodID = new SelectList(_context.Method, "MethodID", "Name", activity.MethodID);
-            ViewBag.PPProjectNo = new SelectList(_context.Project, "PPProjectNo", "ProjectName", 2);
+            ViewBag.ProjectNo = new SelectList(_context.Project, "ProjectNo", "ProjectName", 2);
             ViewBag.ProcurementPlanID = new SelectList(_context.ProcurementPlan.Where(a => a.ProcurementPlanID == id), "ProcurementPlanID", "Name", activity.ProcurementPlanID);
             return View(activity);
         }
