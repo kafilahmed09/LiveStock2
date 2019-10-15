@@ -81,6 +81,7 @@ namespace BES.Controllers.Data
                                            isPotential = Proj_Indicator.IsPotential,
                                            isFeeder=Proj_Indicator.IsFeeder,
                                            isNextLevel=Proj_Indicator.IsNextLevel,
+                                           EvidanceType= Proj_Indicator.EvidanceType
                                            //SchoolID = Proj_IncdicatorTracking.SchoolID == id ? id : Proj_IncdicatorTracking.SchoolID ==  null ? (int?)null : 0,
 
                                            // Proj_Indicator.SequenceNo

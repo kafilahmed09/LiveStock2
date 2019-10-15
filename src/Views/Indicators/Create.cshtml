@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PartnerID" class="control-label"></label>
-                <select asp-for="PartnerID" class ="form-control" asp-items="ViewBag.PartnerID"></select>
+                <select asp-for="PartnerID" class="form-control" asp-items="ViewBag.PartnerID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="IndicatorName" class="control-label"></label>
@@ -30,6 +30,26 @@
                 <label asp-for="SequenceNo" class="control-label"></label>
                 <input asp-for="SequenceNo" class="form-control" />
                 <span asp-validation-for="SequenceNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="IsPotential" /> @Html.DisplayNameFor(model => model.IsPotential)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="IsFeeder" /> @Html.DisplayNameFor(model => model.IsFeeder)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="IsNextLevel" /> @Html.DisplayNameFor(model => model.IsNextLevel)</label>
+                </div>
+            </div>
+            <div class="form-group">IsNextLevel
+                <label asp-for="EvidanceType" class="control-label"></label>
+                <select asp-for="EvidanceType" class="form-control" asp-items="ViewBag.InputType"></select>
+                <span asp-validation-for="EvidanceType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
