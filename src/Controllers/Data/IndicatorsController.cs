@@ -49,6 +49,12 @@ namespace BES.Controllers.Data
         public IActionResult Create()
         {
             ViewData["PartnerID"] = new SelectList(_context.Set<Partner>(), "PartnerID", "PartnerName");
+            ViewData["InputType"] = new SelectList(new[]
+                    {
+                        new { Id = "N/A", Name = "N/A" },
+                        new { Id = "image/*", Name = "image" },
+                        new { Id = "application/pdf", Name = "PDF" }
+                    }, "Id", "Name");
             return View();
         }
 
@@ -57,15 +63,22 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IndicatorID,PartnerID,IndicatorName,Description,SequenceNo,IsEvidenceRequire")] Indicator indicator)
+        public async Task<IActionResult> Create([Bind("IndicatorID,PartnerID,IndicatorName,Description,SequenceNo,IsEvidenceRequire,IsPotential,IsFeeder,IsNextLevel,EvidanceType")] Indicator indicator)
         {
             if (ModelState.IsValid)
             {
+                indicator.IndicatorID = _context.Indicator.Max(a => a.IndicatorID)+1;
                 _context.Add(indicator);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PartnerID"] = new SelectList(_context.Set<Partner>(), "PartnerID", "PartnerName", indicator.PartnerID);
+            ViewData["InputType"] = new SelectList(new[]
+                 {
+                        new { Id = "N/A", Name = "N/A" },
+                        new { Id = "image/*", Name = "image" },
+                        new { Id = "application/pdf", Name = "PDF" }
+                    }, "Id", "Name");
             return View(indicator);
         }
 
@@ -82,6 +95,12 @@ namespace BES.Controllers.Data
             {
                 return NotFound();
             }
+            ViewData["InputType"] = new SelectList(new[]
+                {
+                        new { Id = "N/A", Name = "N/A" },
+                        new { Id = "image/*", Name = "image" },
+                        new { Id = "application/pdf", Name = "PDF" }
+                    }, "Id", "Name");
             ViewData["PartnerID"] = new SelectList(_context.Set<Partner>(), "PartnerID", "PartnerName", indicator.PartnerID);
             return View(indicator);
         }
@@ -91,7 +110,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IndicatorID,PartnerID,IndicatorName,Description,SequenceNo,IsEvidenceRequire")] Indicator indicator)
+        public async Task<IActionResult> Edit(int id, [Bind("IndicatorID,PartnerID,IndicatorName,Description,SequenceNo,IsEvidenceRequire,IsPotential,IsFeeder,IsNextLevel,EvidanceType")] Indicator indicator)
         {
             if (id != indicator.IndicatorID)
             {
@@ -119,7 +138,13 @@ namespace BES.Controllers.Data
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PartnerID"] = new SelectList(_context.Set<Partner>(), "PartnerID", "PartnerName", indicator.PartnerID);
-            return View(indicator);
+
+            ViewData["InputType"] = new SelectList(new[]
+                {
+                        new { Id = "N/A", Name = "N/A" },
+                        new { Id = "image/*", Name = "image" },
+                        new { Id = "application/pdf", Name = "PDF" }
+                    }, "Id", "Name"); return View(indicator);
         }
 
         // GET: Indicators/Delete/5
