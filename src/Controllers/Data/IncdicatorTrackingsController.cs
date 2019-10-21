@@ -10,6 +10,8 @@ using BES.Models.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
+
 namespace BES.Controllers.Data
 {
     public class IncdicatorTrackingsController : Controller
@@ -22,6 +24,7 @@ namespace BES.Controllers.Data
         }
 
         // GET: IncdicatorTrackings
+       [Authorize(Roles = "Administrator,Education")]
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.SectionID=id;
@@ -81,6 +84,7 @@ namespace BES.Controllers.Data
                                            isPotential = Proj_Indicator.IsPotential,
                                            isFeeder=Proj_Indicator.IsFeeder,
                                            isNextLevel=Proj_Indicator.IsNextLevel,
+                                           EvidanceType= Proj_Indicator.EvidanceType
                                            //SchoolID = Proj_IncdicatorTracking.SchoolID == id ? id : Proj_IncdicatorTracking.SchoolID ==  null ? (int?)null : 0,
 
                                            // Proj_Indicator.SequenceNo

@@ -20,6 +20,7 @@ namespace BES.Models.Data
          public bool   IsPotential {get;set;}
          public bool   IsFeeder    {get;set;}
          public bool IsNextLevel { get; set; }
+        public string EvidanceType { get; set; }
 
         public virtual Partner Partner { get; set; }
     }

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<BES.Models.Data.TeacherProfile>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<p>
+    <a asp-action="Create" asp-route-id=@ViewBag.SchoolID>Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FatherHusbandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CNIC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeacherPost.PostName)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.IsFemale)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.IsProjectTeacher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContractAward)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ContractUrl)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.DateOfJoining)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.EcePreScore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EcePostScore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EstPreScore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EstPostScore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HTPreScore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HTPostScore)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.School)
+                </th>*@
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FatherHusbandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CNIC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherPost.PostName)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.IsFemale)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsProjectTeacher)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractAward)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ContractUrl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfJoining)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.EcePreScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EcePostScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstPreScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstPostScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HTPreScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HTPostScore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.School.SName)
+                    </td>*@
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TeacherID">Update</a> 
+                    @*<a asp-action="Details" asp-route-id="@item.TeacherID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.TeacherID">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

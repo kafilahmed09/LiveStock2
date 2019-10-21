@@ -36,6 +36,8 @@ namespace BES.Models.Data
         [NotMapped]
         public bool? isEvidence { get; set; }
         [NotMapped]
+        public string EvidanceType { get; set; }
+        [NotMapped]
         public bool? isPotential { get; set; }
         [NotMapped]
         public bool? isFeeder { get; set; }

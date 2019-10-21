@@ -13,15 +13,15 @@
 <input type="hidden" id="dataCnt" value="@dataLength" />
 <h2>
     @ViewBag.Section Progress Tracking sheet
-    
-    <br/><small>
-    @ViewBag.Sname
-</small>
+
+    <br /><small>
+        @ViewBag.Sname
+    </small>
 </h2>
 
 @*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+        <a asp-action="Create">Create New</a>
+    </p>*@
 <table class="table">
     <thead>
         <tr>
@@ -73,8 +73,14 @@
                         {
                             if (item.isEvidence == true)
                             {
+                                <input type="file" name="Attachment" id=@item.IndicatorID accept="@item.EvidanceType" />
+
                                 string AttachID = "Attach" + @item.IndicatorID;
-                                <input type="file" multiple name="Attachment" id=@item.IndicatorID /> }
+                                //if (item.EvidanceType == "image/*")
+                                //{ <input type="file" multiple name="Attachment" id=@item.IndicatorID accept="image/*" />}
+                                //if (item.EvidanceType != "image/*")
+                                //{ <input type="file" multiple name="Attachment" id=@item.IndicatorID accept="application/pdf" />}
+                            }
                             else
                             {
                                 <input type="checkbox" id=@item.IndicatorID />
@@ -102,13 +108,13 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem=> item.SchoolID)
+                    @Html.DisplayFor(modelItem => item.EvidanceType)
                     @*@{
-                        if (item.isEvidence == true)
-                        { <text>Yes</text>}
-                    else
-                    { <text>No</text>}
-                    }*@
+                            if (item.isEvidence == true)
+                            { <text>Yes</text>}
+                        else
+                        { <text>No</text>}
+                        }*@
 
                 <td>
 
@@ -117,9 +123,18 @@
                         {
                             if (item.isEvidence == true)
                             {
-                                var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
-                                <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
+                                if (item.EvidanceType == "image/*")
+                                {
+                                    var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
 
+                                    <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
+                                }
+                                else
+                                {
+                                    var url = item.ImageURL + "//" + item.SchoolID + "-1.pdf";
+                                    <a href=@url class="btn btn-default search" type="button" target="_blank">View Evidance(s)</a> @*of @subtotal*@
+
+                                }
                                 @*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
                                         Modal
                                     </button>*@
@@ -128,7 +143,7 @@
                         }
                         else
                         {
-                            <input type="submit" id ="button" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
+                            <input type="submit" id="button" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
                         }
                     }
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -139,6 +154,7 @@
         }
     </tbody>
 </table>
+<div id="dynamicContentContainer" style="margin:5px"></div>
 
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
@@ -162,11 +178,20 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-@section Scripts{
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index", "TeacherProfiles")', { id: @Model.Select(a=>a.SchoolID).FirstOrDefault() }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
     <!-- bootstrap datepicker -->
     <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     @*<script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>*@
+
     <script type="text/javascript">
 
         function submit_by_Script(elmnt, iId, sId, isEvid, SecID,ii) {
@@ -210,7 +235,7 @@
             if (flag == true) {
                 var fileData = new FormData();
                 if (isEvid == true) {
-                    alert("Ready to post with Pix");
+                    //alert("Ready to post with Pix");
 
                     // Looping over all files and add it to FormData object
                     for (var i = 0; i < fileUpload.files.length; i++) {
@@ -266,7 +291,7 @@
             })
         }
         // alert(hiddenLength.value);
-        
+
 
         //for (var i = 1; i < hiddenLength.value; i++) {
         //    var dt = "#datepicker" + i;
