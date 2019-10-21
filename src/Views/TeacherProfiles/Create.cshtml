@@ -10,11 +10,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SchoolID" />
+            <input type="hidden" asp-for="ContractAward" />
             <div class="form-group">
-                <label asp-for="SchoolID" class="control-label"></label>
+                <label class="control-label">School Name</label>
                 @Html.DisplayFor(model => model.School.SName)
             </div>
             <div class="form-group">
@@ -50,14 +51,15 @@
                     </label>
                 </div>
             </div>
+            @*<div class="form-group">
+            <label asp-for="ContractAward" class="control-label"></label>
+            <input asp-for="ContractAward" class="form-control" />
+            <span asp-validation-for="ContractAward" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <label asp-for="ContractAward" class="control-label"></label>
-                <input asp-for="ContractAward" class="form-control" />
-                <span asp-validation-for="ContractAward" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContractUrl" class="control-label"></label>
-                <input asp-for="ContractUrl" class="form-control" />
+                <label class="control-label">upload Contract</label>
+                <input type="file" name="Attachment" id=@Model.SchoolID accept="application/pdf" />
+
                 <span asp-validation-for="ContractUrl" class="text-danger"></span>
             </div>
             <div class="form-group">

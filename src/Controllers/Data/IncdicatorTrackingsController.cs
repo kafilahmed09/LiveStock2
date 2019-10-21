@@ -10,6 +10,8 @@ using BES.Models.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
+
 namespace BES.Controllers.Data
 {
     public class IncdicatorTrackingsController : Controller
@@ -22,6 +24,7 @@ namespace BES.Controllers.Data
         }
 
         // GET: IncdicatorTrackings
+       // [Authorize(Roles = "Administrator,Education")]
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.SectionID=id;

@@ -17,12 +17,13 @@ namespace BES.Models.Data
 
         [DisplayName("School ID")]
         public int SchoolID { get; set; }
-
+        [Required]
         [DisplayName("Post")]
         public short PostID { get; set; }
+        [Required]
         [DisplayName("Teacher's Name")]
         public string TName { get; set; }
-
+        [Required]
         [DisplayName("Husband/Father Name")]
         public string FatherHusbandName { get; set; }
 
@@ -43,16 +44,24 @@ namespace BES.Models.Data
         public DateTime? DateOfJoining { get; set; }
         //public string PhotoContract { get; set; }
 
+        public DateTime ContractDate { get; set; }
+
+
         [NotMapped]
         public string QRCodeFile { get; set; }
         [NotMapped]
         public string EncryptedCode { get; set; }
-
+        [DisplayName("ECE Pre test Score")]
         public int? EcePreScore { get; set; }
+        [DisplayName("ECE Post test Score")]
         public int? EcePostScore { get; set; }
-        public int EstPreScore { get; set; }
+        [DisplayName("EST Pre test Score")]
+        public int? EstPreScore { get; set; }
+        [DisplayName("EST Post test Score")]
         public int? EstPostScore { get; set; }
+        [DisplayName("HT Pre test Score")]
         public int? HTPreScore { get; set; }
+        [DisplayName("HT Post test Score")]
         public int? HTPostScore { get; set; }
 
         [NotMapped]

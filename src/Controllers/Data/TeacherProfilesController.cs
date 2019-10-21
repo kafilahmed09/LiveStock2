@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Data;
 using BES.Models.Data;
+using System.IO;
 
 namespace BES.Controllers.Data
 {
@@ -76,10 +77,48 @@ namespace BES.Controllers.Data
         {
             if (ModelState.IsValid)
             {
+                if(teacherProfile.IsProjectTeacher==true)
+                { teacherProfile.ContractAward =false; }
                 _context.Add(teacherProfile);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+                 //Save uploaded files
+                var files = Request.Form.Files;
+                if(!files.Any())
+                {
+                    return RedirectToAction("Update", "IncdicatorTrackings", new { id = teacherProfile.SchoolID, secID = "926982" });
+                }
+                string District = _context.Schools.Include(a => a.UC.Tehsil.District)
+                                      .Where(a => a.SchoolID == teacherProfile.SchoolID)
+                                    .Select(a => a.UC.Tehsil.District.DistrictName).FirstOrDefault();
+                //string 
+                var rootPath = Path.Combine(
+                               Directory.GetCurrentDirectory(), "wwwroot\\Documents\\IndicatorEvidences\\");
+
+                string sPath = Path.Combine(rootPath + District + "/" + "_TeachersContract" + "/", teacherProfile.SchoolID.ToString());
+                if (!System.IO.Directory.Exists(sPath))
+                {
+                    System.IO.Directory.CreateDirectory(sPath);
+                }
+                //short i = 1;
+                string fileName = teacherProfile.TeacherID.ToString();
+                foreach (var file in files)
+                {
+                    string FullPathWithFileName = Path.Combine(sPath, fileName + Path.GetExtension(file.FileName));
+                    using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                }
+                teacherProfile.ContractUrl= Path.Combine("/Documents/IndicatorEvidences/", District + "//" + "_TeachersContract" + "//" + teacherProfile.SchoolID+"//"+teacherProfile.TeacherID+".pdf");//Server Path
+                teacherProfile.ContractAward = true;
+                teacherProfile.ContractDate = DateTime.Now;
+                _context.Update(teacherProfile);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Update", "IncdicatorTrackings", new { id = teacherProfile.SchoolID, secID= "926982" });
+
+                }
             ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", teacherProfile.SchoolID);
             ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostID", teacherProfile.PostID);
             return View(teacherProfile);
@@ -93,13 +132,13 @@ namespace BES.Controllers.Data
                 return NotFound();
             }
 
-            var teacherProfile = await _context.TeacherProfile.FindAsync(id);
+            var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.SchoolID==id).FirstOrDefaultAsync();
             if (teacherProfile == null)
             {
                 return NotFound();
             }
-            ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", teacherProfile.SchoolID);
-            ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostID", teacherProfile.PostID);
+            //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", teacherProfile.SchoolID);
+            ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostName", teacherProfile.PostID);
             return View(teacherProfile);
         }
 
@@ -119,6 +158,39 @@ namespace BES.Controllers.Data
             {
                 try
                 {
+                  
+                    //Save uploaded files
+                    var files = Request.Form.Files;
+                    if (!files.Any())
+                    {
+                        return RedirectToAction("Update", "IncdicatorTrackings", new { id = teacherProfile.SchoolID, secID = "926982" });
+                    }
+                    string District = _context.Schools.Include(a => a.UC.Tehsil.District)
+                                          .Where(a => a.SchoolID == teacherProfile.SchoolID)
+                                        .Select(a => a.UC.Tehsil.District.DistrictName).FirstOrDefault();
+                    //string 
+                    var rootPath = Path.Combine(
+                                   Directory.GetCurrentDirectory(), "wwwroot\\Documents\\IndicatorEvidences\\");
+
+                    string sPath = Path.Combine(rootPath + District + "/" + "_TeachersContract" + "/", teacherProfile.SchoolID.ToString());
+                    if (!System.IO.Directory.Exists(sPath))
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                    }
+                    //short i = 1;
+                    string fileName = teacherProfile.TeacherID.ToString();
+                    foreach (var file in files)
+                    {
+                        string FullPathWithFileName = Path.Combine(sPath, fileName + Path.GetExtension(file.FileName));
+                        using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                    }
+                    teacherProfile.ContractUrl = Path.Combine("/Documents/IndicatorEvidences/", District + "//" + "_TeachersContract" + "//" + teacherProfile.SchoolID + "//" + teacherProfile.TeacherID + ".pdf");//Server Path
+                    teacherProfile.ContractAward = true;
+                    teacherProfile.ContractDate = DateTime.Now;
                     _context.Update(teacherProfile);
                     await _context.SaveChangesAsync();
                 }
@@ -133,10 +205,11 @@ namespace BES.Controllers.Data
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Update", "IncdicatorTrackings", new { id = teacherProfile.SchoolID, secID = "926982" });
+
             }
             ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", teacherProfile.SchoolID);
-            ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostID", teacherProfile.PostID);
+            ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostName", teacherProfile.PostID);
             return View(teacherProfile);
         }
 

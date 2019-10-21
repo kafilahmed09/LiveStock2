@@ -10,13 +10,14 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TeacherID" />
+            <input type="hidden" asp-for="ContractAward" />
+            <input type="hidden" asp-for="SchoolID" />
             <div class="form-group">
-                <label asp-for="SchoolID" class="control-label"></label>
-                <select asp-for="SchoolID" class="form-control" asp-items="ViewBag.SchoolID"></select>
-                <span asp-validation-for="SchoolID" class="text-danger"></span>
+                <label class="control-label">School Name</label>
+                @Html.DisplayFor(model => model.School.SName)
             </div>
             <div class="form-group">
                 <label asp-for="PostID" class="control-label"></label>
@@ -52,16 +53,22 @@
                     </label>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ContractAward" class="control-label"></label>
-                <input asp-for="ContractAward" class="form-control" />
-                <span asp-validation-for="ContractAward" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContractUrl" class="control-label"></label>
-                <input asp-for="ContractUrl" class="form-control" />
-                <span asp-validation-for="ContractUrl" class="text-danger"></span>
-            </div>
+
+            @{
+                if (Model.ContractUrl != null)
+                {
+                    <a href=@Model.ContractUrl class="btn btn-default search" type="button" target="_blank">View Contract</a>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label class="control-label">upload Contract</label>
+                        <input type="file" name="Attachment" id=@Model.SchoolID accept="application/pdf" />
+
+                        <span asp-validation-for="ContractUrl" class="text-danger"></span>
+                    </div>
+                }
+            }
             <div class="form-group">
                 <label asp-for="DateOfJoining" class="control-label"></label>
                 <input asp-for="DateOfJoining" class="form-control" />
