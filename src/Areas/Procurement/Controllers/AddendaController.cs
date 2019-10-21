@@ -9,6 +9,7 @@ using BES.Areas.Procurement.Models;
 using BES.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -32,7 +33,7 @@ namespace BES.Areas.Procurement.Controllers
         public async Task<IActionResult> PartialIndex(int id, int AID)
         {
             var applicationDbContext = _context.Addendum.Include(a => a.AddendumType).Include(a => a.Lot).Where(a=>a.LotId == id);
-            ViewBag.Expiry = _context.ActivityDetail.Include(a => a.Step).Where(a => a.ActivityID == AID && a.Step.SerailNo == 9).Select(a => a.ActualDate).FirstOrDefault().ToString();
+            //ViewBag.Expiry = _context.ActivityDetail.Include(a => a.Step).Where(a => a.ActivityID == AID && a.Step.SerailNo == 9).Select(a => a.ActualDate).FirstOrDefault().ToString();
             //ViewBag.AID = AID;
             return PartialView(await applicationDbContext.ToListAsync());
         }
@@ -56,6 +57,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(addendum);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/Addenda/Create
         public IActionResult Create(int id, short AID)
         {
@@ -116,6 +118,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(addendum);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/Addenda/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

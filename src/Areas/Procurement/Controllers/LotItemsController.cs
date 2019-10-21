@@ -9,6 +9,7 @@ using BES.Areas.Procurement.Models;
 using BES.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -53,6 +54,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(lotItem);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/LotItems/Create
         public IActionResult Create(int id)
         {
@@ -139,6 +141,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(lotItem);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/LotItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

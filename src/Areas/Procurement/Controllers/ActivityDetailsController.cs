@@ -9,6 +9,7 @@ using BES.Areas.Procurement.Models;
 using BES.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -62,6 +63,7 @@ namespace BES.Areas.Procurement.Controllers
             short nextStepID = _context.Step.Where(a => a.ProcurementPlanID == CurStep.ProcurementPlanID && a.SerailNo == (CurStep.SerailNo + 1)).Select(a => a.StepID).FirstOrDefault();
             return (nextStepID);
         }
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/ActivityDetails/Create
         public IActionResult Create(short id)
         {
@@ -148,11 +150,19 @@ namespace BES.Areas.Procurement.Controllers
                 //_context.Update(activityObj);
                 _context.Add(activityDetail);
                 await _context.SaveChangesAsync();
+                if (activityDetail.StepID == 1)
+                {
+                    Activity Obj = _context.Activity.Find(activityDetail.ActivityID);
+                    Obj.Status = 2;
+                    _context.Update(Obj);
+
+                }                
                 return RedirectToAction(nameof(Edit),"Activities",new { id = activityDetail.ActivityID});
             }           
             return View(activityDetail);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/ActivityDetails/Edit/5
         public async Task<IActionResult> Edit(short ActivityID, short StepID)
         {

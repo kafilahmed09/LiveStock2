@@ -8,22 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
 using BES.Areas.Procurement.Models.ModelViews;
+using BES.API;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
     [Area("Procurement")]
     public class ActivitiesController : Controller
-    {
+    {        
         private readonly ApplicationDbContext _context;
 
         public ActivitiesController(ApplicationDbContext context)
-        {
+        {            
             _context = context;
         }
 
         // GET: Procurement/Activities
         public async Task<IActionResult> Index(short PPID)
-        {
+        {            
             var applicationDbContext = _context.Activity.Include(p => p.Method).Include(p => p.PProcurementPlan).Where(a => a.ProcurementPlanID == PPID);            
             ViewBag.TotalGActivities = applicationDbContext.Count(a => a.ProcurementPlanID == PPID).ToString();
             ViewBag.TotalGActivitiesCompleted = applicationDbContext.Count(a => a.ProcurementPlanID == PPID && a.Status == 3).ToString();
@@ -39,6 +42,17 @@ namespace BES.Areas.Procurement.Controllers
             ViewBag.TotalGACommit = string.IsNullOrEmpty(ViewBag.TotalGACommit) ? "0" : ViewBag.TotalGACommit;
             ViewBag.PPName = _context.ProcurementPlan.Find(PPID).Name;
             ViewBag.PPID = PPID;
+            //ZongSMS obj = new ZongSMS("","","","");
+            //obj.SendSingleSMS("");
+
+            var subquery = from c in _context.ActivityDetail
+                           group c by c.ActivityID into g
+                           select new
+                           {
+                               CustID = g.Key,
+                               AccessDate = g.Max(a => a.Step.SerailNo),
+                           };            
+
             return View(await applicationDbContext.ToListAsync());
         }
         public ActionResult Popup(int? id, int? pointout)
@@ -68,7 +82,7 @@ namespace BES.Areas.Procurement.Controllers
             var pPLotItemList = _context.LotItem.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == id).OrderBy(a => a.Lot.lotno);
             var query = (from e in _context.VLotItemDetail
                          group e by new { e.ActivityID, e.lotId } into eg
-                         select new { eg.Key.ActivityID, eg.Key.lotId, PPAddendumTypeId = eg.Max(rl => rl.AddendumTypeId), ActualDate = eg.Max(rl => rl.ActualDate), ExpiryDate = eg.Max(rl => rl.ExpiryDate), IQuantity = eg.Sum(rl => rl.IQuantity), FQuantity = eg.Sum(rl => rl.FQuantity), EstimatedUnitRate = eg.Sum(rl => (rl.EstimatedUnitRate * rl.IQuantity)), ActualUnitRate = eg.Sum(rl => (rl.ActualUnitRate * rl.FQuantity)), Attachment = eg.Max(rl => rl.Attachment), ContractorID = eg.Max(rl => rl.ContractorID), CompanyName = eg.Max(rl => rl.CompanyName), ItemName = eg.Max(rl => rl.ItemName), Unit = eg.Max(rl => rl.Unit), LotItemId = eg.Max(rl => rl.LotItemId), lotno = eg.Max(rl => rl.lotno), Addandum = eg.Max(rl => rl.Addandum) }).Where(a => a.ActivityID == id).ToList();
+                         select new { eg.Key.ActivityID, eg.Key.lotId, PPAddendumTypeId = eg.Max(rl => rl.AddendumTypeId), ActualDate = eg.Max(rl => rl.ActualDate), LExpiryDate = eg.Max(rl => rl.LExpiryDate), AExpiryDate = eg.Max(rl => rl.AExpiryDate), IQuantity = eg.Sum(rl => rl.IQuantity), FQuantity = eg.Sum(rl => rl.FQuantity), EstimatedUnitRate = eg.Sum(rl => (rl.EstimatedUnitRate * rl.IQuantity)), ActualUnitRate = eg.Sum(rl => (rl.ActualUnitRate * rl.FQuantity)), Attachment = eg.Max(rl => rl.Attachment), ContractorID = eg.Max(rl => rl.ContractorID), CompanyName = eg.Max(rl => rl.CompanyName), ItemName = eg.Max(rl => rl.ItemName), Unit = eg.Max(rl => rl.Unit), LotItemId = eg.Max(rl => rl.LotItemId), lotno = eg.Max(rl => rl.lotno), Addandum = eg.Max(rl => rl.Addandum) }).Where(a => a.ActivityID == id).ToList();
             List<VLotItemDetail> pPItemDetailList = new List<VLotItemDetail>();
             for (int i = 0; i < query.ToList().Count; i++)
             {
@@ -82,7 +96,8 @@ namespace BES.Areas.Procurement.Controllers
                     ContractorID = query[i].ContractorID,
                     AddendumTypeId = query[i].PPAddendumTypeId,
                     ActualDate = query[i].ActualDate,
-                    ExpiryDate = query[i].ExpiryDate,
+                    LExpiryDate = query[i].LExpiryDate,
+                    AExpiryDate = query[i].AExpiryDate,
                     EstimatedUnitRate = query[i].EstimatedUnitRate,
                     FQuantity = query[i].FQuantity,
                     ItemName = query[i].ItemName,
@@ -93,7 +108,7 @@ namespace BES.Areas.Procurement.Controllers
                     IQuantity = query[i].IQuantity
                 });
             }
-            var pPAddendumLotItemList = _context.Addendum.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == 6).OrderBy(a => a.Lot.lotno).ToList();
+            var pPAddendumLotItemList = _context.Addendum.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == id).OrderBy(a => a.Lot.lotno).ToList();
             if (pPActivityDetailList == null)
             {
                 return NotFound();
@@ -119,6 +134,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(tuple);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/Activities/Create
         public IActionResult Create(short id)
         {
@@ -183,6 +199,7 @@ namespace BES.Areas.Procurement.Controllers
         }
 
         // GET: Procurement/Activities/Edit/5
+        [Authorize(Roles = "Procurement")]
         public async Task<IActionResult> Edit(short? id)
         {
             if (id == null)

@@ -10,6 +10,7 @@ using BES.Data;
 using BES.Models.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -28,7 +29,9 @@ namespace BES.Areas.Procurement.Controllers
         {
             var applicationDbContext = _context.Lot.Include(l => l.Activity).Include(l => l.Contractor);
             return View(await applicationDbContext.ToListAsync());
-        }     
+        }
+
+        [Authorize(Roles = "Procurement")]
         [HttpPost]
         public async Task<IActionResult> AssignLot2(int LotId, short CID, DateTime EDate, int ACost)
         {
@@ -182,6 +185,8 @@ namespace BES.Areas.Procurement.Controllers
 
             return View(lot);
         }
+
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/Lots/Create
         public IActionResult AssignLot(int? id)
         {
@@ -289,6 +294,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(lot);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/Lots/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

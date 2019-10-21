@@ -42,7 +42,8 @@ namespace BES.Areas.Procurement.Models.ModelViews
         [DisplayName("Expiry")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime? ExpiryDate { get; set; }
+        public DateTime? LExpiryDate { get; set; }
+        public DateTime? AExpiryDate { get; set; }
         public virtual Lot Lot { get; set; }
         public virtual Activity Activity { get; set; }        
         public virtual BES.Models.Data.Contractor Contractor { get; set; }

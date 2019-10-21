@@ -17,7 +17,7 @@ namespace BES.Areas.Procurement.Models
         [DisplayName("Step Description")]
         public string Name { get; set; }
         [DisplayName("Step#")]
-        public short SerailNo { get; set; }
+        public short? SerailNo { get; set; }
 
         public virtual ProcurementPlan ProcurementPlan { get;set;}
     }

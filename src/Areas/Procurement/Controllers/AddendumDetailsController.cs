@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -52,6 +53,8 @@ namespace BES.Areas.Procurement.Controllers
 
             return View(addendumDetail);
         }
+
+        [Authorize(Roles = "Procurement")]
         public IActionResult AddAddendumItems(int id)
         {            
 
@@ -106,6 +109,8 @@ namespace BES.Areas.Procurement.Controllers
             ViewBag.PPLotItemId = new SelectList(ItemsList, "LotItemId", "ItemName");
             return View(addendumDetail);
         }
+
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/AddendumDetails/Create
         public IActionResult Create()
         {
@@ -132,6 +137,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(addendumDetail);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/AddendumDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

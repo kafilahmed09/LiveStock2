@@ -21,7 +21,7 @@
                         @{ string s = ViewBag.TotalGAACost;}
                         @(String.Format("{0:#,##}", int.Parse(s)).PadLeft(2, '0'))
                     </h2>
-                    <small>Actual/Commit Cost</small>
+                    <small>Commit Cost</small>
                 </div>
             </div>
         </div>
@@ -110,7 +110,28 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Bar chart -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">Goods Activities vs Steps</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div id="bar-chart" style="height: 300px;"></div>
+                </div>
+                <!-- /.box-body-->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="box box-primary">
@@ -129,14 +150,14 @@
                                     @Html.DisplayNameFor(model => model.Name)
                                 </th>
                                 @*<th>
-                                    @Html.DisplayNameFor(model => model.EstimatedCost)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ActualCost)
-                                </th>*@
-                                                        @*<th>
-                                    @Html.DisplayNameFor(model => model.Method.Name)
-                                </th>*@
+                                        @Html.DisplayNameFor(model => model.EstimatedCost)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ActualCost)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.Method.Name)
+                                    </th>*@
                                 <th>
                                     <text>Estimated</text>
                                 </th>
@@ -155,61 +176,61 @@
 
                             @foreach (var item in Model)
                             {
-                            <tr>
+                                <tr>
 
-                                @*<td>
-            @Html.DisplayFor(modelItem => item.PProcurementPlan.Name)
-        </td>*@
-                                <td style="color:#3c8dbc;font-weight:bold">
-                                    A#-@Html.DisplayFor(modelItem => item.ActivityNo)
-                                </td>
-                                <td style="color:#3c8dbc;font-weight:bold">
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                @*<td>
-            <text>@String.Format("{0:#,##}", item.EstimatedCost)</text>
-        </td>
-        <td>
-            @{
-                if (item.ActualCost != 0)
-                {
-                    <text>@String.Format("{0:#,##}", item.ActualCost)</text>
-                }else
-                {
-                    <text>Nil</text>
-                }
-            }
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.PProcurementPlan.Name)
+                                        </td>*@
+                                    <td style="color:#3c8dbc;font-weight:bold">
+                                        A#-@Html.DisplayFor(modelItem => item.ActivityNo)
+                                    </td>
+                                    <td style="color:#3c8dbc;font-weight:bold">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    @*<td>
+                                            <text>@String.Format("{0:#,##}", item.EstimatedCost)</text>
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (item.ActualCost != 0)
+                                                {
+                                                    <text>@String.Format("{0:#,##}", item.ActualCost)</text>
+                                                }else
+                                                {
+                                                    <text>Nil</text>
+                                                }
+                                            }
 
-                                </td>*@
-                                                        @*<td>
-                                    @Html.DisplayFor(modelItem => item.Method.Name)
-                                </td>*@
-                                <td>
-                                    @String.Format("{0:#,##}", item.EstimatedCost)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ReviewType)
-                                </td>
+                                                                </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Method.Name)
+                                        </td>*@
+                                    <td>
+                                        @String.Format("{0:#,##}", item.EstimatedCost)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReviewType)
+                                    </td>
 
-                                @{
-                                    if (item.Status == 1)
-                                    {
-                                        <td><text class="label label-default" style="font-weight:bold">Not Initiated</text></td> }
-                                    else if (item.Status == 2)
-                                    {
-                                        <td><text class="label label-info" style="font-weight:bold"> In Process </text></td> }
-                                    else if (item.Status == 3)
-                                    {
-                                        <td><text class="label label-success" style="font-weight:bold"> Completed </text></td> }
-                                    else
-                                    {
-                                        <td><text class="label label-danger" style="font-weight:bold"> Cancelled </text></td> }
-                                }
-                                <td>
-                                    @Html.ActionLink("Steps", "Edit", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })
-                                </td>
-                                <td>@Html.ActionLink("View", "Details", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
-                            </tr>
+                                    @{
+                                        if (item.Status == 1)
+                                        {
+                                            <td><text class="label label-default" style="font-weight:bold">Not Initiated</text></td> }
+                                        else if (item.Status == 2)
+                                        {
+                                            <td><text class="label label-info" style="font-weight:bold"> In Process </text></td> }
+                                        else if (item.Status == 3)
+                                        {
+                                            <td><text class="label label-success" style="font-weight:bold"> Completed </text></td> }
+                                        else
+                                        {
+                                            <td><text class="label label-danger" style="font-weight:bold"> Cancelled </text></td> }
+                                    }
+                                    <td>
+                                        @Html.ActionLink("Steps", "Edit", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })
+                                    </td>
+                                    <td>@Html.ActionLink("View", "Details", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -245,41 +266,90 @@
 }
 <div id="dynamicContentContainer"></div>
 @section Scripts {
+
     <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
     <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <!-- FLOT CHARTS -->
+    <script src="~/libs/flot/jquery.flot.min.js"></script>
+    <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+    <script src="~/libs/flot/jquery.flot.resize.min.js"></script>
+    <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+    <script src="~/libs/flot/jquery.flot.pie.min.js"></script>
+    <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
+    <script src="~/libs/flot/jquery.flot.categories.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $('.dataTables-example').DataTable({
+                "scrollY": 350,
+                //"processing": true, // for show progress bar
+                //"bJQueryUI": true,
+                //"bServerSide": true,
+                //"sAjaxSource": "SchoolList",
+                "bPaginate": false,
+                "ordering": false,
+                dom: '<"html5buttons"B>lTfigtp',
 
-    <script type="text/javascript">       
-            $(document).ready(function () {
-                // $('#Region-DropdownID').val(null).change();
-                // alert('JQuery Entered')
-                $('.dataTables-example').DataTable({
-                    "scrollY": 350,
-                    //"processing": true, // for show progress bar
-                    //"bJQueryUI": true,
-                    //"bServerSide": true,
-                    //"sAjaxSource": "SchoolList",
-                    "bPaginate": false,
-                    "ordering": false,
-                    dom: '<"html5buttons"B>lTfigtp',
-
-                    buttons: [
-                        { extend: 'copy' },
-                        { extend: 'csv' },
-                        { extend: 'excel', title: 'ExampleFile' },
-                        { extend: 'pdf', title: 'ExampleFile' },
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel', title: 'ExampleFile' },
+                    { extend: 'pdf', title: 'ExampleFile' },
 
 
-                    ]
+                ]
 
-                });
-                $(function () {
-                    $('.search').click(function () {
-                        var url = $(this).data('url');
-                        var route = url;
-                        $('#partial').load(route);
-                    });
-                });   
             });
-                                  
+            $(function () {
+                $('.search').click(function () {
+                    var url = $(this).data('url');
+                    var route = url;
+                    $('#partial').load(route);
+                });
+            });
+        });
+
     </script>
-    }
+    <!-- Page script -->
+    <script>
+        $(function () {            
+
+            /*
+             * BAR CHART
+             * ---------
+             */
+
+            var bar_data = {
+                @{ 
+
+                }
+                data: [['January', 1], ['February', 8], ['March', 4], ['April', 3], ['May', 7], ['June', 9]],
+                color: '#3c8dbc'
+            }
+            $.plot('#bar-chart', [bar_data], {
+                grid: {
+                    borderWidth: 1,
+                    borderColor: '#f3f3f3',
+                    tickColor: '#f3f3f3'
+                },
+                series: {
+                    bars: {
+                        show: true,
+                        barWidth: 0.5,
+                        align: 'center'
+                    }
+                },
+                xaxis: {
+                    mode: 'categories',
+                    tickLength: 0,
+                    maxvalue: 9,
+                    stepsize: 1
+                }
+            })
+            /* END BAR CHART */            
+
+        })
+       
+    </script>
+}

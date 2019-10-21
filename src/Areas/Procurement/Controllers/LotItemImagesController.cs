@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -51,6 +52,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(lotItemImage);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/LotItemImages/Create
         public IActionResult Create()
         {
@@ -75,6 +77,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(lotItemImage);
         }
 
+        [Authorize(Roles = "Procurement")]
         // GET: Procurement/LotItemImages/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
