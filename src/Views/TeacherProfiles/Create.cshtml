@@ -1,0 +1,110 @@
+﻿@model BES.Models.Data.TeacherProfile
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>TeacherProfile</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SchoolID" />
+            <input type="hidden" asp-for="ContractAward" />
+            <div class="form-group">
+                <label class="control-label">School Name</label>
+                @Html.DisplayFor(model => model.School.SName)
+            </div>
+            <div class="form-group">
+                <label asp-for="PostID" class="control-label"></label>
+                <select asp-for="PostID" class="form-control" asp-items="ViewBag.PostID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TName" class="control-label"></label>
+                <input asp-for="TName" class="form-control" />
+                <span asp-validation-for="TName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FatherHusbandName" class="control-label"></label>
+                <input asp-for="FatherHusbandName" class="form-control" />
+                <span asp-validation-for="FatherHusbandName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CNIC" class="control-label"></label>
+                <input asp-for="CNIC" class="form-control" />
+                <span asp-validation-for="CNIC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsFemale" /> @Html.DisplayNameFor(model => model.IsFemale)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsProjectTeacher" /> @Html.DisplayNameFor(model => model.IsProjectTeacher)
+                    </label>
+                </div>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="ContractAward" class="control-label"></label>
+            <input asp-for="ContractAward" class="form-control" />
+            <span asp-validation-for="ContractAward" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label class="control-label">upload Contract</label>
+                <input type="file" name="Attachment" id=@Model.SchoolID accept="application/pdf" />
+
+                <span asp-validation-for="ContractUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfJoining" class="control-label"></label>
+                <input asp-for="DateOfJoining" class="form-control" />
+                <span asp-validation-for="DateOfJoining" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EcePreScore" class="control-label"></label>
+                <input asp-for="EcePreScore" class="form-control" />
+                <span asp-validation-for="EcePreScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EcePostScore" class="control-label"></label>
+                <input asp-for="EcePostScore" class="form-control" />
+                <span asp-validation-for="EcePostScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstPreScore" class="control-label"></label>
+                <input asp-for="EstPreScore" class="form-control" />
+                <span asp-validation-for="EstPreScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstPostScore" class="control-label"></label>
+                <input asp-for="EstPostScore" class="form-control" />
+                <span asp-validation-for="EstPostScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTPreScore" class="control-label"></label>
+                <input asp-for="HTPreScore" class="form-control" />
+                <span asp-validation-for="HTPreScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTPostScore" class="control-label"></label>
+                <input asp-for="HTPostScore" class="form-control" />
+                <span asp-validation-for="HTPostScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

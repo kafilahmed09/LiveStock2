@@ -12,6 +12,7 @@ using BES.Data;
 using BES.Services;
 using BES.Data.DataAnnotations;
 using BES.Services.Mail;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BES.Pages.Account
 {
@@ -68,6 +69,9 @@ namespace BES.Pages.Account
             [Display(Name = "Agreement")]
             [IsTrueRequired(ErrorMessage = "You must agree the terms.")]
             public bool IsAgree { get; set; }
+
+            public string SectionRole { get; set; }
+           
         }
 
         public void OnGet(string returnUrl = null)
@@ -81,23 +85,32 @@ namespace BES.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, PhoneNumber = Input.Password};
+                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, PhoneNumber = Input.Password, Role = Input.SectionRole};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if (!await RoleManager.RoleExistsAsync("Procurement"))
+                    if (!await RoleManager.RoleExistsAsync(user.Role))
                     {
-                        var users = new IdentityRole("Procurement");
-                        var res = await RoleManager.CreateAsync(users);
+                        var Role = new IdentityRole(user.Role);
+                        var res = await RoleManager.CreateAsync(Role);
                         if (res.Succeeded)
                         {
-                            await _userManager.AddToRoleAsync(user, "Procurement");
+                            await _userManager.AddToRoleAsync(user, user.Role);
                             _logger.LogInformation("User created a new account with password.");
                             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                             var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                             await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
                         }
                     }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, user.Role);
+                        _logger.LogInformation("User created a new account with password.");
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                        await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
+                    }
+                    
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }
                 foreach (var error in result.Errors)

@@ -74,7 +74,7 @@
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         <script>
         $(document).ready(function () {
-            $.get('@Url.Action("Index2", "Lots")', { id: @ViewBag.AID }, function (content) {
+            $.get('@Url.Action("Index", "TeacherProfiles")', { id: @ViewBag.AID }, function (content) {
                 $("#dynamicContentContainer").html(content);
                 $("#divLoading").hide();
             });

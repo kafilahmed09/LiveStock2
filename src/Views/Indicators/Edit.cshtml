@@ -35,6 +35,27 @@
             </div>
             <div class="form-group">
                 <div class="checkbox">
+                    <label><input asp-for="IsPotential" /> @Html.DisplayNameFor(model => model.IsPotential)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="IsFeeder" /> @Html.DisplayNameFor(model => model.IsFeeder)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input asp-for="IsNextLevel" /> @Html.DisplayNameFor(model => model.IsNextLevel)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="EvidanceType" class="control-label"></label>
+                <select asp-for="EvidanceType" class="form-control" asp-items="ViewBag.InputType"></select>
+                <span asp-validation-for="EvidanceType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
                     <label>
                         <input asp-for="IsEvidenceRequire" /> @Html.DisplayNameFor(model => model.IsEvidenceRequire)
                     </label>
