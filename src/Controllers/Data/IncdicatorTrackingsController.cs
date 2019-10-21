@@ -24,7 +24,7 @@ namespace BES.Controllers.Data
         }
 
         // GET: IncdicatorTrackings
-       // [Authorize(Roles = "Administrator,Education")]
+       [Authorize(Roles = "Administrator,Education")]
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.SectionID=id;
