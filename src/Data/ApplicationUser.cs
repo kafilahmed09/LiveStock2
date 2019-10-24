@@ -12,5 +12,6 @@ namespace BES.Data
     {
         [NotMapped]
         public string Role { get; set; }
+        public string RegionalAccess { get; set; }
     }
 }

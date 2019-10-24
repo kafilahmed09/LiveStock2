@@ -131,12 +131,13 @@ namespace BES.Controllers.Data
             {
                 return NotFound();
             }
+            var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.TeacherID==id).FirstOrDefaultAsync();
 
-            var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.SchoolID==id).FirstOrDefaultAsync();
-            if (teacherProfile == null)
-            {
-                return NotFound();
-            }
+            //var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.SchoolID==id).FirstOrDefaultAsync();
+            //if (teacherProfile == null)
+            //{
+            //    return NotFound();
+            //}
             //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", teacherProfile.SchoolID);
             ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostName", teacherProfile.PostID);
             return View(teacherProfile);
