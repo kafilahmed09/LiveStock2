@@ -41,7 +41,7 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-       [Authorize(Roles = "Administrator,Education")]
+       //[Authorize(Roles = "Administrator,Education")]
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.SectionID=id;
@@ -213,7 +213,9 @@ namespace BES.Controllers.Data
                 }
                 
             }
-            //create record
+             try
+            {
+                //create record
             IndicatorTracking IndiTrack = new IndicatorTracking();
             IndiTrack.IndicatorID = iID;
             IndiTrack.SchoolID = sID;
@@ -228,13 +230,12 @@ namespace BES.Controllers.Data
             IndiTrack.Verified = false;
 
             _context.Add(IndiTrack);
-            try
-            {
+           
                 await _context.SaveChangesAsync();
             }
             catch(Exception ex)
             {
-                Console.Write(ex.InnerException);
+                Console.Write(ex.InnerException.Message);
                 return Json(new { success = false, responseText = ex.InnerException.Message });
             }
             //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", incdicatorTracking.SchoolID);

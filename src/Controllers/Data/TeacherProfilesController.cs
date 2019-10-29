@@ -73,7 +73,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore")] TeacherProfile teacherProfile)
+        public async Task<IActionResult> Create([Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore,JoiningUrl")] TeacherProfile teacherProfile)
         {
             if (ModelState.IsValid)
             {
@@ -148,7 +148,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore")] TeacherProfile teacherProfile)
+        public async Task<IActionResult> Edit(int? id, [Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore,JoiningUrl")] TeacherProfile teacherProfile)
         {
             if (id != teacherProfile.TeacherID)
             {
