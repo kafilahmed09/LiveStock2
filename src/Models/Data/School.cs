@@ -30,12 +30,12 @@ namespace BES.Models.Data
         public Int16 SLevel { get; set; }
 
         //[DataType(DataType.Custom, ErrorMessage = "Not a number")]
-        [RegularExpression(@"^\d+.\d{0,10}$", ErrorMessage="Decimal degits should be at most ten")]
+        [RegularExpression(@"^\d+.\d{0,5}$", ErrorMessage="Decimal degits should be at most five")]
         //[Required(ErrorMessage = "{0} is required")]
         //[Range(25.000000, 33.000000, ErrorMessage = "Please use values between 25 to 33")]
         public string Latitude { get; set; }
 
-        [RegularExpression(@"^\d+.\d{0,10}$", ErrorMessage = "Decimal degits should be at most ten")]
+        [RegularExpression(@"^\d+.\d{0,5}$", ErrorMessage = "Decimal degits should be at most five")]
         //[Required(ErrorMessage = "{0} is required")]
         //[Range(60.000000, 71.000000, ErrorMessage = "Please use values between 60 to 71")]
         public string Longitude { get; set; }

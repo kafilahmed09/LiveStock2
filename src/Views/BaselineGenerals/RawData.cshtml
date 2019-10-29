@@ -1,0 +1,1179 @@
+﻿@model IEnumerable<BES.Models.Reports.BLEUDetailView>
+
+@{
+    ViewBag.Title = "RawData";
+}
+
+<div class="box-header with-border">
+    <div class="col-sm-4">
+        <h2>Raw Data</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>EU Baseline Detail View </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="box-header with-border">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h5 class="box-title">List of Baseline Schools</h5>
+
+                </div>
+                <div class="box-body">
+
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Region)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DistrictName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TehsilName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UCName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ClusterBEMISCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SchoolID)
+                                </th>
+                                <th style="width:300px">
+
+                                    @Html.DisplayNameFor(model => model.SName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SchoolType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BEMISCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Latitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Longitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Level)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalEnrollment)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalEnrollGirls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalEnrollBoys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_0)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_0_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_0_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_1)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_1_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_1_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_2)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_2_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_2_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_3)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_3_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_3_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_4)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_4_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_4_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_5)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_5_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_5_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_6)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_6_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_6_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_7)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_7_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_7_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_8)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_8_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_8_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_9)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_9_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_9_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_10)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_10_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Enroll_Class_10_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalPresence)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalPresenceGrils)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalPresenceBoys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_0)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_0_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_0_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_1)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_1_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_1_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_2)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_2_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_2_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_3)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_3_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_3_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_4)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_4_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_4_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_5)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_5_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_5_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_6)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_6_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_6_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_7)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_7_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_7_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_8)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_8_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_8_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_9)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_9_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_9_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_10)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_10_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pres_Class_10_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalHeadcount)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalHeadcountGirls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalHeadcountBoys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_0)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_0_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_0_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_1)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_1_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_1_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_2)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_2_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_2_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_3)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_3_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_3_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_4)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_4_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_4_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_5)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_5_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_5_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_6)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_6_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_6_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_7)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_7_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_7_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_8)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_8_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_8_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_9)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_9_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_9_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_10)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_10_Girls)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HC_Class_10_Boys)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanctioned)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attached)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_JVT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_JVT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_JVT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_JET)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_JET)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_JET)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_JAT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_JAT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_JAT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_DM)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_DM)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_DM)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_SST_G)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_SST_G)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_SST_G)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_SST_S)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_SST_S)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_SST_S)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_MATH)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_MATH)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_MATH)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sanc_PTI)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Filled_PTI)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Attach_PTI)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SchoolOwnLand)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CommunityDonateLand)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NeedAdditionalLand)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CommunityDonateAdditionalLand)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PTSMCFormed)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PtsmcMembers)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PTSMCTrained)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PTSMCFunctional)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IfNotFunctional)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RoomsTotal)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RoomsFunctional)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RoomsNonFunctional)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RoomsNotInUsed)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RoomsNeedRepair)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToiletsTotal)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToiletsFunctional)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToiletsNonFunctional)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ToiletsNonFuncReason)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WaterAvailable)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WaterSource)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IfWaterNotAvailble)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BoundryWall)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Gas)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Electricity)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Telephone)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SportsEquipment)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Library)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ITRoom)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ResourceHall)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ECERooms)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StudentWithFurniture)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalCupboards)
+                                </th>
+                                <th style="width:50px">
+
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
+                                @*  <th></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Region)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DistrictName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TehsilName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UCName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ClusterBEMISCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SchoolID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SchoolType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BEMISCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Latitude)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Longitude)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Level)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalEnrollment)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalEnrollGirls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalEnrollBoys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_0)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_0_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_0_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_1)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_1_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_1_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_2)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_2_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_2_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_3)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_3_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_3_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_4)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_4_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_4_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_5)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_5_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_5_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_6)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_6_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_6_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_7)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_7_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_7_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_8)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_8_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_8_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_9)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_9_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_9_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_10)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_10_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Enroll_Class_10_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalPresence)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalPresenceGrils)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalPresenceBoys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_0)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_0_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_0_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_1)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_1_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_1_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_2)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_2_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_2_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_3)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_3_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_3_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_4)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_4_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_4_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_5)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_5_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_5_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_6)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_6_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_6_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_7)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_7_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_7_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_8)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_8_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_8_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_9)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_9_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_9_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_10)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_10_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pres_Class_10_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalHeadcount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalHeadcountGirls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalHeadcountBoys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_0)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_0_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_0_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_1)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_1_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_1_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_2)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_2_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_2_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_3)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_3_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_3_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_4)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_4_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_4_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_5)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_5_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_5_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_6)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_6_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_6_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_7)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_7_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_7_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_8)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_8_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_8_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_9)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_9_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_9_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_10)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_10_Girls)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HC_Class_10_Boys)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanctioned)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attached)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_JVT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_JVT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_JVT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_JET)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_JET)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_JET)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_JAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_JAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_JAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_DM)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_DM)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_DM)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_SST_G)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_SST_G)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_SST_G)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_SST_S)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_SST_S)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_SST_S)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_MATH)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_MATH)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_MATH)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sanc_PTI)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Filled_PTI)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Attach_PTI)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SchoolOwnLand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CommunityDonateLand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NeedAdditionalLand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CommunityDonateAdditionalLand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PTSMCFormed)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PtsmcMembers)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PTSMCTrained)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PTSMCFunctional)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IfNotFunctional)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoomsTotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoomsFunctional)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoomsNonFunctional)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoomsNotInUsed)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RoomsNeedRepair)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToiletsTotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToiletsFunctional)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToiletsNonFunctional)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ToiletsNonFuncReason)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WaterAvailable)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WaterSource)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IfWaterNotAvailble)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BoundryWall)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Gas)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Electricity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Telephone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SportsEquipment)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Library)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ITRoom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ResourceHall)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ECERooms)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StudentWithFurniture)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalCupboards)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                    @*<td>
+                                            @Html.ActionLink("Details", "Details", new { id = item.BLGeneralID }, new { @class = "btn btn-primary btn-sm" })
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.BLGeneralID }, new { @class = "btn btn-white btn-sm" })
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.BLGeneralID }, new { @class = "btn btn-white btn-sm" })
+                                        </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+@section Scripts {
+    <!-- DataTables -->
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        // $('#Region-DropdownID').val(null).change();
+        // alert('JQuery Entered')
+        $(document).ready(function () {
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $('.dataTables-example').DataTable({
+                "scrollY": 350,
+                //"processing": true, // for show progress bar
+                //"bJQueryUI": true,
+                //"bServerSide": true,
+                //"sAjaxSource": "SchoolList",
+                "bPaginate": false,
+                "ordering": false,
+                dom: '<"html5buttons"B>lTfigtp',
+
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel', title: 'ExampleFile' },
+                    { extend: 'pdf', title: 'ExampleFile' },
+
+
+                ]
+
+            });
+            //alert('Table Generated')
+        });
+            //alert('Table Generated')
+
+
+    </script>}
