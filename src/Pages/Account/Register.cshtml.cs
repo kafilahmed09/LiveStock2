@@ -13,9 +13,11 @@ using BES.Services;
 using BES.Data.DataAnnotations;
 using BES.Services.Mail;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Pages.Account
 {
+    [Authorize(Roles = "Administrator")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

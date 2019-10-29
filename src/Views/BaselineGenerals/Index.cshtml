@@ -3,52 +3,59 @@
 @{
     ViewData["Title"] = "Index";
 }
+@*<div class="box-header with-border">*@
+    <h2>Basline of Focused Schools</h2>
+@*</div>*@
+    <p>
+        @*<a asp-action="Create">Create New</a>*@
+    </p>
 
-<h2>Index</h2>
+    <section class="content">
 
-<p>
-    @*<a asp-action="Create">Create New</a>*@
-</p>
-
-
-<div>
-    <form id="myform" autocomplete="off">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label">Region</label>
-                    <select id="RegionID" class="form-control" asp-items="ViewBag.RegionID" tabindex="1"></select>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <form id="myform" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Region</label>
+                                <select id="RegionID" class="form-control" asp-items="ViewBag.RegionID" tabindex="1"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">District</label>
+                                <select id="DistrictID" class="form-control" asp-items="@(new SelectList(string.Empty,"DistrictID","DistrictName"))" tabindex="2"></select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="box-tools pull-right">
+                    @* @Html.ActionLink("Detail View of Raw Data", "RawData", null, new { @class = "btn btn-primary btn-xs", target = "_blank" })*@
+                    <a href="/BaselineGenerals/RawData/" class="btn btn-success search" type="button" target="_blank">Detail View of Raw Data</a> @*of @subtotal*@
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="dynamicContentContainer"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label">District</label>
-                    <select id="DistrictID" class="form-control" asp-items="@(new SelectList(string.Empty,"DistrictID","DistrictName"))" tabindex="2"></select>
-                </div>
-            </div>
-        </div>
-    </form>
-    <div class="row">
-        <div class="col-lg-12">
             <div id="dynamicContentContainer"></div>
-        </div>
-    </div>
-</div>
-<div id="dynamicContentContainer"></div>
+</section>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            <script type="text/javascript">
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-
-          $.get('@Url.Action("FilterView",new { id = 0 })', function (content) {           
+          $.get('@Url.Action("FilterView",new { id = 0 })', function (content) {
             $("#dynamicContentContainer").html(content);
             $("#divLoading").hide();
-        });       
-       
+        });
 
-        // on Region ID 
+
+        // on Region ID
         $('#RegionID').change(function () {
-           
+
             var url = '@Url.Content("~/baselinegenerals")' + "/GetDistrict";
             var ddlsource = "#RegionID";
             $.getJSON(url, { RegionID: $(ddlsource).val() }, function (data) {
@@ -78,5 +85,5 @@
                 $("#divLoading").hide();
             });
         });
-    </script>
-}
+            </script>
+        }
