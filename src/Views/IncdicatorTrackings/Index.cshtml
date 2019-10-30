@@ -27,33 +27,40 @@
 <section class="content">
     <div>
         <table class="table table-striped table-bordered  dataTables-example">
-           @* <table class="table table-striped table-bordered">*@
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UC.UCName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.SName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.type)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            @* <table class="table table-striped table-bordered">*@
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
+                        @*</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
+                    </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.UCName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SchoolID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BEMIS)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.type)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.UC.Tehsil.District.RegionID)
@@ -64,13 +71,18 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.UC.Tehsil.TehsilName)
                         </td>
+                        @*<td>
+                        @Html.DisplayFor(modelItem => item.UC.UCName)
+                    </td>*@
                         <td>
-                            @Html.DisplayFor(modelItem => item.UC.UCName)
+                            @Html.DisplayFor(modelItem => item.SchoolID)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.SName)
                         </td>
-
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BEMIS)
+                        </td>
 
                         <td>
                             @{
@@ -86,9 +98,39 @@
                             @Html.ActionLink("Update", "Update", new { id = item.SchoolID, SecID = ViewBag.SectionID })
                         </td>
                     </tr>
-                    }
-                </tbody>
-            </table>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
+                    </th>
+                    @*<th>
+                @Html.DisplayNameFor(model => model.UC.UCName)
+            </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.SchoolID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BEMIS)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.type)
+                    </th>
+                    <th></th>
+                </tr>
+
+            </tfoot>
+        </table>
 </div>
 </section>
 
@@ -110,21 +152,26 @@
                 // $('#Region-DropdownID').val(null).change();
                 // alert('JQuery Entered')
                 $('.dataTables-example').DataTable({
-                    "scrollY": 350,
-                    //"processing": true, // for show progress bar
-                    //"bJQueryUI": true,
-                    //"bServerSide": true,
-                    //"sAjaxSource": "SchoolList",
-                    "bPaginate": false,
-                    "ordering": false,
-                    dom: '<"html5buttons"B>lTfigtp',
+                    initComplete: function () {
+                        this.api().columns().every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
 
-                    buttons: [
-                        { extend: 'copy' },
-                        { extend: 'csv' },
-                        { extend: 'excel', title: 'ExampleFile' },
-                        { extend: 'pdf', title: 'ExampleFile' },
-                    ]
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>')
+                            });
+                        });
+                    }
                 });
                 //alert('Table Generated')
             });
