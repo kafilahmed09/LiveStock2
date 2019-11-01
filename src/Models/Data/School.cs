@@ -30,20 +30,20 @@ namespace BES.Models.Data
         public Int16 SLevel { get; set; }
 
         //[DataType(DataType.Custom, ErrorMessage = "Not a number")]
-        [RegularExpression(@"^\d+.\d{0,5}$", ErrorMessage="Decimal degits should be at most five")]
+        // [RegularExpression(@"^[0-9]*(\.[0-9]{1,2})?$", ErrorMessage = " Latitude Decimal degits should be at Least 5")]
         //[Required(ErrorMessage = "{0} is required")]
         //[Range(25.000000, 33.000000, ErrorMessage = "Please use values between 25 to 33")]
         public string Latitude { get; set; }
 
-        [RegularExpression(@"^\d+.\d{0,5}$", ErrorMessage = "Decimal degits should be at most five")]
+        // [RegularExpression(@"^\d+\.\d{1,9}$", ErrorMessage = "Longitude Decimal degits should be at Least 5")]
         //[Required(ErrorMessage = "{0} is required")]
         //[Range(60.000000, 71.000000, ErrorMessage = "Please use values between 60 to 71")]
         public string Longitude { get; set; }
-       // public bool Status { get; set; }
+        // public bool Status { get; set; }
 
         [DisplayName("Zone")]
         public bool? Zone { get; set; }
-       // public bool? Onboard { get; set; }
+        // public bool? Onboard { get; set; }
         //public DateTime? DateOpen { get; set; }
 
         public bool Abandon { get; set; }
@@ -62,7 +62,7 @@ namespace BES.Models.Data
         [DisplayName("Selected Status")]
         public bool? SelectedStatus { get; set; }
 
-         [DisplayName("Dropped Remarks")]
+        [DisplayName("Dropped Remarks")]
         public string Remarks { get; set; }
 
         //[DisplayName("Notification Date")]
@@ -70,6 +70,10 @@ namespace BES.Models.Data
         // [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         // public DateTime? NotificationDate { get; set; }
         // public string Phase { get; set; }
+        [NotMapped]
+        public string DisName {get;set;}
+        [NotMapped]
+        public int RegName { get; set; }
 
         public virtual UC UC { get; set; }
     }
