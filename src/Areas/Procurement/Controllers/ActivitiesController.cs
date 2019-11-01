@@ -45,14 +45,31 @@ namespace BES.Areas.Procurement.Controllers
             //ZongSMS obj = new ZongSMS("","","","");
             //obj.SendSingleSMS("");
 
-            var subquery = from c in _context.ActivityDetail
-                           group c by c.ActivityID into g
+            var ActivitySequence = _context.Activity.Where(a => a.ProcurementPlanID == PPID).OrderBy(a=>a.ActivityNo).Select(a => a.ActivityNo).ToList();
+            var ActivityOnStep = (from c in _context.ActivityDetail
+                           group c by c.Activity.ActivityNo into g
                            select new
                            {
-                               CustID = g.Key,
-                               AccessDate = g.Max(a => a.Step.SerailNo),
-                           };            
+                               ActivityNo = g.Key,                               
+                               SerailNo = g.Max(a => a.Step.SerailNo)
+                           }).OrderBy(a=>a.ActivityNo).ToList();
 
+            int counter = 0;
+            List<short> finalList = new List<short>();
+            foreach(var val in ActivitySequence)
+            {
+                if(ActivityOnStep.Count > counter && val == ActivityOnStep.ElementAt(counter).ActivityNo)
+                {
+                    finalList.Add(ActivityOnStep.ElementAt(counter).SerailNo ?? 0);
+                    counter++;
+                }
+                else
+                {
+                    finalList.Add(0);
+                }               
+            }
+            ViewBag.ActivitySequence = ActivitySequence;
+            ViewBag.finalList = finalList;
             return View(await applicationDbContext.ToListAsync());
         }
         public ActionResult Popup(int? id, int? pointout)
@@ -134,7 +151,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(tuple);
         }
 
-        [Authorize(Roles = "Procurement")]
+        //[Authorize(Roles = "Procurement")]
         // GET: Procurement/Activities/Create
         public IActionResult Create(short id)
         {
@@ -199,7 +216,7 @@ namespace BES.Areas.Procurement.Controllers
         }
 
         // GET: Procurement/Activities/Edit/5
-        [Authorize(Roles = "Procurement")]
+        //[Authorize(Roles = "Procurement")]
         public async Task<IActionResult> Edit(short? id)
         {
             if (id == null)

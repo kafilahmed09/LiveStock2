@@ -63,7 +63,7 @@ namespace BES.Areas.Procurement.Controllers
             short nextStepID = _context.Step.Where(a => a.ProcurementPlanID == CurStep.ProcurementPlanID && a.SerailNo == (CurStep.SerailNo + 1)).Select(a => a.StepID).FirstOrDefault();
             return (nextStepID);
         }
-        [Authorize(Roles = "Procurement")]
+        //[Authorize(Roles = "Procurement")]
         // GET: Procurement/ActivityDetails/Create
         public IActionResult Create(short id)
         {
@@ -162,7 +162,7 @@ namespace BES.Areas.Procurement.Controllers
             return View(activityDetail);
         }
 
-        [Authorize(Roles = "Procurement")]
+        //[Authorize(Roles = "Procurement")]
         // GET: Procurement/ActivityDetails/Edit/5
         public async Task<IActionResult> Edit(short ActivityID, short StepID)
         {
