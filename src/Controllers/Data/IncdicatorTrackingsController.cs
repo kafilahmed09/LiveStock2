@@ -31,7 +31,10 @@ namespace BES.Controllers.Data
         public async Task<string> GetCurrentUserId()
         {
             ApplicationUser usr = await GetCurrentUserAsync();
-            return (usr.RegionalAccess);
+            //if (usr.RegionalAccess != null)
+                return (usr.RegionalAccess);
+            //else
+            //    return ("a");
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
@@ -41,7 +44,7 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-       //[Authorize(Roles = "Administrator,Education")]
+       [Authorize(Roles = "Administrator,Education")]
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.SectionID=id;
@@ -58,35 +61,40 @@ namespace BES.Controllers.Data
                 return RedirectToAction("index","BaselineGenerals" );
             }
             var applicationDbContext = _context.Schools.Where(a=>a.ProjectID==1 ).Include(a=>a.UC).Include(a=>a.UC.Tehsil).Include(a => a.UC.Tehsil.District).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
-            string ra = await GetCurrentUserId();
-            int[] regions= ra.Split(',').Select(int.Parse).ToArray();
-            //int[] array= Array.ConvertAll(ra, int.Parse);
-            Console.WriteLine(regions);
-            if(regions.Any())
+            try
             {
-            //    applicationDbContext = from sch in _context.Schools
-            //                           where regions.Contains(sch.UC.Tehsil.District.RegionID)
-            //                           orderby sch.UC.Tehsil.District.RegionID,
-                                       
-            //                           ;
-            }
-            switch(regions.Length)
-            {
-                case 1:
-                    applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
-                    break;
-                case 2:
-                    applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
-                    break;
-                case 3:
-                    applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
-                    break;
-                case 4:
-                    applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2] || a.UC.Tehsil.District.RegionID == regions[3]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
-                    break;
-                default: break;
+                string ra = await GetCurrentUserId();
+                int[] regions = ra.Split(',').Select(int.Parse).ToArray();
+                //int[] array= Array.ConvertAll(ra, int.Parse);
+                Console.WriteLine(regions);
+                if (regions.Any())
+                {
+                    //    applicationDbContext = from sch in _context.Schools
+                    //                           where regions.Contains(sch.UC.Tehsil.District.RegionID)
+                    //                           orderby sch.UC.Tehsil.District.RegionID,
 
+                    //                           ;
+                }
+                switch (regions.Length)
+                {
+                    case 1:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    case 2:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    case 3:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    case 4:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2] || a.UC.Tehsil.District.RegionID == regions[3]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    default: break;
+
+                }
             }
+            catch(Exception ex)
+            { }
             return View(await applicationDbContext.ToListAsync());
         }
         // GET: IncdicatorTrackings/Update
@@ -242,6 +250,193 @@ namespace BES.Controllers.Data
             //return RedirectToAction(nameof(Update), new { id = sID, SecID = SecID });
             return Json(new { success = true, responseText = "Sucessfully Updated" }); //, sID = sID, SecID = SecID });
         }
+
+        [Authorize(Roles = "Administrator,M&E")]
+        public async Task<IActionResult> MneVerifyEdu()
+        {
+            var applicationDbContext = (from Schools in _context.Schools
+                         join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
+                         join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
+                         join Tehsils in _context.Tehsils
+                               on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
+                           equals new { Tehsils.TehsilID, Column1 = Tehsils.TehsilID }
+                         join Districts in _context.Districts
+                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
+                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
+                         where
+                           Proj_IncdicatorTracking.Verified == false
+                         group new { Schools, Districts } by new
+                         {
+                             Schools.SchoolID,
+                             Schools.SName,
+                             Schools.ClusterBEMIS,
+                             Schools.type,
+                             Districts.RegionID,
+                             Districts.DistrictName
+                         } into g
+                         orderby
+                           g.Key.RegionID,
+                           g.Key.DistrictName,
+                           g.Key.type
+                         select new School
+                         {
+                             RegName= g.Key.RegionID,
+                            DisName= g.Key.DistrictName,
+                             SchoolID = g.Key.SchoolID,
+                             SName= g.Key.SName,
+                             ClusterBEMIS= g.Key.ClusterBEMIS,
+                             type= g.Key.type
+                         });
+
+            try
+            {
+                string ra = await GetCurrentUserId();
+                int[] regions = ra.Split(',').Select(int.Parse).ToArray();
+                //int[] array= Array.ConvertAll(ra, int.Parse);
+                Console.WriteLine(regions);
+                if (regions.Any())
+                {
+                    //    applicationDbContext = from sch in _context.Schools
+                    //                           where regions.Contains(sch.UC.Tehsil.District.RegionID)
+                    //                           orderby sch.UC.Tehsil.District.RegionID,
+
+                    //                           ;
+                }
+                switch (regions.Length)
+                {
+                    case 1:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    case 2:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    case 3:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    case 4:
+                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2] || a.UC.Tehsil.District.RegionID == regions[3]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        break;
+                    default: break;
+
+                }
+            }
+            catch (Exception ex)
+            { }
+
+            return View(await applicationDbContext.ToListAsync());
+        }
+        //public async Task<IActionResult> MneVerifyIndicators(short id, int SecID)
+
+        public IActionResult MneVerifyIndicators(int id, int SecID)
+        {
+            int PId = SecID == 926982 ? 4 : 3;
+            ViewBag.SecID = SecID;
+            var sch = _context.Schools.Find(id);
+            ViewBag.Sname = sch.SName;
+
+            if (SecID == 926982)
+            {
+                ViewBag.Section = "Education Section";
+            }
+            else if (SecID == 352769)
+            {
+                ViewBag.Section = "Development Section";
+            }
+            var indiTrack = _context.IncdicatorTracking.Where(a => a.SchoolID == id);
+            var applicationDbContext = from Proj_Indicator in _context.Indicator
+                                       join Proj_IncdicatorTracking in indiTrack on Proj_Indicator.IndicatorID equals Proj_IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
+                                       from Proj_IncdicatorTracking in Proj_IncdicatorTracking_join.DefaultIfEmpty()
+                                       where
+                                         Proj_Indicator.PartnerID == PId
+                                       // && (Proj_IncdicatorTracking.SchoolID == id ||
+                                       //Proj_IncdicatorTracking.SchoolID == null)
+
+                                       orderby
+                                         Proj_Indicator.SequenceNo
+                                       select new IndicatorTracking
+                                       {
+                                           IndicatorID = Proj_Indicator.IndicatorID,
+                                           Indicator = Proj_Indicator.IndicatorName,
+                                           isEvidence = Proj_Indicator.IsEvidenceRequire,
+                                           ImageURL = Proj_IncdicatorTracking.ImageURL,
+                                           DateOfUpload = Proj_IncdicatorTracking.DateOfUpload,
+                                           SchoolID = id,
+                                           IsUpload = Proj_IncdicatorTracking.IsUpload,
+                                           TotalFilesUploaded = Proj_IncdicatorTracking.TotalFilesUploaded,
+                                           isPotential = Proj_Indicator.IsPotential,
+                                           isFeeder = Proj_Indicator.IsFeeder,
+                                           isNextLevel = Proj_Indicator.IsNextLevel,
+                                           EvidanceType = Proj_Indicator.EvidanceType,
+                                           ReUpload = Proj_IncdicatorTracking.ReUpload,
+                                           Verified = Proj_IncdicatorTracking.Verified,
+                                           //SchoolID = Proj_IncdicatorTracking.SchoolID == id ? id : Proj_IncdicatorTracking.SchoolID ==  null ? (int?)null : 0,
+
+                                           // Proj_Indicator.SequenceNo
+                                       };
+            switch (sch.type)
+            {
+                case 1:
+                    applicationDbContext = applicationDbContext.Where(a => a.isPotential == true);
+                    break;
+                case 2:
+                    applicationDbContext = applicationDbContext.Where(a => a.isFeeder == true);
+                    break;
+                case 3:
+                    applicationDbContext = applicationDbContext.Where(a => a.isNextLevel == true);
+                    break;
+            }
+            //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
+            //List<IndicatorTracking> indicatorTrackings = new List<IndicatorTracking>();
+            //foreach(var indi in applicationDbContext)
+            //{
+            //    if(indi.SchoolID!=id ||)
+            //}
+            ViewData["ids"] = applicationDbContext.Select(a => a.IndicatorID).ToArray();
+            return View(applicationDbContext.ToList());
+        }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> MneVerifyIndicatorsPost(int sID, int iID, bool verified, bool reUpload)
+        {
+            
+            try
+            {
+                //create record
+                IndicatorTracking IndiTrack = await _context.IncdicatorTracking.Where(a => a.SchoolID == sID && a.IndicatorID == iID).FirstOrDefaultAsync();
+               // IndiTrack.IndicatorID = iID;
+                //IndiTrack.SchoolID = sID;
+               // IndiTrack.IsUpload = true;
+                //IndiTrack.TotalFilesUploaded = (short)files.Count;
+               // IndiTrack.DateOfUpload = EDate;
+              //  IndiTrack.ImageURL = Path.Combine("/Documents/IndicatorEvidences/", District + "//" + iID);//Server Path
+              // // IndiTrack.CreateDate = DateTime.Now;
+              //  IndiTrack.CreatedBy = User.Identity.Name;
+                IndiTrack.Verified = verified;
+                IndiTrack.ReUpload = reUpload;
+                if(IndiTrack.Verified==true)
+                {
+                    IndiTrack.VerifiedBy = User.Identity.Name;
+                    IndiTrack.DevVerifiedDate = DateTime.Now;
+                }
+                //IndiTrack.Verified = false;
+
+                _context.Update(IndiTrack);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.InnerException.Message);
+                return Json(new { success = false, responseText = ex.InnerException.Message });
+            }
+            //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", incdicatorTracking.SchoolID);
+            //return RedirectToAction(nameof(Update), new { id = sID, SecID = SecID });
+            return Json(new { success = true, responseText = "Sucessfully Updated" }); //, sID = sID, SecID = SecID });
+        }
+
+
+
         // GET: IncdicatorTrackings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
