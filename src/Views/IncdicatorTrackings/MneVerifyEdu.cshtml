@@ -6,7 +6,7 @@
 <section class="content-header">
     <div class="row">
         <h1>
-            @ViewBag.Section Progress & Evidance Tracking
+            Verify Education Section Evidences 
             @*<small>BES</small>*@
         </h1>
         @*<div class="col-sm-10">
@@ -31,26 +31,24 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.RegionID)
+                        @Html.DisplayNameFor(model => model.RegName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
+                        @Html.DisplayNameFor(model => model.DisName)
                         @*</th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
-                    </th>*@
-                    <th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
+                            </th>*@
+                    @*<th>
                         @Html.DisplayNameFor(model => model.UC.UCName)
-                    </th>
+                    </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.SchoolID)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.SName)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BEMIS)
-                    </th>
+                    
                     <th>
                         @Html.DisplayNameFor(model => model.type)
                     </th>
@@ -63,26 +61,24 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.UC.Tehsil.District.RegionID)
+                            @Html.DisplayFor(modelItem => item.RegName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.UC.Tehsil.District.DistrictName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UC.Tehsil.TehsilName)
+                            @Html.DisplayFor(modelItem => item.DisName)
                         </td>
                         @*<td>
-                        @Html.DisplayFor(modelItem => item.UC.UCName)
-                    </td>*@
+                            @Html.DisplayFor(modelItem => item.UC.Tehsil.TehsilName)
+                        </td>*@
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.UC.UCName)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.SchoolID)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.SName)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.BEMIS)
-                        </td>
+                       
 
                         <td>
                             @{
@@ -95,7 +91,7 @@
                             }
                         </td>
                         <td>
-                            @Html.ActionLink("Update", "Update", new { id = item.SchoolID, SecID = ViewBag.SectionID })
+                            @Html.ActionLink("Verify", "MneVerifyIndicators", new { id = item.SchoolID, SecID = "926982" })
                         </td>
                     </tr>
                 }
@@ -108,21 +104,21 @@
                     <th>
                         @Html.DisplayNameFor(model => model.UC.Tehsil.District.DistrictName)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
-                    </th>
                     @*<th>
-                @Html.DisplayNameFor(model => model.UC.UCName)
-            </th>*@
+                        @Html.DisplayNameFor(model => model.UC.Tehsil.TehsilName)
+                    </th>*@
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.UC.UCName)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.SchoolID)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.SName)
                     </th>
-                    <th>
+                    @*<th>
                         @Html.DisplayNameFor(model => model.BEMIS)
-                    </th>
+                    </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.type)
                     </th>
@@ -131,7 +127,7 @@
 
             </tfoot>
         </table>
-</div>
+    </div>
 </section>
 
 @section Styles {

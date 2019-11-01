@@ -12,7 +12,7 @@
 
 <input type="hidden" id="dataCnt" value="@dataLength" />
 <h2>
-   Upload Evidence of @ViewBag.Section @*Progress Tracking sheet*@
+    Verify Evidence of @ViewBag.Section @*Progress Tracking sheet*@
 
     <br /><small>
         @ViewBag.Sname
@@ -37,7 +37,10 @@
             </th>
 
             <th>
-                Evidance Requried
+                Re Upload Evidence
+            </th>
+            <th>
+                Verified
             </th>
 
             <th></th>
@@ -48,24 +51,24 @@
         {
 
 
-            <tr>
+        <tr>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Indicator)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indicator)
+            </td>
 
-                <td>
-                    @{
+            <td>
+                @{
 
                         if (item.IsUpload == true)
                         {
                             if (item.isEvidence == true)
                             {
-                                @Html.DisplayFor(modelItem => item.TotalFilesUploaded) <text> files </text>
+                    @Html.DisplayFor(modelItem => item.TotalFilesUploaded)  <text> files </text>
                             }
                             else
                             {
-                                <img src="~/img/checked-checkbox-16.png" />
+                    <img src="~/img/checked-checkbox-16.png" />
                             }
                         }
 
@@ -73,7 +76,7 @@
                         {
                             if (item.isEvidence == true)
                             {
-                                <input type="file" name="Attachment" id=@item.IndicatorID accept="@item.EvidanceType" />
+                    <input type="file" name="Attachment" id=@item.IndicatorID accept="@item.EvidanceType" />
 
                                 string AttachID = "Attach" + @item.IndicatorID;
                                 //if (item.EvidanceType == "image/*")
@@ -83,44 +86,60 @@
                             }
                             else
                             {
-                                <input type="checkbox" id=@item.IndicatorID />
+                    <input type="checkbox" id=@item.IndicatorID />
                             }
                         }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfUpload)
+
+
+            </td>
+            @*ReUpload*@
+            <td>
+                @{
+                    if(item.IsUpload==true && item.Verified==false)
+                    {
+                        if (item.ReUpload == true)
+                            {
+                    <img src="~/img/checked-checkbox-16.png" />
+                            }
+                        else {
+
+                string reUpload = "reUpload" + @item.IndicatorID;
+                    <input type="checkbox" id=@reUpload />
+                            }
                     }
-                </td>
-                <td>
-                    @{
 
-                        if (item.IsUpload == true)
-                        {
-                            @Html.DisplayFor(modelItem => item.DateOfUpload)}
-                        else
-                        {
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id=@("datepicker" + item.IndicatorID)>
-                            </div>
+                }
 
-                        }
+            </td>
+            @*Verified*@
+
+            <td>
+                @{
+                    if(item.IsUpload==true)
+                    {
+                        if (item.Verified == true)
+                            {
+                    <img src="~/img/checked-checkbox-16.png" />
+                            }
+                        else if(item.ReUpload==false) {
+
+                    string verified = "verified" + @item.IndicatorID;
+
+                    <input type="checkbox" id=@verified />
+                            }
                     }
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.EvidanceType)
-                    @*@{
-                            if (item.isEvidence == true)
-                            { <text>Yes</text>}
-                        else
-                        { <text>No</text>}
-                        }*@
+                }
 
-                
-                    
-                    <td>
+            </td>
 
-                    @{
+            <td>
+
+                @{
                         if (item.IsUpload == true)
                         {
                             if (item.isEvidence == true)
@@ -129,34 +148,46 @@
                                 {
                                     var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
 
-                                    <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
+                    <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a>  @*of @subtotal*@
                                 }
                                 else
                                 {
                                     var url = item.ImageURL + "//" + item.SchoolID + "-1.pdf";
-                                    <a href=@url class="btn btn-default search" type="button" target="_blank">View Evidance(s)</a> @*of @subtotal*@
+                    <a href=@url class="btn btn-default search" type="button" target="_blank">View Evidance(s)</a>  @*of @subtotal*@
 
                                 }
-                                @*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                                        Modal
-                                    </button>*@
-                                @*<input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />*@
+                    @*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                    Modal
+                </button>*@
+                    @*<input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />*@
                             }
                         }
                         else
                         {
-                            <input type="submit" id="button" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
                         }
+                }
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+            <td>
+                @{
+                    if(item.IsUpload==true && item.Verified == false && item.ReUpload==false)
+                    {
+                    <input type="submit" id="button" value="Verify" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
+
                     }
-                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                </td>
-            </tr>
+
+                }
+
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>
-<div id="dynamicContentContainer" style="margin:5px"></div>
+@*Partial view of Teachers Profile*@
+@*<div id="dynamicContentContainer" style="margin:5px"></div>*@
 
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
@@ -199,65 +230,56 @@
         function submit_by_Script(elmnt, iId, sId, isEvid, SecID,ii) {
             var AttachID = "Attach" + iId;
             var dpID = "datepicker" + iId;
-            var fileUpload = document.getElementById(iId);
-            var datepick = document.getElementById(dpID);
+           // var fileUpload = document.getElementById(iId);
+           // var datepick = document.getElementById(dpID);
+
+            var vid = "verified" + iId;
+            var rid = "reUpload"  + iId;
+
+            var verified = document.getElementById(vid);
+            var reUpload = document.getElementById(rid);
 
             var flag = true;
-            var dateVal = datepick.value;
+            //var dateVal = datepick.value;
 
+            if (verified.checked == true || reUpload.checked == true)
+            {
+
+                alert("Checkbox Ready to post");
+               // flag = false;
+            }
+            else {
+                alert("Please check verified or reUpload ")
+                flag = false;
+            }
 
             //var id = fileInput[0].id;
             //var files = fileUpload.files;
-            if (isEvid == true) {
-                if (fileUpload.files.length > 0) {
-                    //alert("Ready to Post");
-                }
-                else {
-                    alert("Please Select Evidence file(s) to upload");
-                    flag = false;
-
-                }
-                //alert("total files=: " + fileInput.files.length + " SID=:" + sId + "  isEvid=: " + isEvid);
-            }
-
-            else { // validate checkbox
-                if (fileUpload.checked == true) {
-                    //alert("Checkbox Ready to post");
-                }
-                else {
-                    alert("Please check Indicator as done ")
-                    flag = false;
-                }
-                //alert("Checkbox=:"+fileInput.checked);
-            }
-            if (datepick.value.length == 0) {
-                alert("Please Select Date of Achievement");
-                flag = false;
-            }
+           
             if (flag == true) {
-                var fileData = new FormData();
-                if (isEvid == true) {
-                    //alert("Ready to post with Pix");
+                //var fileData = new FormData();
+                //if (isEvid == true) {
+                //    //alert("Ready to post with Pix");
 
-                    // Looping over all files and add it to FormData object
-                    for (var i = 0; i < fileUpload.files.length; i++) {
-                        fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
-                    }
-                }
+                //    // Looping over all files and add it to FormData object
+                //    for (var i = 0; i < fileUpload.files.length; i++) {
+                //        fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
+                //    }
+                //}
                     //// Adding one more key to FormData object
                     //fileData.append('username', 'Manas');
                     $.ajax({
                         type: "POST",
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
-                        data: fileData,
-                        url: "/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID,
+                        //data: fileData,
+                        url: "/IncdicatorTrackings/MneVerifyIndicatorsPost?sID=" + sId + "&iId=" + iId + "&verified=" + verified.checked + "&reUpload=" + reUpload.checked,
                         dataType: 'json',
 
                         success: function (response) {
                             if (response.success) {
                                 alert(response.responseText);
-                                window.location.href = "/IncdicatorTrackings/Update/" + sId + "?SecID=" + SecID;
+                                window.location.href = "/IncdicatorTrackings/MneVerifyIndicators/" + sId + "?SecID=" + SecID;
                             } else {
                                 // DoSomethingElse()
                                 alert(response.responseText);

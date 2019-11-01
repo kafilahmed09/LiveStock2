@@ -125,7 +125,11 @@ namespace BES.Controllers.Data
 
             return View(baselineGeneral);
         }
-
+        //Raw data
+        public async Task<IActionResult> RawData()
+        {
+            return View(await _context.BLEUDetailViews.OrderBy(a => a.Region).ThenBy(a => a.SchoolID).ThenBy(a => a.TypeSort).ToListAsync());
+        }
         // GET: BaselineGenerals/Create
         public IActionResult Create()
         {

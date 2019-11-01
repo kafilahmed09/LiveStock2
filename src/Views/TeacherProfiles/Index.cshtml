@@ -25,6 +25,7 @@
                     @Html.DisplayNameFor(model => model.IsFemale)
                 </th>*@
             <th>
+              
                 @Html.DisplayNameFor(model => model.IsProjectTeacher)
             </th>
             <th>
@@ -81,10 +82,20 @@
                         @Html.DisplayFor(modelItem => item.IsFemale)
                     </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsProjectTeacher)
+                   @{ 
+                       if(item.IsProjectTeacher==true)
+                       { <text>Yes</text>}
+                       else { <text>No</text>}
+                   }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ContractAward)
+                    @{
+                        if (item.ContractAward == true)
+                        { <text>Yes</text>}
+                    else
+                    { <text>No</text>}
+                    }
+                   
                 </td>
                 @*<td>
                         @Html.DisplayFor(modelItem => item.ContractUrl)

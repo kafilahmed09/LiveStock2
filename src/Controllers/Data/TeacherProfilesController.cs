@@ -73,7 +73,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore")] TeacherProfile teacherProfile)
+        public async Task<IActionResult> Create([Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore,JoiningUrl")] TeacherProfile teacherProfile)
         {
             if (ModelState.IsValid)
             {
@@ -131,12 +131,13 @@ namespace BES.Controllers.Data
             {
                 return NotFound();
             }
+            var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.TeacherID==id).FirstOrDefaultAsync();
 
-            var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.SchoolID==id).FirstOrDefaultAsync();
-            if (teacherProfile == null)
-            {
-                return NotFound();
-            }
+            //var teacherProfile = await  _context.TeacherProfile.Include(a=>a.School).Where(a=>a.SchoolID==id).FirstOrDefaultAsync();
+            //if (teacherProfile == null)
+            //{
+            //    return NotFound();
+            //}
             //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", teacherProfile.SchoolID);
             ViewData["PostID"] = new SelectList(_context.Set<TeacherPost>(), "PostID", "PostName", teacherProfile.PostID);
             return View(teacherProfile);
@@ -147,7 +148,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore")] TeacherProfile teacherProfile)
+        public async Task<IActionResult> Edit(int? id, [Bind("TeacherID,SchoolID,PostID,TName,FatherHusbandName,CNIC,IsFemale,IsProjectTeacher,ContractAward,ContractUrl,DateOfJoining,EcePreScore,EcePostScore,EstPreScore,EstPostScore,HTPreScore,HTPostScore,JoiningUrl")] TeacherProfile teacherProfile)
         {
             if (id != teacherProfile.TeacherID)
             {

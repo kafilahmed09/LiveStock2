@@ -90,9 +90,9 @@ namespace BES
                     options.Conventions.AllowAnonymousToPage("/Account/Login");
                     options.Conventions.AllowAnonymousToPage("/Account/LoginWith2fa");
                     options.Conventions.AllowAnonymousToPage("/Account/LoginWithRecoveryCode");
-                    options.Conventions.AllowAnonymousToPage("/Account/Register");
-                    options.Conventions.AllowAnonymousToPage("/Account/ResetPassword");
-                    options.Conventions.AllowAnonymousToPage("/Account/ResetPasswordConfirmation");
+                    //options.Conventions.AllowAnonymousToPage("/Account/Register");
+                    //options.Conventions.AllowAnonymousToPage("/Account/ResetPassword");
+                    //options.Conventions.AllowAnonymousToPage("/Account/ResetPasswordConfirmation");
                     options.Conventions.AllowAnonymousToPage("/Account/SignedOut");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Latest);

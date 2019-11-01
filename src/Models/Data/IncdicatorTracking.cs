@@ -17,7 +17,6 @@ namespace BES.Models.Data
         [Key]
         public int? SchoolID { get; set; }
         public string ImageURL { get; set; }
-        public bool Verified { get; set; }
         public bool? IsUpload { get; set; }
         public short? TotalFilesUploaded { get; set; }
         [DataType(DataType.Date)]
@@ -28,6 +27,13 @@ namespace BES.Models.Data
         public DateTime CreateDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        public bool? ReUpload { get; set; }
+
+        public bool DevVerified { get; set; }
+        public string DevVerifiedBy { get; set; }
+        public DateTime? DevVerifiedDate { get; set; }
+
+        public bool? Verified { get; set; }
         public string VerifiedBy { get; set; }
         public DateTime? VerifiedDate { get; set; }
 
