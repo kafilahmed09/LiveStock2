@@ -264,7 +264,7 @@ namespace BES.Controllers.Data
                                on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                            equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                          where
-                           Proj_IncdicatorTracking.Verified == false
+                           Proj_IncdicatorTracking.Verified == false && Proj_IncdicatorTracking.ReUpload == false
                          group new { Schools, Districts } by new
                          {
                              Schools.SchoolID,
