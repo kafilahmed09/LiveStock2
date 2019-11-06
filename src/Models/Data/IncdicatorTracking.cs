@@ -50,6 +50,7 @@ namespace BES.Models.Data
         [NotMapped]
         public bool? isNextLevel { get; set; }
 
+
         public virtual School School { get; set; }
 
     }
