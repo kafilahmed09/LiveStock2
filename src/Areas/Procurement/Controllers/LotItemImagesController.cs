@@ -33,6 +33,32 @@ namespace BES.Areas.Procurement.Controllers
             ItemImagesListArray = _context.LotItemImage.Include(l => l.LotItem.Lot.Activity).Where(a=>a.LotItemId == id).ToList();
             return View(ItemImagesListArray);
         }
+        public string ImagesPath(int ItemId)
+        {
+            List<LotItemImage> ItemImagesListArray = new List<LotItemImage>();
+            ItemImagesListArray = _context.LotItemImage.Include(p => p.LotItem).Where(a => a.LotItemId == ItemId).ToList();
+            if (ItemImagesListArray == null)
+            {
+                return null;
+            }
+            string data = "";
+            bool counter = true;
+            foreach (var obj in ItemImagesListArray)
+            {
+                if (counter)
+                {
+                    data = data + "<div class='item active'><img src = '" + obj.ImagePath + "' alt='Image'></div>";
+                }
+                else
+                {
+                    data = data + "<div class='item'><img src = '" + obj.ImagePath + "' alt='Image'></div>";
+                }
+                counter = false;
+            }
+            //string val = "~/Areas/EU/PPA/Goods///Procurement of Furniture for Primary, Middle n High Schools//Lot//10//Multi-Purpose Table (ECE)//20171013_114451.jpg";
+            //var ppactivities = db.PPActivities.Include(p => p.PPMethod).Include(p => p.PProcurementPlan).Where(a => a.ProcurementPlanID == 1);
+            return data;
+        }
         // GET: Procurement/LotItemImages/Details/5
         public async Task<IActionResult> Details(int? id)
         {

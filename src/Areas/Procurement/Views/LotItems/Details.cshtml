@@ -1,60 +1,122 @@
-﻿@model BES.Areas.Procurement.Models.LotItem
+﻿@model IEnumerable<BES.Areas.Procurement.Models.LotItem>
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<style>
+    .modal.and.carousel {
+        position: fixed;
+    }
+</style>
 
-<div>
-    <h4>LotItem</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ItemName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ItemName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EstimatedUnitRate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EstimatedUnitRate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ActualUnitRate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ActualUnitRate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Lot)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Lot.lotId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Unit.UnitId)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <table class="table table-striped table-bordered  dataTables-example">
+                    <thead>
+                        <tr>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.PPLot.lotno)
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.ItemName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Quantity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Unit.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EstimatedUnitRate)
+                            </th>
+                            <th>
+                                <text>Estimated Price</text>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ActualUnitRate)
+                            </th>
+                            <th>
+                                <text>Actual Price</text>
+                            </th>
+                            <th>
+                                <text>Images</text>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int counter = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @*<td>
+                                        Lot No.@Html.DisplayFor(modelItem => item.PPLot.lotno)
+                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ItemName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Unit.Name)
+                                </td>
+                                <td>
+                                    <text>@String.Format("{0:#,##}", item.EstimatedUnitRate)</text>
+                                </td>
+                                <td>
+                                    <text>@String.Format("{0:#,##}", item.EstimatedUnitRate * item.Quantity)</text>
+                                </td>
+                                <td>
+                                    <text>@String.Format("{0:#,##}", item.ActualUnitRate)</text>
+                                </td>
+                                <td>
+                                    <text>@String.Format("{0:#,##}", item.ActualUnitRate * item.Quantity)</text>
+                                </td>@printdata(item.LotItemId.ToString())
+                                @*<td>@Html.ActionLink("Images", "ViewImagesPopup", "PPLotItemImages", new { id = item.PPLotItemId }, new { @class = "btn btn-primary btn-sm" })</td>*@
+                                @*<td><a class="search2" data-url='@Url.Action("ViewImagesPopup", "PPLotItemImages", new { id = 7 })' data-toggle="modal" data-target="#exampleModalLong2">View</a></td>*@
+                                <td><a class="btn-primary btn-sm" href=@string.Concat("#lightbox",item.LotItemId.ToString()) data-toggle="modal">Images</a></td>
+                                @{ counter = counter + 1;}
+
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>@Model.Sum(a => (a.EstimatedUnitRate) * a.Quantity)</th>
+                            <th></th>
+                            <th>@Model.Sum(a => (a.ActualUnitRate) * a.Quantity)</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.LotItemId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@using Microsoft.AspNetCore.Html
+@functions{
+    public IHtmlContent printdata(string id)
+    {
+
+        //string imgPaths = "/Procurement/LotItemImages/ImagesPath/" + id;
+        string imgPaths = "Procurement/Goods/Procurement of furniture/Lot/19/Dual Desk With Bench/tick.png";
+        imgPaths = imgPaths.Replace("~", "");
+        string HtmlCode = "";
+        if (imgPaths != "")
+        {
+            HtmlCode = "<div class='modal fade and carousel slide' id='lightbox" + id + "'> <div class='modal-dialog'><div class='modal-content'><div class='modal-body'><div class='carousel-inner'>" + imgPaths + "</div><a class='left carousel-control' href='#lightbox" + id + "' role='button' data-slide='prev'><span class='glyphicon glyphicon-chevron-left'></span></a><a class='right carousel-control' href='#lightbox" + id + "' role='button' data-slide='next'><span class='glyphicon glyphicon-chevron-right'></span></a></div></div></div></div>";
+        }
+        else
+        {
+            HtmlCode = "<div class='modal fade and carousel slide' id='lightbox" + id + "'> <div class='modal-dialog'><div class='modal-content'><div class='modal-body'><h3>Images are not uploaded so far</h3></a></div></div></div></div>";
+        }
+        return Html.Raw(HtmlCode);
+    }
+}

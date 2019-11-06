@@ -41,17 +41,18 @@ namespace BES.Areas.Procurement.Controllers
             {
                 return NotFound();
             }
-
-            var lotItem = await _context.LotItem
-                .Include(l => l.Lot)
-                .Include(l => l.Unit)
-                .FirstOrDefaultAsync(m => m.LotItemId == id);
+            var lotItem = await _context.LotItem.Include(p => p.Lot).Include(a => a.Unit).Where(a => a.lotId == id).ToListAsync();
+            if (lotItem == null)
+            {
+                return NotFound();
+            }
+            ViewData["query"] = _context.LotItemImage.Include(a => a.LotItem).Where(a => a.LotItem.lotId == id);
             if (lotItem == null)
             {
                 return NotFound();
             }
 
-            return View(lotItem);
+            return PartialView(lotItem);
         }
 
         [Authorize(Roles = "Procurement")]
