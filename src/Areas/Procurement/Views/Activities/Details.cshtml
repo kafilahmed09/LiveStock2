@@ -237,60 +237,60 @@
                             @{ int counter = 1;}
                             @foreach (var item in Model.Item4)
                             {
-                                <tr>
-                                    <td>Lot-@item.lotno <a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPLotItems", new { id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a></td>
-                                    <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.EstimatedUnitRate)</a></td>
-                                    <td><a class="search" data-url='@Url.Action("details", "Contractors", new { area = "", id = item.ContractorID })' data-toggle="modal" data-target="#exampleModalLong1">@item.CompanyName</a></td>
+                            <tr>
+                                <td>Lot-@item.lotno <a class="search btn-primary btn-sm" data-url='/Procurement/LotItems/details/@item.lotId' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a></td>                                                    
+                                <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.EstimatedUnitRate)</a></td>
+                                <td><a class="search" data-url='@Url.Action("details", "Contractors", new { area = "", id = item.ContractorID })' data-toggle="modal" data-target="#exampleModalLong1">@item.CompanyName</a></td>
+                                @{
+                                    if (item.Attachment != null)
+                                    {
+                                        <td>
+                                            <a href='@Url.Content(item.Attachment)' target="_blank">
+                                                View Evidence
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <text>No Attachment</text>
+                                        </td>
+                                    }
+                                }
+                                @{ int val = 0;
+                                    if (ViewData["Data"] != null)
+                                    {
+                                        val = 1;
+                                    }
+                                }
+                                <td>
                                     @{
-                                        if (item.Attachment != null)
+                                        if (val > 0)
                                         {
-                                            <td>
-                                                <a href='@Url.Content(item.Attachment)' target="_blank">
-                                                    View Evidence
-                                                </a>
-                                            </td>
+                                            <text>(@val) Addendum </text><a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPAddendums", new {id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a>
                                         }
                                         else
                                         {
-                                            <td>
-                                                <text>No Attachment</text>
-                                            </td>
+                                            <text>No</text>
                                         }
                                     }
-                                    @{ int val = 0;
-                                        if (ViewData["Data"] != null)
+                                </td>
+                                <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "2" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.ActualUnitRate)</a></td>
+                                <td>
+                                    @{
+                                        if (item.AddendumTypeId == null || item.AddendumTypeId == 1)
                                         {
-                                            val = 1;
+                                            <text>10 Oct 2019@*@item.ActualDate.Value.ToString("dd MMMM yyyy")*@</text>
+                                        }
+                                        else
+                                        {
+                                            <text>@item.LExpiryDate</text>
                                         }
                                     }
-                                    <td>
-                                        @{
-                                            if (val > 0)
-                                            {
-                                                <text>(@val) Addendum </text><a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPAddendums", new {id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a>
-                                            }
-                                            else
-                                            {
-                                                <text>No</text>
-                                            }
-                                        }
-                                    </td>
-                                    <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "2" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.ActualUnitRate)</a></td>
-                                    <td>
-                                        @{
-                                            if (item.AddendumTypeId == null || item.AddendumTypeId == 1)
-                                            {
-                                                <text>10 Oct 2019@*@item.ActualDate.Value.ToString("dd MMMM yyyy")*@</text>
-                                            }
-                                            else
-                                            {
-                                                <text>@item.LExpiryDate</text>
-                                            }
-                                        }
-                                    </td>
-                                    @*<td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">View Detail</a></td>*@
-                                    @{ counter = counter + 2;}
-                                </tr>
+                                </td>
+                                @*<td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">View Detail</a></td>*@
+                                @{ counter = counter + 2;}
+                            </tr>
                             }
                         </tbody>
                     </table>
@@ -340,11 +340,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            // $('#Region-DropdownID').val(null).change();
-            // alert('JQuery Entered')
-            $(document).ready(function () {
-                // $('#Region-DropdownID').val(null).change();
-                // alert('JQuery Entered')
+         
                 $('.dataTables-example').DataTable({
                     //"scrollY": 350,
                     //"processing": true, // for show progress bar
@@ -365,11 +361,16 @@
                     ]
 
                 });
-                //alert('Table Generated')
-            });
-            //alert('Table Generated')
-        });
+                //alert('Table Generated')        
 
+                $(function () {
+                    $('.search').click(function () {
+                        var url = $(this).data('url');
+                        var route = url;
+                        $('#partial').load(route);
+                    });
+                });
+            });  
     </script>
 
     }
