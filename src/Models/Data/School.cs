@@ -71,9 +71,9 @@ namespace BES.Models.Data
         // public DateTime? NotificationDate { get; set; }
         // public string Phase { get; set; }
         [NotMapped]
-        public string DisName {get;set;}
+        public string DisName { get; set; }
         [NotMapped]
-        public int RegName { get; set; }
+        public string RegName { get; set; }
 
         public virtual UC UC { get; set; }
     }
@@ -95,7 +95,7 @@ namespace BES.Models.Data
         public Int16 Level { get; set; }
         public bool Abandon { get; set; }
 
-     
+
     }
 
 
@@ -104,7 +104,7 @@ namespace BES.Models.Data
     {
 
 
-        public Api2School(int schoolid, int ucID, string sname, int? bemis,Int16 level,string password,string latitude,string longitude )
+        public Api2School(int schoolid, int ucID, string sname, int? bemis, Int16 level, string password, string latitude, string longitude)
         {
             this.SchoolID = schoolid;
             this.UcID = ucID;
@@ -113,7 +113,7 @@ namespace BES.Models.Data
             this.Level = level;
             this.Password = password;
             this.Latitude = latitude;
-            this.Longitude = longitude;            
+            this.Longitude = longitude;
         }
 
 
@@ -135,6 +135,6 @@ namespace BES.Models.Data
 
         public string Latitude { get; set; }
 
-        public string Longitude { get; set; }        
+        public string Longitude { get; set; }
     }
- }
+}

@@ -12,7 +12,7 @@
 
 <input type="hidden" id="dataCnt" value="@dataLength" />
 <h2>
-   Upload Evidence of @ViewBag.Section @*Progress Tracking sheet*@
+    Upload Evidence of @ViewBag.Section @*Progress Tracking sheet*@
 
     <br /><small>
         @ViewBag.Sname
@@ -57,7 +57,7 @@
                 <td>
                     @{
 
-                        if (item.IsUpload == true)
+                        if (item.IsUpload == true && item.ReUpload == false)
                         {
                             if (item.isEvidence == true)
                             {
@@ -91,7 +91,7 @@
                 <td>
                     @{
 
-                        if (item.IsUpload == true)
+                        if (item.IsUpload == true && item.ReUpload == false)
                         {
                             @Html.DisplayFor(modelItem => item.DateOfUpload)}
                         else
@@ -100,7 +100,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control pull-right" id=@("datepicker" + item.IndicatorID)>
+                                <input type="text" class="form-control pull-right" value="@item.DateOfUpload" id=@("datepicker" + item.IndicatorID)>
                             </div>
 
                         }
@@ -108,7 +108,29 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.EvidanceType)
+                    @{
+                        if (item.IsUpload == true)
+                        {
+                            if (item.EvidanceType == "image/*")
+                            {
+                                var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
+
+                                <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
+                            }
+                            else
+                            {
+                                var url = item.ImageURL + "//" + item.SchoolID + "-1.pdf";
+                                <a href='@url' class="btn btn-default search" type="button" target="_blank">View Evidance(s)</a> @*of @subtotal*@
+
+                            }
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.EvidanceType)
+
+                        }
+                    }
+
                     @*@{
                             if (item.isEvidence == true)
                             { <text>Yes</text>}
@@ -116,36 +138,23 @@
                         { <text>No</text>}
                         }*@
 
-                
-                    
-                    <td>
+
+
+                <td>
 
                     @{
-                        if (item.IsUpload == true)
+                        if (item.IsUpload == true && item.ReUpload == false)
                         {
-                            if (item.isEvidence == true)
-                            {
-                                if (item.EvidanceType == "image/*")
-                                {
-                                    var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
 
-                                    <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
-                                }
-                                else
-                                {
-                                    var url = item.ImageURL + "//" + item.SchoolID + "-1.pdf";
-                                    <a href=@url class="btn btn-default search" type="button" target="_blank">View Evidance(s)</a> @*of @subtotal*@
+                        }
+                        else if (item.ReUpload == true)
+                        {
+                            <input type="submit" id="button" value="Re Upload" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID, @item.ReUpload.ToString().ToLower())" />
 
-                                }
-                                @*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                                        Modal
-                                    </button>*@
-                                @*<input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />*@
-                            }
                         }
                         else
                         {
-                            <input type="submit" id="button" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
+                            <input type="submit" id="button" value="Save" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID, @item.ReUpload.ToString().ToLower())" />
                         }
                     }
                     @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -196,7 +205,7 @@
 
     <script type="text/javascript">
 
-        function submit_by_Script(elmnt, iId, sId, isEvid, SecID,ii) {
+        function submit_by_Script(elmnt, iId, sId, isEvid, SecID, reupload,ii) {
             var AttachID = "Attach" + iId;
             var dpID = "datepicker" + iId;
             var fileUpload = document.getElementById(iId);
@@ -251,7 +260,7 @@
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
                         data: fileData,
-                        url: "/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID,
+                        url: "/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+"&Reupload="+reupload + "&SecID="+@ViewBag.SecID,
                         dataType: 'json',
 
                         success: function (response) {
