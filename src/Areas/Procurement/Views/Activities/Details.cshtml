@@ -1,4 +1,4 @@
-﻿@model Tuple<List<BES.Areas.Procurement.Models.ActivityDetail>, List<BES.Areas.Procurement.Models.Lot>, IEnumerable<BES.Areas.Procurement.Models.Addendum>, IEnumerable<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail>>
+﻿@model Tuple<List<BES.Areas.Procurement.Models.ActivityDetail>, List<BES.Areas.Procurement.Models.Lot>, IEnumerable<BES.Areas.Procurement.Models.Addendum>, IEnumerable<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail>, List<BES.Areas.Procurement.Models.Activity>>
 
 @{
     ViewBag.Title = "Details";
@@ -19,63 +19,63 @@
 </style>
 
 
-<div style="margin:10px">
+<div style="margin:10px 10px 0 10px">
     <div class="row">
         <div class="col-lg-12">
             <div>
-                <div class="ibox-title">                    
-                    <h3 class="box-title">Activity No.@Model.Item1.ElementAt(0).Activity.ActivityNo - @Model.Item1.ElementAt(0).Activity.Name</h3>
+                <div class="ibox-title">
+                    <h3 class="box-title">Activity No.@Model.Item5.ElementAt(0).ActivityNo - @Model.Item5.ElementAt(0).Name</h3>
                 </div>
-                <div class="jumbotron">
+                <div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div>
                                 <dl class="dl-horizontal">
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Method.Name)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).Method.Name)
                                     </dt>
 
                                     <dd>
-                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.Method.Name)
+                                        @Html.DisplayFor(model => model.Item5.ElementAt(0).Method.Name)
                                     </dd>
 
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.EstimatedCost)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).EstimatedCost)
                                     </dt>
 
                                     <dd>
-                                        <text>@String.Format("{0:#,##}", Model.Item1.ElementAt(0).Activity.EstimatedCost)</text>
+                                        <text>@String.Format("{0:#,##}", Model.Item5.ElementAt(0).EstimatedCost)</text>
                                     </dd>
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.ActualCost)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).ActualCost)
                                     </dt>
 
                                     <dd>
-                                        <text>@String.Format("{0:#,##}", Model.Item1.ElementAt(0).Activity.ActualCost)</text>
+                                        <text>@String.Format("{0:#,##}", Model.Item5.ElementAt(0).ActualCost)</text>
                                     </dd>
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.ReviewType)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).ReviewType)
                                     </dt>
 
                                     <dd>
-                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.ReviewType)
+                                        @Html.DisplayFor(model => model.Item5.ElementAt(0).ReviewType)
                                     </dd>
 
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Status)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).Status)
                                     </dt>
 
                                     <dd>
                                         @{
-                                            if (Model.Item1.ElementAt(0).Activity.Status == 1)
+                                            if (Model.Item5.ElementAt(0).Status == 1)
                                             {
                                                 <text>Not Initiated</text>
                                             }
-                                            else if (Model.Item1.ElementAt(0).Activity.Status == 2)
+                                            else if (Model.Item5.ElementAt(0).Status == 2)
                                             {
                                                 <text>In Process</text>
                                             }
-                                            else if (Model.Item1.ElementAt(0).Activity.Status == 3)
+                                            else if (Model.Item5.ElementAt(0).Status == 3)
                                             {
                                                 <text>Completed</text>
                                             }
@@ -86,40 +86,40 @@
                                         }
                                     </dd>
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.IsCenceled)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).IsCenceled)
                                     </dt>
 
                                     <dd>
-                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.IsCenceled)
+                                        @Html.DisplayFor(model => model.Item5.ElementAt(0).IsCenceled)
                                     </dd>
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.Remarks)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).Remarks)
                                     </dt>
 
                                     <dd>
-                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.Remarks)
+                                        @Html.DisplayFor(model => model.Item5.ElementAt(0).Remarks)
                                     </dd>
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.CreatedBy)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).CreatedBy)
                                     </dt>
 
                                     <dd>
-                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.CreatedBy)
+                                        @Html.DisplayFor(model => model.Item5.ElementAt(0).CreatedBy)
                                     </dd>
                                     <dt class="btn btn-primary btn-sm">
-                                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).Activity.CreatedDate)
+                                        @Html.DisplayNameFor(model => model.Item5.ElementAt(0).CreatedDate)
                                     </dt>
 
                                     <dd>
-                                        @Html.DisplayFor(model => model.Item1.ElementAt(0).Activity.CreatedDate)
+                                        @Html.DisplayFor(model => model.Item5.ElementAt(0).CreatedDate)
                                     </dd>
                                 </dl>
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="jumbotron">
-                                <h2>Activity No.@Model.Item1.ElementAt(0).Activity.ActivityNo </h2>
-                                <p style="font-size:14px"><b>Activity: </b>@Model.Item1.ElementAt(0).Activity.Description </p>
+                            <div class="jumbotron" style="background-color:lightgray;padding:10px">
+                                <h2>Activity No.@Model.Item5.ElementAt(0).ActivityNo </h2>
+                                <p style="font-size:15px"><b>Activity: </b>@Model.Item5.ElementAt(0).Description </p>
                             </div>
                         </div>
                     </div>
@@ -296,34 +296,33 @@
                     </table>
                 </div>
 
-                <div class="ibox-title">
-                    <h4>List of Received Lot Items</h4>
+                <div class="ibox-title" style="margin-bottom:40px">
+                    @*<h4>List of Received Lot Items</h4>*@
                 </div>
                 <div class="ibox-content" style="padding:2px">
-                    <div id="CMManagementIndex2"></div>
+                    @*<div id="CMManagementIndex2"></div>*@
                 </div>
 
             </div>
         </div>
     </div>
-</div>
 
-
-<!-- Modal1 -->
-<div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
-    <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="partial">Loading....</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+    <!-- Modal1 -->
+    <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
+        <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="partial">Loading....</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    @*<button type="button" class="btn btn-primary">Save changes</button>*@
+                </div>
             </div>
         </div>
     </div>
@@ -347,7 +346,7 @@
                 // $('#Region-DropdownID').val(null).change();
                 // alert('JQuery Entered')
                 $('.dataTables-example').DataTable({
-                    "scrollY": 350,
+                    //"scrollY": 350,
                     //"processing": true, // for show progress bar
                     //"bJQueryUI": true,
                     //"bServerSide": true,

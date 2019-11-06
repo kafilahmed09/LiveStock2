@@ -305,16 +305,16 @@ namespace BES.Controllers.Data
                 switch (regions.Length)
                 {
                     case 1:
-                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        applicationDbContext = applicationDbContext.Where(a => a.RegName == regions[0]).OrderBy(a => a.RegName).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
                         break;
                     case 2:
-                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        applicationDbContext = applicationDbContext.Where(a => a.RegName == regions[0] || a.RegName == regions[1]).OrderBy(a => a.RegName).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
                         break;
                     case 3:
-                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        applicationDbContext = applicationDbContext.Where(a => a.RegName == regions[0] || a.RegName == regions[1] || a.RegName == regions[2]).OrderBy(a => a.RegName).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
                         break;
                     case 4:
-                        applicationDbContext = applicationDbContext.Where(a => a.UC.Tehsil.District.RegionID == regions[0] || a.UC.Tehsil.District.RegionID == regions[1] || a.UC.Tehsil.District.RegionID == regions[2] || a.UC.Tehsil.District.RegionID == regions[3]).OrderBy(a => a.UC.Tehsil.District.RegionID).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
+                        applicationDbContext = applicationDbContext.Where(a => a.RegName == regions[0] || a.RegName == regions[1] || a.RegName == regions[2] || a.RegName == regions[3]).OrderBy(a => a.RegName).ThenBy(a => a.ClusterBEMIS).ThenBy(a => a.type); ;
                         break;
                     default: break;
 

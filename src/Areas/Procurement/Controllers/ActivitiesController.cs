@@ -35,7 +35,7 @@ namespace BES.Areas.Procurement.Controllers
             ViewBag.TotalGActivitiesCancelled = applicationDbContext.Count(a => a.ProcurementPlanID == PPID && a.Status == 4).ToString();
             ViewBag.TotalGAECost = applicationDbContext.Where(a => a.ProcurementPlanID == PPID).Sum(a => ((int?)a.EstimatedCost)).ToString();
             ViewBag.TotalGAECost = string.IsNullOrEmpty(ViewBag.TotalGAECost) ? "0" : ViewBag.TotalGAECost;
-            ViewBag.TotalGAACost = applicationDbContext.Where(a => a.ProcurementPlanID == PPID && a.Status == 3).Sum(a => ((int?)a.ActualCost ?? 0)).ToString();
+            ViewBag.TotalGAACost = _context.Lot.Include(s=>s.Activity).Where(a => a.Activity.ProcurementPlanID == PPID).Sum(a => ((int?)a.ActualCost ?? 0)).ToString();
             ViewBag.TotalGAACost = string.IsNullOrEmpty(ViewBag.TotalGAACost) ? "0" : ViewBag.TotalGAACost;
             //ViewBag.TotalGACommit = (ppactivities.Where(a => a.ProcurementPlanID == 1 && a.Status == 3).Sum(a => (int?)a.ActualCost) ?? 0).ToString();
             ViewBag.TotalGACommit = _context.VLotItemDetail.Include(a => a.Activity.PProcurementPlan).Where(a => a.Activity.ProcurementPlanID == PPID).Sum(a => a.ActualUnitRate * a.FQuantity).ToString();
@@ -147,7 +147,9 @@ namespace BES.Areas.Procurement.Controllers
             }
             int[] arrStrings = data.ToArray();
             ViewData["Data"] = arrStrings;
-            var tuple = new Tuple<List<ActivityDetail>, List<Lot>, IEnumerable<Addendum>, IEnumerable<VLotItemDetail>>(pPActivityDetailList, pPLotList, pPAddendumLotItemList.ToList(), pPItemDetailList);
+            
+            var activityObj = _context.Activity.Include(a=>a.Method).Where(a=>a.ActivityID == id);
+            var tuple = new Tuple<List<ActivityDetail>, List<Lot>, IEnumerable<Addendum>, IEnumerable<VLotItemDetail>,List<Activity>>(pPActivityDetailList, pPLotList, pPAddendumLotItemList.ToList(), pPItemDetailList,activityObj.ToList());
             return View(tuple);
         }
 

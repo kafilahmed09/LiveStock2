@@ -18,8 +18,9 @@
                     <h3 class="box-title">Planned Cost</h3>
                     <h2 class="no-margins font-bold">
                         @{ string s = ViewBag.TotalGAACost;}
-                        @(String.Format("{0:#,##}", int.Parse(s)).PadLeft(2, '0'))
+                        @Math.Round(((double.Parse(s) / double.Parse(ViewBag.TotalGAECost)) * 100), 2) %
                     </h2>
+                    <div class="text-primary" style="float:right;font-weight:bolder"> @(String.Format("{0:#,##}", int.Parse(s)).PadLeft(2, '0'))  <i class="fa fa-level-up"></i></div>
                     <small>Commit Cost</small>
                 </div>
             </div>
@@ -27,12 +28,13 @@
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <span class="label label-primary pull-right" style="font-size:14px">@String.Format("{0:#,##}", int.Parse(ViewBag.TotalGAACost))</span>
+                    <span class="label label-primary pull-right" style="font-size:14px">@String.Format("{0:#,##}", int.Parse(ViewBag.TotalGACommit))</span>
                     <h3 class="box-title">Commit Cost</h3>
                     <h2 class="no-margins font-bold">
                         @{ s = ViewBag.TotalGACommit;}
-                        @(String.Format("{0:#,##}", int.Parse(s)).PadLeft(2, '0')) @*Change test*@
+                        0 % @*Change test*@
                     </h2>
+                    <div class="text-primary" style="float:right;font-weight:bolder"> 0.0  <i class="fa fa-level-up"></i></div>
                     <small>Payment Released</small>
                 </div>
             </div>
@@ -40,13 +42,12 @@
         <div class="col-lg-4 col-md-4 col-sm-4">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <span class="label label-primary pull-right" style="font-size:14px">@String.Format("{0:#,##}", int.Parse(ViewBag.TotalGAECost))</span>
-                    <h3 class="box-title">Actual Cost</h3>
+                    <span class="label label-primary pull-right" style="font-size:14px">@String.Format("{0:#,##}", int.Parse("0"))</span>
+                    <h3 class="box-title">Payment Released</h3>
                     <h2 class="no-margins font-bold">
-                        @{string Balance = ((int.Parse(ViewBag.TotalGAECost)) - ((int.Parse(ViewBag.TotalGACommit)))).ToString();}
-                        <text>@String.Format("{0:#,##}", int.Parse(Balance))</text>
+                        <text>@String.Format("{0:#,##}", "0")</text>
                     </h2>
-                    <small>Balance</small>
+                    <small>Savings</small>
                 </div>
             </div>
         </div>
@@ -76,7 +77,7 @@
             <!-- DONUT CHART -->
             <div class="box box-danger">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Donut Chart</h3>
+                    <h3 class="box-title">Activities Status - @ViewBag.PPName</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
@@ -85,7 +86,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <canvas id="pieChart" style="height:250px"></canvas>
+                    <canvas id="pieChart1" style="height:250px" height="100"></canvas>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -96,7 +97,7 @@
             <!-- LINE CHART -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Line Chart</h3>
+                    <h3 class="box-title">Committed Amount vs Payment Release</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
@@ -111,113 +112,11 @@
                 </div>
                 <!-- /.box-body -->
             </div>
-            
-                <!-- Donut chart -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <i class="fa fa-bar-chart-o"></i>
-                        <h3 class="box-title">Donut Chart</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div id="donut-chart1" style="height: 300px;"></div>
-                    </div>
-                    <!-- /.box-body-->
-                </div>
-                <!-- /.box -->            
-        </div>
-        <!-- /.col (RIGHT) -->
-    </div>
-    <!-- /.row -->
-</section>
-<!-- /.content -->
-<div style="margin:10px 10px 0 10px">
-    
-
-    
-    @*<div class="row" style="padding:10px 0 10px 0">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>*@
-    @*<div class="row" style="padding:10px 0 10px 0">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div id="container1" style="min-width: 300px; height: 300px; max-width: 500px; margin: 0 auto"></div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" ">
-                <div id="container2" style="min-width: 300px; height: 300px; max-width: 500px; margin: 0 auto"></div>
-            </div>
-        </div>*@
-    <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <div class="box box-primary">
+            <!-- /.box -->
+            <!-- DONUT CHART -->
+            <div class="box box-danger">
                 <div class="box-header with-border">
-                    @{string total = ViewBag.TotalGActivities; total = total.PadLeft(2, '0');}
-                    <span class="label label-primary pull-right" style="font-size:14px">@total</span>
-                    <h3 class="box-title">Activities</h3>
-                    <h2>
-                        @{string complete = ViewBag.TotalGActivitiesCompleted; complete = complete.PadLeft(2, '0');}
-                        <a href="#" style="color:#00a65a !important" class="search" data-url='/Procurement/Activities/Popup/3' data-toggle="modal" data-target="#exampleModalLong1">@complete</a>
-                    </h2>
-                    <small>Completed @*- <text style="font-size:13px;font-weight:bold">12%</text>*@</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    @{string Cancelled = ViewBag.TotalGActivitiesCancelled; Cancelled = Cancelled.PadLeft(2, '0');}
-                    <span class="label label-primary pull-right" style="font-size:14px">@total</span>
-                    <h3 class="box-title">Activities</h3>
-                    <h2 class="no-margins font-bold">
-                        @{ s = ViewBag.TotalGActivitiesProcess; s = s.PadLeft(2, '0');}
-                        <a href="#" class="search" data-url='/Procurement/Activities/Popup/4' style="color:red" data-toggle="modal" data-target="#exampleModalLong1">@Cancelled</a> @*of @subtotal*@
-                    </h2>
-                    <small>Cancelled</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    @{string subtotal = ((int.Parse(total)) - (int.Parse(complete)) - (int.Parse(Cancelled))).ToString(); subtotal = subtotal.PadLeft(2, '0');}
-                    <span class="label label-primary pull-right" style="font-size:14px">@subtotal</span>
-                    <h3 class="box-title">Activities</h3>
-                    <h2 class="no-margins font-bold">
-                        <a href="#" style="color:#00c0ef !important" class="search" data-url='/Procurement/Activities/Popup/2' data-toggle="modal" data-target="#exampleModalLong1">@s</a> @*of @subtotal*@
-                    </h2>
-                    <small>In-Process</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    @{ total = ViewBag.TotalGActivities; total = total.PadLeft(2, '0');}
-                    <span class="label label-primary pull-right" style="font-size:14px">@subtotal</span>
-                    <h3 class="box-title">Activities</h3>
-                    <h2 class="no-margins font-bold">
-                        @{string remain = ViewBag.TotalGActivitiesRemain; remain = remain.PadLeft(2, '0');}
-                        <a href="#" style="color:#d2d6de" class="search" data-url='/Procurement/Activities/Popup/1' data-toggle="modal" data-target="#exampleModalLong1">@remain</a>
-                    </h2>
-                    <small>Not Initiated</small>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <!-- Bar chart -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <i class="fa fa-bar-chart-o"></i>
-                    <h3 class="box-title">Goods Activities vs Steps</h3>
+                    <h3 class="box-title">Procurement vs Finance</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse">
                             <i class="fa fa-minus"></i>
@@ -226,122 +125,222 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div id="bar-chart" style="height: 300px;"></div>
+                    <canvas id="pieChart2" style="height:250px" height="100"></canvas>
                 </div>
-                <!-- /.box-body-->
+                <!-- /.box-body -->
             </div>
             <!-- /.box -->
         </div>
-    </div>    
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-header">List of  @Model.Select(a => a.PProcurementPlan.Name).FirstOrDefault() Activities @Html.ActionLink("Create New Activity", "Create", new { id = ViewBag.PPID }, new { @class = "btn btn-primary btn-xs" })</h3>
+        <!-- /.col (RIGHT) -->
+    </div>
+    <!-- /.row -->
+    <!-- /.content -->
+    <div>
+
+
+
+        @*<div class="row" style="padding:10px 0 10px 0">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                </div>
+            </div>*@
+        @*<div class="row" style="padding:10px 0 10px 0">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div id="container1" style="min-width: 300px; height: 300px; max-width: 500px; margin: 0 auto"></div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6" ">
+                    <div id="container2" style="min-width: 300px; height: 300px; max-width: 500px; margin: 0 auto"></div>
+                </div>
+            </div>*@
+        <div class="row" style="margin-top:0">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        @{string total = ViewBag.TotalGActivities; total = total.PadLeft(2, '0');}
+                        <span class="label label-primary pull-right" style="font-size:14px">@total</span>
+                        <h3 class="box-title">Activities</h3>
+                        <h2>
+                            @{string complete = ViewBag.TotalGActivitiesCompleted; complete = complete.PadLeft(2, '0');}
+                            <a href="#" style="color:#00a65a !important" class="search" data-url='/Procurement/Activities/Popup/3' data-toggle="modal" data-target="#exampleModalLong1">@complete</a>
+                        </h2>
+                        <small>Completed @*- <text style="font-size:13px;font-weight:bold">12%</text>*@</small>
+                    </div>
+                </div>
             </div>
-            <div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        @{string Cancelled = ViewBag.TotalGActivitiesCancelled; Cancelled = Cancelled.PadLeft(2, '0');}
+                        <span class="label label-primary pull-right" style="font-size:14px">@total</span>
+                        <h3 class="box-title">Activities</h3>
+                        <h2 class="no-margins font-bold">
+                            @{ s = ViewBag.TotalGActivitiesProcess; s = s.PadLeft(2, '0');}
+                            <a href="#" class="search" data-url='/Procurement/Activities/Popup/4' style="color:red" data-toggle="modal" data-target="#exampleModalLong1">@Cancelled</a> @*of @subtotal*@
+                        </h2>
+                        <small>Cancelled</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        @{string subtotal = ((int.Parse(total)) - (int.Parse(complete)) - (int.Parse(Cancelled))).ToString(); subtotal = subtotal.PadLeft(2, '0');}
+                        <span class="label label-primary pull-right" style="font-size:14px">@subtotal</span>
+                        <h3 class="box-title">Activities</h3>
+                        <h2 class="no-margins font-bold">
+                            <a href="#" style="color:#00c0ef !important" class="search" data-url='/Procurement/Activities/Popup/2' data-toggle="modal" data-target="#exampleModalLong1">@s</a> @*of @subtotal*@
+                        </h2>
+                        <small>In-Process</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        @{ total = ViewBag.TotalGActivities; total = total.PadLeft(2, '0');}
+                        <span class="label label-primary pull-right" style="font-size:14px">@subtotal</span>
+                        <h3 class="box-title">Activities</h3>
+                        <h2 class="no-margins font-bold">
+                            @{string remain = ViewBag.TotalGActivitiesRemain; remain = remain.PadLeft(2, '0');}
+                            <a href="#" style="color:#d2d6de" class="search" data-url='/Procurement/Activities/Popup/1' data-toggle="modal" data-target="#exampleModalLong1">@remain</a>
+                        </h2>
+                        <small>Not Initiated</small>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <text>Activity#</text>
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Name)
-                            </th>
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.EstimatedCost)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ActualCost)
-                                </th>*@
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.Method.Name)
-                                </th>*@
-                            <th>
-                                <text>Estimated</text>
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ReviewType)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Status)
-                            </th>
-
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-
-                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.PProcurementPlan.Name)
-                                    </td>*@
-                                <td style="color:#3c8dbc;font-weight:bold">
-                                    A#-@Html.DisplayFor(modelItem => item.ActivityNo)
-                                </td>
-                                <td style="color:#3c8dbc;font-weight:bold">
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                @*<td>
-                                        <text>@String.Format("{0:#,##}", item.EstimatedCost)</text>
-                                    </td>
-                                    <td>
-                                        @{
-                                            if (item.ActualCost != 0)
-                                            {
-                                                <text>@String.Format("{0:#,##}", item.ActualCost)</text>
-                                            }else
-                                            {
-                                                <text>Nil</text>
-                                            }
-                                        }
-
-                                                            </td>*@
-                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.Method.Name)
-                                    </td>*@
-                                <td>
-                                    @String.Format("{0:#,##}", item.EstimatedCost)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ReviewType)
-                                </td>
-
-                                @{
-                                    if (item.Status == 1)
-                                    {
-                                        <td><text class="label label-default" style="font-weight:bold">Not Initiated</text></td> }
-                                    else if (item.Status == 2)
-                                    {
-                                        <td><text class="label label-info" style="font-weight:bold"> In Process </text></td> }
-                                    else if (item.Status == 3)
-                                    {
-                                        <td><text class="label label-success" style="font-weight:bold"> Completed </text></td> }
-                                    else
-                                    {
-                                        <td><text class="label label-danger" style="font-weight:bold"> Cancelled </text></td> }
-                                }
-                                <td>
-                                    @Html.ActionLink("Steps", "Edit", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })
-                                </td>
-                                <td>@Html.ActionLink("View", "Details", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Bar chart -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Goods Activities vs Steps</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div id="bar-chart" style="height: 300px;"></div>
+                    </div>
+                    <!-- /.box-body-->
+                </div>
+                <!-- /.box -->
             </div>
         </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-header">List of  @Model.Select(a => a.PProcurementPlan.Name).FirstOrDefault() Activities @Html.ActionLink("Create New Activity", "Create", new { id = ViewBag.PPID }, new { @class = "btn btn-primary btn-xs" })</h3>
+                </div>
+                <div>
 
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <text>Activity#</text>
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.EstimatedCost)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ActualCost)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.Method.Name)
+                                    </th>*@
+                                <th>
+                                    <text>Estimated</text>
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ReviewType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </th>
+
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.PProcurementPlan.Name)
+                                        </td>*@
+                                    <td style="color:#3c8dbc;font-weight:bold">
+                                        A#-@Html.DisplayFor(modelItem => item.ActivityNo)
+                                    </td>
+                                    <td style="color:#3c8dbc;font-weight:bold">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    @*<td>
+                                            <text>@String.Format("{0:#,##}", item.EstimatedCost)</text>
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (item.ActualCost != 0)
+                                                {
+                                                    <text>@String.Format("{0:#,##}", item.ActualCost)</text>
+                                                }else
+                                                {
+                                                    <text>Nil</text>
+                                                }
+                                            }
+
+                                                                </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Method.Name)
+                                        </td>*@
+                                    <td>
+                                        @String.Format("{0:#,##}", item.EstimatedCost)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReviewType)
+                                    </td>
+
+                                    @{
+                                        if (item.Status == 1)
+                                        {
+                                            <td><text class="label label-default" style="font-weight:bold">Not Initiated</text></td> }
+                                        else if (item.Status == 2)
+                                        {
+                                            <td><text class="label label-info" style="font-weight:bold"> In Process </text></td> }
+                                        else if (item.Status == 3)
+                                        {
+                                            <td><text class="label label-success" style="font-weight:bold"> Completed </text></td> }
+                                        else
+                                        {
+                                            <td><text class="label label-danger" style="font-weight:bold"> Cancelled </text></td> }
+                                    }
+                                    <td>
+                                        @Html.ActionLink("Steps", "Edit", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })
+                                    </td>
+                                    <td>@Html.ActionLink("View", "Details", new { id = item.ActivityID }, new { @class = "btn btn-primary btn-sm" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- Modal1 -->
 <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
     <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
@@ -437,49 +436,12 @@
                  })
                  /* END BAR CHART */
                  /*
-          * DONUT CHART
-          * -----------
-          */
-
-                 var donutData1 = [
-                     { label: 'Series2', data: 30, color: '#3c8dbc' },
-                     { label: 'Series3', data: 20, color: '#0073b7' },
-                     { label: 'Series4', data: 50, color: '#00c0ef' }
-                 ]
-                 $.plot('#donut-chart1', donutData1, {
-                     series: {
-                         pie: {
-                             show: true,
-                             radius: 1,
-                             innerRadius: 0.5,
-                             label: {
-                                 show: true,
-                                 radius: 2 / 3,
-                                 formatter: labelFormatter,
-                                 threshold: 0.1
-                             }
-
-                         }
-                     },
-                     legend: {
-                         show: false
-                     }
-                 })
-         /*
-              * END DONUT CHART
-              */
-                 /*
-        
+         
                  /*
         * Custom Label formatter
         * ----------------------
         */
-                 function labelFormatter(label, series) {
-                     return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
-                         + label
-                         + '<br>'
-                         + Math.round(series.percent) + '%</div>'
-                 }
+          
              })
 
          </script>
@@ -502,7 +464,7 @@
             var areaChart = new Chart(areaChartCanvas)
 
             var areaChartData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug','Sep','Oct','Nov','Dec'],
                 datasets: [
                     {
                         label: 'Electronics',
@@ -512,7 +474,7 @@
                         pointStrokeColor: '#c1c7d1',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [65, 59, 80, 81, 56, 55, 40]
+                        data: [65, 59, 80, 81, 56, 55, 40,20,10,45,65,12]
                     },
                     {
                         label: 'Digital Goods',
@@ -522,7 +484,7 @@
                         pointStrokeColor: 'rgba(60,141,188,1)',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [28, 48, 40, 19, 86, 27, 90]
+                        data: [28, 48, 40, 19, 86, 27, 90,89,45,32,90,95]
                     }
                 ]
             }
@@ -582,29 +544,29 @@
             //- PIE CHART -
             //-------------
             // Get context with jQuery - using jQuery's .get() method.
-            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieChartCanvas = $('#pieChart1').get(0).getContext('2d')
             var pieChart = new Chart(pieChartCanvas)
             var PieData = [
                 {
-                    value: 2,
+                    value: @ViewBag.TotalGActivitiesCancelled,
                     color: '#f56954',
                     highlight: '#f56954',
                     label: 'Canceled'
                 },
                 {
-                    value: 4,
+                    value: @ViewBag.TotalGActivitiesCompleted,
                     color: '#00a65a',
                     highlight: '#00a65a',
                     label: 'Completed'
                 },                
                 {
-                    value: 60,
+                    value: @ViewBag.TotalGActivitiesProcess,
                     color: '#00c0ef',
                     highlight: '#00c0ef',
                     label: 'In Process'
-                },               
+                },           
                 {
-                    value: 10,
+                    value: @ViewBag.TotalGActivitiesRemain,
                     color: '#d2d6de',
                     highlight: '#d2d6de',
                     label: 'Not Initiated'
@@ -638,45 +600,60 @@
             // You can switch between pie and douhnut using the method below.
             pieChart.Doughnut(PieData, pieOptions)
 
-            //-------------
-            //- BAR CHART -
-            //-------------
-            var barChartCanvas = $('#barChart').get(0).getContext('2d')
-            var barChart = new Chart(barChartCanvas)
-            var barChartData = areaChartData
-            barChartData.datasets[1].fillColor = '#00a65a'
-            barChartData.datasets[1].strokeColor = '#00a65a'
-            barChartData.datasets[1].pointColor = '#00a65a'
-            var barChartOptions = {
-                //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
-                scaleBeginAtZero: true,
-                //Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines: true,
-                //String - Colour of the grid lines
-                scaleGridLineColor: 'rgba(0,0,0,.05)',
-                //Number - Width of the grid lines
-                scaleGridLineWidth: 1,
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines: true,
-                //Boolean - If there is a stroke on each bar
-                barShowStroke: true,
-                //Number - Pixel width of the bar stroke
-                barStrokeWidth: 2,
-                //Number - Spacing between each of the X value sets
-                barValueSpacing: 5,
-                //Number - Spacing between data sets within X values
-                barDatasetSpacing: 1,
-                //String - A legend template
-                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].fillColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-                //Boolean - whether to make the chart responsive
-                responsive: true,
-                maintainAspectRatio: true
-            }
 
-            barChartOptions.datasetFill = false
-            barChart.Bar(barChartData, barChartOptions)
+            //-------------
+            //- PIE CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var pieChartCanvas = $('#pieChart2').get(0).getContext('2d')
+            var pieChart = new Chart(pieChartCanvas)
+            var PieData = [                
+                {
+                    value: 1000000,
+                    color: '#00a65a',
+                    highlight: '#00a65a',
+                    label: 'Savings'
+                },                
+                {
+                    value: 1000,
+                    color: '#00c0ef',
+                    highlight: '#00c0ef',
+                    label: 'Payment Release'
+                },               
+                {
+                    value: @ViewBag.TotalGACommit,
+                    color: '#d2d6de',
+                    highlight: '#d2d6de',
+                    label: 'Commit'
+                }
+            ]
+            var pieOptions = {
+                //Boolean - Whether we should show a stroke on each segment
+                segmentShowStroke: true,
+                //String - The colour of each segment stroke
+                segmentStrokeColor: '#fff',
+                //Number - The width of each segment stroke
+                segmentStrokeWidth: 2,
+                //Number - The percentage of the chart that we cut out of the middle
+                percentageInnerCutout: 50, // This is 0 for Pie charts
+                //Number - Amount of animation steps
+                animationSteps: 100,
+                //String - Animation easing effect
+                animationEasing: 'easeOutBounce',
+                //Boolean - Whether we animate the rotation of the Doughnut
+                animateRotate: true,
+                //Boolean - Whether we animate scaling the Doughnut from the centre
+                animateScale: false,
+                //Boolean - whether to make the chart responsive to window resizing
+                responsive: true,
+                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: true,
+                //String - A legend template
+                legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            pieChart.Doughnut(PieData, pieOptions)
         })
     </script>
 }
