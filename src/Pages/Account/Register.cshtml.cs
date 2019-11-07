@@ -67,7 +67,7 @@ namespace BES.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
+            public string RegionalAccess { get; set; }
             [Display(Name = "Agreement")]
             [IsTrueRequired(ErrorMessage = "You must agree the terms.")]
             public bool IsAgree { get; set; }
@@ -87,7 +87,7 @@ namespace BES.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, PhoneNumber = Input.Password, Role = Input.SectionRole};
+                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, PhoneNumber = Input.Password, Role = Input.SectionRole,RegionalAccess=Input.RegionalAccess};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
