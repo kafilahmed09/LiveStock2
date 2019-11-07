@@ -400,7 +400,7 @@ namespace BES.Controllers.Data
         }
 
         // GET: /IncdicatorTrackings/VerifidEvidence
-        public async Task<IActionResult> VerifidEvidence(int id)
+        public async Task<IActionResult> VerifiedEvidence(int id)
         {
 
             int PId = 0;
