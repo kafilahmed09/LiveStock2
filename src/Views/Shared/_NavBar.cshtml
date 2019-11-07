@@ -77,15 +77,13 @@
                     <span>Education</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
-
                     </span>
                 </a>
                 <ul class="treeview-menu">
                     @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="index" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Update Progress</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
                     @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-        <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
+                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
                 </ul>
             </li>
             <li><a href="~/Examples/UnderConstruction"><i class="fa fa-circle-o text-blue"></i> <span>Development</span></a></li>
@@ -100,9 +98,8 @@
                 <ul class="treeview-menu">
                     @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneVerifyEdu"><i class="fa fa-bar-chart"></i> Verify Evidences</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
                     @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-        <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
+            <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
                 </ul>
             </li>
             <li><a href="~/Examples/UnderConstruction"><i class="fa fa-circle-o text-blue"></i> <span>Finance</span></a></li>
