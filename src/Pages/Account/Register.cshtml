@@ -37,6 +37,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         </div>
         <div class="form-group has-feedback">
+            <input asp-for="Input.RegionalAccess" class="form-control" placeholder="Regional Access Eg. 1,2,3">
+            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            <span asp-validation-for="Input.RegionalAccess" class="help-block"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="form-group has-feedback">
             <select asp-for="Input.SectionRole" asp-items="Roles"></select>
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             <span asp-validation-for="Input.SectionRole" class="help-block"></span>
