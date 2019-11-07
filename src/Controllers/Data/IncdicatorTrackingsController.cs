@@ -402,6 +402,7 @@ namespace BES.Controllers.Data
         // GET: /IncdicatorTrackings/VerifidEvidence
         public async Task<IActionResult> VerifidEvidence(int id)
         {
+
             int PId = 0;
 
             ViewBag.SectionID = id;
