@@ -399,6 +399,79 @@ namespace BES.Controllers.Data
             return View(await applicationDbContext.ToListAsync());
         }
 
+        // GET: /IncdicatorTrackings/VerifidEvidence
+        public async Task<IActionResult> VerifidEvidence(int id)
+        {
+
+            int PId = 0;
+
+            ViewBag.SectionID = id;
+            if (id == 926982)
+            {
+                ViewBag.Section = "Education Section";
+                PId = 3;
+            }
+            else if (id == 352769)
+            {
+                ViewBag.Section = "Development Section";
+                PId = 4;
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var applicationDbContext = (from Schools in _context.Schools
+                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
+                                        join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
+                                        join Tehsils in _context.Tehsils
+                                              on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
+                                          equals new { Tehsils.TehsilID, Column1 = Tehsils.TehsilID }
+                                        join Districts in _context.Districts
+                                              on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
+                                          equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
+                                        where
+                                           Proj_IncdicatorTracking.Verified == true
+                                        group new { Schools, Districts } by new
+                                        {
+                                            Schools.SchoolID,
+                                            Schools.SName,
+                                            Schools.ClusterBEMIS,
+                                            Schools.type,
+                                            Districts.RegionID,
+                                            Districts.DistrictName
+                                        } into g
+                                        orderby
+                                          g.Key.RegionID,
+                                          g.Key.DistrictName,
+                                          g.Key.type
+                                        select new School
+                                        {
+                                            RegName = g.Key.RegionID.ToString(),
+                                            DisName = g.Key.DistrictName,
+                                            SchoolID = g.Key.SchoolID,
+                                            SName = g.Key.SName,
+                                            ClusterBEMIS = g.Key.ClusterBEMIS,
+                                            type = g.Key.type
+                                        });
+
+            try
+            {
+                string ra = await GetCurrentUserId();
+                //int[] regions = ra.Split(',').Select(int.Parse).ToArray();
+                //string[] regions = ra.Split(','); //.ToArray();
+                //int[] array= Array.ConvertAll(ra, int.Parse);
+                //Console.WriteLine(regions);
+                if (ra.Length > 0)
+                {
+                    applicationDbContext = applicationDbContext.Where(e => e.RegName.Any(r => ra.Contains(r)));
+                }
+            }
+            catch (Exception ex)
+            { }
+
+            return View(await applicationDbContext.ToListAsync());
+        }
+
         public IActionResult MneVerifyIndicators(int id, int SecID)
         {
             int PId = SecID == 926982 ? 4 : 3;
