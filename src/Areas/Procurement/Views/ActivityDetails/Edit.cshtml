@@ -69,6 +69,13 @@
                     <input asp-for="Step.Name" class="form-control" readonly="readonly" />
                 </div>
             </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="form-group">
+                    <label asp-for="UpdatedBy" class="control-label"></label>
+                    <input asp-for="UpdatedBy" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+                </div>
+            </div>
         </div>
         @{
             if (Model.Step.SerailNo == 1 || Model.Step.SerailNo == 6)
@@ -106,15 +113,15 @@
                             }
                             else
                             {
-                                <input asp-for="PlannedDate" class="form-control" style="min-width:150px" readonly="readonly" />                                
+                                <input asp-for="PlannedDate" class="form-control" style="min-width:150px" readonly="readonly" />
                             }
                         }
                     </div>
                     @*<div class="form-group">
-                <label class="control-label">Activity Actual Cost</label>
-                <input asp-for="Activity.ActualCost" name="ActualCost" class="form-control" required />
-                <span asp-validation-for="Activity.ActualCost" class="text-danger"></span>
-            </div>*@
+                        <label class="control-label">Activity Actual Cost</label>
+                        <input asp-for="Activity.ActualCost" name="ActualCost" class="form-control" required />
+                        <span asp-validation-for="Activity.ActualCost" class="text-danger"></span>
+                    </div>*@
                 </div>
                 @{
                     if (Model.ActualDate == null)
@@ -128,17 +135,17 @@
                 }
 
                 @*<div class="form-group" id="divBtns">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                @{
-                    if (Model.Step.SerailNo == 8)
-                    {
-                        <a asp-action="AssignLotsInBulk" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Assign Lot</a>
-                    }
-                }
-                @Html.ActionLink("Cancel", "Edit", "Activities", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
-            </div>
-        </div>*@
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        @{
+                            if (Model.Step.SerailNo == 8)
+                            {
+                                <a asp-action="AssignLotsInBulk" asp-controller="Lots" asp-area="Procurement" asp-route-id="@Model.ActivityID" class="btn btn-primary search" data-toggle="modal" data-target="#exampleModalLong1">Assign Lot</a>
+                            }
+                        }
+                        @Html.ActionLink("Cancel", "Edit", "Activities", new { id = Model.ActivityID }, new { @class = "btn btn-primary" })
+                    </div>
+                </div>*@
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="divHide">
@@ -183,16 +190,36 @@
 
         </div>
         @{
-            if (Model.Step.SerailNo == 8 && Model.ActualDate != null)
+            if (ViewBag.PPName == "Goods")
             {
-                <div class="row">
-                    <div class="col-sm-10 col-md-10 col-lg-10">
-                        <h4 style="font-weight:bold">Please Assign Lots to Suppliers<img id="divLoading" src="~/img/sspinner.gif" width="40" height="40" /></h4>
-                        <a asp-action="Create2" asp-controller="Contractors" asp-route-id="1" class="btn-sm btn-primary search" data-toggle="modal" data-target="#exampleModalLong1"> Add New Supplier/Contractor</a>
-                        <div id="dynamicContentContainer"></div>
+                if (Model.Step.SerailNo == 8 && Model.ActualDate != null)
+                {
+                    <input type="button" value="Detail" onclick="ViewDetailLots()" />
+                    <div class="row">
+                        <div class="col-sm-10 col-md-10 col-lg-10">
+                            <h4 style="font-weight:bold">Please Assign Lots to Suppliers<img id="divLoading" src="~/img/sspinner.gif" width="40" height="40" /></h4>
+                            <a asp-action="Create2" asp-controller="Contractors" asp-route-id="1" class="btn-sm btn-primary search" data-toggle="modal" data-target="#exampleModalLong1"> Add New Supplier/Contractor</a>
+                            <div id="dynamicContentContainerLot"></div>
+                        </div>
                     </div>
-                </div>
-            }           
+                }
+            }
+            if (ViewBag.PPName == "Works")
+            {
+                if (Model.Step.SerailNo == 8 && Model.ActualDate != null)
+                {
+                    <input type="button" value="Work Detail" onclick="ViewDetailWorks()" />
+                    <div class="row">
+                        <div class="col-sm-10 col-md-10 col-lg-10">
+                            <div id="contractordiv" style="display:none">
+                                <h4 style="font-weight:bold">Please Assign Lots to Suppliers<img id="divLoading" src="~/img/sspinner.gif" width="40" height="40" /></h4>
+                                <a asp-action="Create2" asp-controller="Contractors" asp-route-id="1" class="btn-sm btn-primary search" data-toggle="modal" data-target="#exampleModalLong1"> Add New Supplier/Contractor</a>
+                            </div>
+                            <div id="dynamicContentContainerWork"></div>
+                        </div>
+                    </div>
+                }
+            }
         }
     </form>
     
@@ -244,13 +271,23 @@
         //        var route = url;
         //        $('#partial').load(route);
         //    });
-        //});
-
-         $.get('@Url.Action("AssignLotsInBulk", "Lots")', { id: @Model.ActivityID }, function (content) {
-                $("#dynamicContentContainer").html(content);
-                $("#divLoading").hide();
-            });
+        //});       
+        $("#divLoading").hide(); 
     });
+         function ViewDetailLots() {             
+             $("#divLoading").show();
+                $.get('@Url.Action("AssignLotsInBulk", "Lots")', { id: @Model.ActivityID }, function (content) {
+                $("#dynamicContentContainerLot").html(content);
+                $("#divLoading").hide();
+                });
+        }
+         function ViewDetailWorks() {             
+             $("#divLoading").show();
+             $("#contractordiv").show();
+                $.get('@Url.Action("AssignWorkActivity", "ActivityDetailWorks")', { id: @Model.ActivityID }, function (content) {
+                $("#dynamicContentContainerWork").html(content);
+                $("#divLoading").hide();
+            }); }
     $(document).ready(function () {
         $('#NotApplicable').click(function () {
         if ($('#NotApplicable').is(":checked")) {

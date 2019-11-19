@@ -10,6 +10,7 @@ using BES.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using BES.Models.Data;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -161,7 +162,7 @@ namespace BES.Areas.Procurement.Controllers
             }           
             return View(activityDetail);
         }
-
+        
         //[Authorize(Roles = "Procurement")]
         // GET: Procurement/ActivityDetails/Edit/5
         public async Task<IActionResult> Edit(short ActivityID, short StepID)

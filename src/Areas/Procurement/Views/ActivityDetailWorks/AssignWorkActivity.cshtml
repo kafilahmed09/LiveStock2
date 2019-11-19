@@ -1,0 +1,44 @@
+﻿
+
+
+
+@model IEnumerable<BES.Areas.Procurement.Models.WorkSchool>
+
+
+<style>
+    table, tr, td, th {
+        /*border: 1px solid black;*/
+        border-collapse: collapse;
+    }
+
+    .bullet {
+        display: list-item;
+        list-style: disc inside;
+        margin: 0;
+        font-weight: bolder
+    }   
+</style>
+
+<div class="ibox-content">
+    <form id="form1">       
+        <table class="table table-striped dataTables-example">            
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SchoolID)
+                        </th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SchoolID)
+                            </td>                           
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </form>
+</div>
