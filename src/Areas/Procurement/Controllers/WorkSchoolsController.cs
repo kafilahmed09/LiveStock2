@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -78,7 +79,23 @@ namespace BES.Areas.Procurement.Controllers
             ViewBag.AID = id;
             return View(Obj);
         }
-
+        //[Authorize(Roles = "Procurement")]
+        [HttpPost]
+        public async Task<IActionResult> AssignAmount(short WorkSchoolId, Int64 EAmount, Int64 AAmount)
+        {
+            var Obj = await _context.WorkSchool.FindAsync(WorkSchoolId);
+            var AID = _context.ActivityDetailWork.Find(Obj.ActivityDetailWorkID).ActivityID;
+            var AObj = _context.Activity.Find(AID);
+            AObj.EstimatedCost +=(int) EAmount;
+            AObj.ActualCost += (int)AAmount;
+            Obj.EstimatedCost = EAmount;
+            Obj.ActualCost = AAmount;
+            Obj.CurrentDate = DateTime.Now.Date;            
+            _context.Update(Obj);
+            _context.Update(AObj);
+            await _context.SaveChangesAsync();
+            return Json(new { success = true, responseText = "Your message successfuly sent!" });
+        }
         // POST: Procurement/WorkSchools/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

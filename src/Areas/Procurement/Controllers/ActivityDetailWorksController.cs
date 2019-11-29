@@ -28,12 +28,8 @@ namespace BES.Areas.Procurement.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
         public ActionResult AssignWorkActivity(int id)
-        {
-            List<Contractor> contractorList = new List<Contractor>();
-            contractorList = _context.Contractor.Where(a => a.ContractorTypeID == 1).ToList();
-            contractorList.Insert(0, new Contractor { ContractorID = 0, CompanyName = "Select" });
-            ViewData["ContractorID"] = new SelectList(contractorList, "ContractorID", "CompanyName");
-            var applicationDbContext = _context.WorkSchool.Include(a=>a.ActivityDetailWork.Activity).Include(l => l.ActivityDetailWork.Contractor).Where(a => a.ActivityDetailWork.ActivityID == id);
+        {            
+            var applicationDbContext = _context.WorkSchool.Include(a=>a.ActivityDetailWork.Activity).Include(a=>a.School.UC.Tehsil.District).Where(a => a.ActivityDetailWork.ActivityID == id);
             
             return PartialView(applicationDbContext);
         }

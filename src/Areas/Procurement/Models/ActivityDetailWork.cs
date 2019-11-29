@@ -21,7 +21,7 @@ namespace BES.Areas.Procurement.Models
         [DisplayName("Contractor")]
         public short? ContractorID { get; set; }
         [DisplayName("Expiry Date")]
-        public short? ExpiryDate { get; set; }      
+        public DateTime? ExpiryDate { get; set; }      
 
         public virtual Activity Activity { get; set; }
         public virtual Contractor Contractor { get; set; }
