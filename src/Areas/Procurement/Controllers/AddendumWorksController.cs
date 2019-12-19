@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -62,7 +64,9 @@ namespace BES.Areas.Procurement.Controllers
             }
             ViewBag.AID = id;
             ViewData["AddendumTypeId"] = new SelectList(_context.AddendumType, "AddendumTypeId", "Name");
-            return View();
+            AddendumWorks Obj = new AddendumWorks();            
+            Obj.ActivityDetailWorkID = _context.ActivityDetailWork.Include(a=>a.Activity).Where(a => a.Activity.ActivityID == id).Select(a => a.ActivityDetailWorkID).FirstOrDefault();
+            return View(Obj);
         }
 
         // POST: Procurement/AddendumWorks/Create
@@ -70,13 +74,35 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AddendumId,ActivityDetailWorkID,AddendumTypeId,Attachment,Remarks,ExpiryDate,CurrentDate,ActualAmount")] AddendumWorks addendumWorks)
+        public async Task<IActionResult> Create(short id, [Bind("AddendumId,ActivityDetailWorkID,AddendumTypeId,Attachment,Remarks,ExpiryDate,CurrentDate,ActualAmount")] AddendumWorks addendumWorks, IFormFile Attachment)
         {
             if (ModelState.IsValid)
             {
+                if (Attachment != null)
+                {
+                    var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\Works\\");
+                    string fileName = Path.GetFileName(Attachment.FileName);
+                    fileName = fileName.Replace("&", "n");
+                    string AName = _context.ActivityDetailWork.Include(a=>a.Activity).Where(a => a.ActivityDetailWorkID == addendumWorks.ActivityDetailWorkID).Select(a => a.Activity.Name).FirstOrDefault().ToString();
+                    AName = AName.Replace("&", "n");                    
+                    int NextID = (_context.AddendumWorks.Max(a => (int?)a.AddendumId) ?? 1) + 1;                    
+                    addendumWorks.Attachment = Path.Combine("/Documents/Procurement/Works/" + "//" + AName + "//Addendum//" + NextID.ToString() + "//" + fileName);//Server Path                
+                    string sPath = Path.Combine(rootPath + "/" + AName + "//Addendum//" + NextID.ToString());
+                    if (!System.IO.Directory.Exists(sPath))
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                    }
+                    string FullPathWithFileName = Path.Combine(sPath, fileName);
+                    using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                    {
+                        await Attachment.CopyToAsync(stream);
+                    }
+                }
+                addendumWorks.CurrentDate = DateTime.Now.Date;
                 _context.Add(addendumWorks);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create), new { id });
             }
             ViewData["ActivityDetailWorkID"] = new SelectList(_context.ActivityDetailWork, "ActivityDetailWorkID", "ActivityDetailWorkID", addendumWorks.ActivityDetailWorkID);
             ViewData["AddendumTypeId"] = new SelectList(_context.AddendumType, "AddendumTypeId", "AddendumTypeId", addendumWorks.AddendumTypeId);

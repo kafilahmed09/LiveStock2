@@ -12,7 +12,7 @@ namespace BES.Areas.Procurement.Models
     public class AddendumWorks
     {
         [Key]
-        public int AddendumId { get; set; }
+        public short AddendumId { get; set; }
         public short ActivityDetailWorkID { get; set; }
         [DisplayName("Addendum Type")]
         public short AddendumTypeId { get; set; }
