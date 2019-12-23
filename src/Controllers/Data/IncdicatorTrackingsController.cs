@@ -466,7 +466,8 @@ namespace BES.Controllers.Data
                 return RedirectToAction("Login", "Account");
             }
             var applicationDbContext = (from Schools in _context.Schools
-                                        join IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals IncdicatorTracking.SchoolID
+                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
+                                        join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID
                                         join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
                                         join Tehsils in _context.Tehsils
                                               on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
@@ -475,7 +476,7 @@ namespace BES.Controllers.Data
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                           IncdicatorTracking.ReUpload == true
+                                           Proj_IncdicatorTracking.ReUpload == true && Indicators.PartnerID == PId
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
