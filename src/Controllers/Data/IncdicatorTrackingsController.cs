@@ -466,8 +466,7 @@ namespace BES.Controllers.Data
                 return RedirectToAction("Login", "Account");
             }
             var applicationDbContext = (from Schools in _context.Schools
-                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
-                                        join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID
+                                        join IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals IncdicatorTracking.SchoolID
                                         join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
                                         join Tehsils in _context.Tehsils
                                               on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
@@ -476,7 +475,7 @@ namespace BES.Controllers.Data
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                           Proj_IncdicatorTracking.Verified == true && Indicators.PartnerID == PId
+                                           IncdicatorTracking.ReUpload == true
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
@@ -517,6 +516,8 @@ namespace BES.Controllers.Data
 
             return View(await applicationDbContext.ToListAsync());
         }
+
+       
 
         public IActionResult MneVerifyIndicators(int id, int SecID)
         {

@@ -140,5 +140,7 @@ namespace BES.Data
         public DbSet<BES.Models.Data.IndicatorTracking> IncdicatorTracking { get; set; }
         public DbSet<BES.Models.Data.TeacherProfile> TeacherProfile { get; set; }
         public DbSet<BES.Areas.Procurement.Models.WorkSchool> WorkSchool { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.AddendumWorks> AddendumWorks { get; set; }
+        public DbSet<BES.Models.Data.Contact> Contact { get; set; }
     }
 }
