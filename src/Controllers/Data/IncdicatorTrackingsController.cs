@@ -111,7 +111,7 @@ namespace BES.Controllers.Data
                                        join IncdicatorTracking in indiTrack on Indicator.IndicatorID equals IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
                                        from Proj_IncdicatorTracking in Proj_IncdicatorTracking_join.DefaultIfEmpty()
                                        where
-                                         Indicator.PartnerID == PId
+                                         Indicator.PartnerID == PId && Indicator.SequenceNo>0
                                        // && (Proj_IncdicatorTracking.SchoolID == id ||
                                        //Proj_IncdicatorTracking.SchoolID == null)
 
@@ -161,11 +161,11 @@ namespace BES.Controllers.Data
                 ViewBag.Section = "Development Section";
                 if(sch.NewConstruction==false)
                 {   // remove Soil test and Master Plan
-                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 26 && a.IndicatorID != 27);
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 24 && a.IndicatorID != 25);
                 }
                 if(sch.ExternalDevelopment==false)
                 {
-                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 31);
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 39);
                 }
             }
             //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
@@ -273,13 +273,13 @@ namespace BES.Controllers.Data
                 //IndiTrack.CreatedBy = User.Identity.Name;
 
                 //update school table
-                if (iID > 21 & iID < 25)
+                if (iID==26 ||iID==35|| iID== 41)
                 {
                     School school = _context.Schools.Find(sID);
                     switch(iID)
-                    { case 22: school.NewConstruction = true; break;
-                        case 23: school.RepairRennovation = true; break;
-                        case 24: school.ExternalDevelopment = true; break;
+                    { case 26: school.NewConstruction = true; break;
+                        case 35: school.RepairRennovation = true; break;
+                        case 41: school.ExternalDevelopment = true; break;
                     }
                     _context.Update(school);
                 }
@@ -660,7 +660,6 @@ namespace BES.Controllers.Data
         [HttpPost]
         public async Task<IActionResult> DevInfo(int id, short nr,short rr, short nt, short rt)
         {
-
             try
             {
                 School school = _context.Schools.Find(id);
