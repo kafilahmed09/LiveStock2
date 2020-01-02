@@ -60,7 +60,9 @@
                     else
                     {
                         <td>
-                            @Html.DisplayFor(modelItem => item.ActualAmount)
+                            <a  asp-action="CreateList" asp-controller="AddendumWorkDetails" asp-route-id="@item.ActivityDetailWorkID" asp-route-AddendumId ="@item.AddendumId">
+                                <img src='@Url.Content("~/images/plus.png")' width="30" height="30" />
+                            </a>
                         </td>
 
                     }
