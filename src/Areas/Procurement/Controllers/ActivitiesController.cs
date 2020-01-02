@@ -211,7 +211,7 @@ namespace BES.Areas.Procurement.Controllers
                     var contacts = _context.Contact.Where(a=>a.IsActive == true).ToList();
                     foreach(var contact in contacts)
                     {
-                        ObjSMS.SendSingleSMS(msg,contact.ContactNumber);                        
+                        //ObjSMS.SendSingleSMS(msg,contact.ContactNumber);                        
                     }
                                         
                     return RedirectToAction(nameof(Index),new { PPID = id });                    

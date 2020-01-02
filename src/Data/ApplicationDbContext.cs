@@ -142,5 +142,6 @@ namespace BES.Data
         public DbSet<BES.Areas.Procurement.Models.WorkSchool> WorkSchool { get; set; }
         public DbSet<BES.Areas.Procurement.Models.AddendumWorks> AddendumWorks { get; set; }
         public DbSet<BES.Models.Data.Contact> Contact { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.AddendumWorkDetail> AddendumWorkDetail { get; set; }
     }
 }
