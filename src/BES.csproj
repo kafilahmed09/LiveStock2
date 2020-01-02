@@ -256,7 +256,6 @@
     <None Include="wwwroot\libs\ckeditor\plugins\link\dialogs\anchor.js" />
     <None Include="wwwroot\libs\ckeditor\plugins\link\dialogs\link.js" />
     <None Include="wwwroot\libs\ckeditor\styles.js" />
-    <None Include="wwwroot\libs\datatables\js\buttons.html5.min.js" />
     <None Include="wwwroot\libs\datatables\js\dataTables.bootstrap.js" />
     <None Include="wwwroot\libs\datatables\js\dataTables.bootstrap.min.js" />
     <None Include="wwwroot\libs\datatables\js\dataTables.bootstrap4.js" />

@@ -44,7 +44,7 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-        [Authorize(Roles = "Administrator,Education")]
+        [Authorize(Roles = "Administrator,Education,Development")]
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.SectionID = id;
@@ -499,6 +499,7 @@ namespace BES.Controllers.Data
                                             ClusterBEMIS = g.Key.ClusterBEMIS,
                                             type = g.Key.type
                                         });
+            
 
             try
             {
