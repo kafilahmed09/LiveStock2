@@ -1,0 +1,109 @@
+﻿@model IEnumerable<BES.Models.Reports.IndicatorsSummary>
+
+@{
+    ViewData["Title"] = "Education";
+}
+
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IndicatorID)
+            </th>
+            <th>
+                Indicators
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.PotentailTarget)
+            </th>*@
+            <th>
+                Potential Schools
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.PotentailPercent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FeederTarget)
+            </th>*@
+            <th>
+                Feeder Schools
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.FeederPercent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NLTarget)
+            </th>*@
+            <th>
+                Next Level Schools
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.NLPercent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalTarget)
+            </th>*@
+            <th>
+                Total
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.TotalPercent)
+            </th>*@
+
+        </tr>
+        <tr><td colspan="6"><h4> Education Section (Progress @ViewBag.EduPercent %)</h4> </td></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IndicatorID == 21)
+            {
+                <tr><td colspan="6"><h4> Development Section (Progress @ViewBag.DevPercent %) </h4></td></tr>
+            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndicatorID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndicatorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PotentailAchieve) of
+
+                    @Html.DisplayFor(modelItem => item.PotentailTarget)
+
+                    @*@Html.DisplayFor(modelItem => item.PotentailPercent)*@
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FeederAchieve) of
+                    @Html.DisplayFor(modelItem => item.FeederTarget)
+
+                    @*@Html.DisplayFor(modelItem => item.FeederPercent)*@
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NLAchieve) of
+                    @Html.DisplayFor(modelItem => item.NLTarget)
+
+                    @*@Html.DisplayFor(modelItem => item.NLPercent)*@
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAchieve) of
+                    @Html.DisplayFor(modelItem => item.TotalTarget)
+
+                    @*@Html.DisplayFor(modelItem => item.TotalPercent)*@
+                </td>
+
+
+            </tr>
+
+        }
+    </tbody>
+</table>
