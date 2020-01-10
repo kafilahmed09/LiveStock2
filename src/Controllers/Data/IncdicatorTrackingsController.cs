@@ -44,9 +44,11 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-        [Authorize(Roles = "Administrator,Education,Development")]
+        //[Authorize(Roles = "Administrator,Education,Development")]
         public async Task<IActionResult> Index(int id)
         {
+            if (User.Identity.Name==null)
+                return RedirectToAction("Login","Account");
             ViewBag.SectionID = id;
             if (id == 926982)
             {

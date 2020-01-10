@@ -156,4 +156,18 @@ namespace BES.Models.Data
 
         public string Longitude { get; set; }
     }
+
+    public class SchIndicatorStatus
+    {
+        public int RegionID { get; set; }
+        public string DistrictName { get; set; }
+                 [Key]
+         public int SchoolID { get; set; }
+        public string SName { get; set; }
+         public int ClusterBEMIS { get; set; }
+        public string BEMIS { get; set; }
+        public string SLevel { get; set; }
+        public string Type { get; set; }
+        public int IsUploaded { get; set; }
+    }
 }

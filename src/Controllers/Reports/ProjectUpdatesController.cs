@@ -25,8 +25,28 @@ namespace BES.Controllers.Reports
 
         //public ApplicationDbContext Context => _context;
 
-        public IActionResult Index(int? RegionID, DateTime? StartDate, DateTime? EndDate)
+        public IActionResult Index(int id, bool verify ,int? RegionID, DateTime? StartDate, DateTime? EndDate)
         {
+            ViewBag.SectionID = id;
+            ViewBag.Verify = verify;
+
+            if (id == 926982)  
+                ViewBag.Section = "Education Section";
+            else if (id == 352769)
+                ViewBag.Section = "Development Section";
+            else if(id==123987)
+                ViewBag.Section = "Project all Sections";
+            else
+                return RedirectToAction("index", "BaselineGenerals");
+
+            if (verify == true)
+                ViewBag.SummaryType = " Progress so far ";
+            else
+                ViewBag.SummaryType = " Uploaded Evidences so far";
+            ViewBag.toDate = DateTime.Now.Date;
+            //ViewBag.fromDate = ViewBag.toDate.AddDays(-30);
+            ViewBag.fromDate = new DateTime(2018, 1, 1);
+
             List<Region> RegionList = new List<Region>();
             RegionList = _context.Regions.ToList();
             RegionList.Insert(0, new Region { RegionID = 0, RegionName = "All" });
@@ -43,99 +63,117 @@ namespace BES.Controllers.Reports
             return Json(new SelectList(districtList, "DistrictID", "DistrictName"));
         }
 
-        public async Task<IActionResult> FilterView(short? RID, short? DID, DateTime? StartDate, DateTime? EndDate)
+        public async Task<IActionResult> FilterView(int? id, bool verify,short? RID, short? DID, DateTime? StartDate, DateTime? EndDate)
         {
-            var query = _context.IndicatorsSummaries.FromSql("exec IndicatorSummarySP @RID", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID)).ToList<IndicatorsSummary>();
-           // var q = context.blogs.FromSql("EXECUTE WID_Services_GetAll  @Id ", loggedInUser);
-            //var query2 = from Regions in _context.Regions
-            //            join Districts in _context.Districts on Regions.RegionID equals Districts.RegionID
-            //            join Tehsils in _context.Tehsils on Districts.DistrictID equals Tehsils.DistrictID
-            //            join Ucs in _context.UCs on Tehsils.TehsilID equals Ucs.TehsilID
-            //            join Schools in _context.Schools on Ucs.UCID equals Schools.UCID
-            //            join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
-            //            where Proj_IncdicatorTracking.IsUpload==true && Proj_IncdicatorTracking.ReUpload==false
-            //            select new
-            //            {
-            //                Regions.RegionID,
-            //                Districts.DistrictID,
-            //               // Proj_IncdicatorTracking.SchoolID,
-            //                Proj_Indicator.IndicatorName,
-            //                Proj_Indicator.IndicatorID,
-            //               // Proj_IncdicatorTracking.IsUpload,
-            //               // Proj_IncdicatorTracking.Verified,
-            //                Proj_Indicator.IsPotential,
-            //                Proj_Indicator.IsFeeder,
-            //                Proj_Indicator.IsNextLevel,
-            //                Schools.type,
-            //               // potentail = Schools.
-            //            };
-            var schools = _context.Schools.Include(a=>a.UC.Tehsil.District) .Where(a => a.SchoolID > 0)
-                        .Select(a => new { a.UC.Tehsil.District.RegionID,a.UC.Tehsil.District.DistrictID, a.SchoolID, a.type,a.NewConstruction,a.RepairRennovation });
-            //if (DID != null)
-            //{
-            //    query = query.Where(a => a.DistrictID == DID);
-            //    schools = schools.Where(a => a.DistrictID == DID);
-            //}
-            //else if (RID != null)
-            //{
-            //    query = query.Where(a => a.RegionID == RID);
-            //    schools = schools.Where(a => a.RegionID == RID);
-            //}
-                var IndicatorList = await _context.Indicator.OrderBy(a => a.IndicatorID).Where(a=>a.IsSummary==true).ToListAsync();
+            if(RID==0)            { RID = null; }
+            ViewBag.Verify = verify;
+            var indicatorsSummaries = _context.IndicatorsSummaries.FromSql("exec IndicatorSummarySP @RID, @DID, @verify", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID), new SqlParameter("@verify", verify )); //.ToList<IndicatorsSummary>();
+            var indicatorTotalTarget = _context.indicatorsTotalTargets.FromSql("exec IndicatorsTotalTargetSP @RID, @DID", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID)); //.ToList<IndicatorsTotalTarget>(); ;
+           // var indicatorTotalTarget = _context.indicatorsTotalTargets;
+            var indictorAll = _context.Indicator.Where(a=>a.IndicatorID<=40);
+            var query = from target in indicatorTotalTarget
+                            //from summary in indicatorsSummaries
+                            //from Indicator in indictorAll
+                        from Indicator in indictorAll
+                        join summary in indicatorsSummaries on Indicator.IndicatorID equals summary.IndicatorID into summary_join
+                        from summary in summary_join.DefaultIfEmpty()
 
-            List<IndicatorsSummary> indicatorsSummary = new List<IndicatorsSummary>();
-           
+                        select new IndicatorsSummary
+                        {
+                            IndicatorID = Indicator.IndicatorID,
+                            IndicatorName = Indicator.IndicatorName,
+                            PartnerID = Indicator.PartnerID,
+                            PotentailAchieve = summary.PotentailAchieve == null ? 0 : summary.PotentailAchieve,
+                            FeederAchieve = summary.FeederAchieve == null ? 0 : summary.FeederAchieve,
+                            NLAchieve = summary.NLAchieve == null ? 0 : summary.NLAchieve,
+                            //TotalAchieve = summary.PotentailAchieve+summary.FeederAchieve+summary.NLAchieve,
+                            TotalAchieve = summary.TotalAchieve == null ? 0 : summary.TotalAchieve,
+                            //PotentailTarget = target.Potential,
+                            PotentailTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair : target.PotentialNew) : target.Potential,
+                            FeederTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.FeederRepair : target.FeederNew) : target.Feeder,
+                            NLTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.NextLevelRepair : target.NextLevelNew) : target.NextLevel,
+                            TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.TotalRepair : target.TotalNew) : target.TotalTarget 
+                      // TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair+ target.FeederRepair +target.NextLevelRepair : target.PotentialNew+ target.PotentialRepair+ target.NextLevelNew) : target.Potential+ target.Feeder+ target.NextLevel
+                        };
 
-            foreach (var l in IndicatorList)
+            if (id == 926982)
             {
-                var IS = new IndicatorsSummary();
-                var qq = query.Where(a => a.IndicatorID == l.IndicatorID);
-                IS.IndicatorID = l.IndicatorID;
-                //IS.PartnerID = l.PartnerID;
-                //IS.IndicatorName = l.IndicatorName;
-
-                //Total Target setting of Indicators 
-                if (l.IndicatorID < 26)
-                {
-                    IS.PotentailTarget = l.IsPotential ? await schools.CountAsync(a => a.type == 1) : 0;
-                    IS.FeederTarget = l.IsFeeder ? await schools.CountAsync(a => a.type == 2) : 0;
-                    IS.NLTarget = l.IsNextLevel ? await schools.CountAsync(a => a.type == 3) : 0;
-                }
-                else if(l.IndicatorID<38) //New construction
-                {
-                    IS.PotentailTarget = l.IsPotential ? await schools.CountAsync(a => a.type == 1 && a.NewConstruction):0;
-                    IS.FeederTarget = l.IsFeeder ? await schools.CountAsync(a => a.type == 2 && a.NewConstruction) : 0;
-                    IS.NLTarget = l.IsNextLevel ? await schools.CountAsync(a => a.type == 3 && a.NewConstruction) : 0;
-                }
-                else //repair and renovation
-                {
-                    IS.PotentailTarget = l.IsPotential ? await schools.CountAsync(a => a.type == 1 && a.RepairRennovation) : 0;
-                    IS.FeederTarget = l.IsFeeder ? await schools.CountAsync(a => a.type == 2 && a.RepairRennovation) : 0;
-                    IS.NLTarget = l.IsNextLevel ? await schools.CountAsync(a => a.type == 3 && a.RepairRennovation) : 0;
-
-                }
-                IS.PotentailAchieve = qq.Sum(a=>a.PotentailAchieve);
-               // IS.PotentailPercent = IS.PotentailTarget == 0 ? 0 : (IS.PotentailAchieve / IS.PotentailTarget);
-
-                IS.FeederAchieve = qq.Sum(a => a.FeederAchieve);
-                // IS.FeederPercent = IS.FeederPercent == 0 ? 0 : IS.FeederAchieve / IS.FeederTarget;
-
-                IS.NLAchieve = qq.Sum(a => a.NLAchieve);
-                //IS.NLPercent = IS.FeederPercent == 0 ? 0 : (IS.NLAchieve / IS.NLTarget);
-
-                IS.TotalTarget = IS.PotentailTarget + IS.FeederTarget + IS.NLTarget;
-                IS.TotalAchieve = IS.PotentailAchieve + IS.FeederAchieve + IS.NLAchieve;
-                //IS.TotalPercent = IS.TotalAchieve / IS.TotalTarget;
-                indicatorsSummary.Add(IS);
+                ViewBag.Section = "Education Section";
+                query = query.Where(a => a.IndicatorID < 20);
             }
-            //var eduSummary = indicatorsSummary.Where(a => a.PartnerID == 4);
-            //ViewBag.EduPercent = eduSummary.Sum(a => a.TotalAchieve)*100/eduSummary.Sum(a=>a.TotalTarget);
+            else if (id == 352769)
+            {
+                ViewBag.Section = "Development Section";
+                query = query.Where(a => a.IndicatorID > 20);
+            }
 
-            //var DevSummary = indicatorsSummary.Where(a => a.PartnerID == 3);
-            //ViewBag.DevPercent = DevSummary.Sum(a => a.TotalAchieve) * 100 / eduSummary.Sum(a => a.TotalTarget);
-
-            return PartialView(indicatorsSummary);
+            // Todo: need optimzation below code taking 3 secs more. 
+            //try
+            //{
+                var eduQuery = query.Where(a => a.PartnerID == 4);
+                ViewBag.EduPercent = eduQuery.Sum(a => a.TotalAchieve) * 100 / eduQuery.Sum(a => a.TotalTarget);
+            //}
+            //catch
+            //{
+            //    ViewBag.EduPercent = 0;
+            //}
+            //try { ViewBag.DevPercent = query.Where(a => a.PartnerID == 3).Sum(a => a.TotalAchieve) * 100 / query.Where(a => a.PartnerID == 3).Sum(a => a.TotalTarget); }
+            //catch { ViewBag.DevPercent = 0; }
+            ViewBag.DevPercent = 0;
+            return PartialView(query);
         }
 
+        public async Task<IActionResult> SchoolList (int id,short?RID, short?DID,int? Type, string IndicatorName)
+        {
+            ViewBag.IndicatorName = IndicatorName;
+            var query = _context.schIndicatorStatuses.FromSql("exec IndicatorSchoolWiseStatus @RID, @DID, @IID, @Type", 
+                                                                                new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), 
+                                                                                new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID),
+                                                                                new SqlParameter("@IID", id),
+                                                                                 new SqlParameter("@Type", Type == null ? (object)DBNull.Value : Type)
+                                                                                                     ); //.ToList<IndicatorsSummary>();
+
+            //var query = from Ucs in _context.UCs
+            //            join Schools in _context.Schools on new { UCID = Ucs.UCID } equals new { UCID = Schools.UCID }
+            //            join Tehsils in _context.Tehsils
+            //                  on new { Ucs.TehsilID, Column1 = Ucs.TehsilID, Column2 = Ucs.TehsilID }
+            //              equals new { Tehsils.TehsilID, Column1 = Tehsils.TehsilID, Column2 = Tehsils.TehsilID }
+            //            join Districts in _context.Districts
+            //                  on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID, Column2 = Tehsils.DistrictID }
+            //              equals new { Districts.DistrictID, Column1 = Districts.DistrictID, Column2 = Districts.DistrictID }
+            //            join IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals IncdicatorTracking.SchoolID into IncdicatorTracking_join
+            //            from IncdicatorTracking in IncdicatorTracking_join.DefaultIfEmpty()
+            //            group new { Districts, Schools, Ucs, IncdicatorTracking } by new
+            //            {
+            //                Districts.RegionID,
+            //                Districts.DistrictName,
+            //                Schools.SName,
+            //                Schools.BEMIS,
+            //                Schools.ClusterBEMIS,
+            //                Schools.SLevel,
+            //                Schools.type,
+            //                Schools.SchoolID
+            //            } into g
+            //            orderby
+            //              g.Key.RegionID,
+            //              g.Key.DistrictName,
+            //              g.Key.ClusterBEMIS
+            //            select new School
+            //            {
+            //                RegName= g.Key.RegionID.ToString(),
+            //                DisName=  g.Key.DistrictName,
+            //                SchoolID = g.Key.SchoolID,
+            //               SName= g.Key.SName,
+            //               BEMIS= g.Key.BEMIS,
+            //               ClusterBEMIS= g.Key.ClusterBEMIS,
+            //              SLevel=  g.Key.SLevel,
+            //                type = g.Key.type,
+            //                Abandon = g.Max(p => (p.IncdicatorTracking.IndicatorID == 13 &&
+            //                                           p.IncdicatorTracking.IsUpload==true ? true : false)),
+
+            //            };
+            return PartialView(query);
+           
+        }
     }
 }
