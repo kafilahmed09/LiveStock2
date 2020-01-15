@@ -79,7 +79,7 @@
                 <div class="divHide">
                     <div class="form-group">
                         <label asp-for="ActualDate" class="control-label"></label>
-                        <input asp-for="ActualDate" class="form-control" required />
+                        <input asp-for="ActualDate" class="form-control" />
                         <span asp-validation-for="ActualDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     <div class="form-group">
                         <label asp-for="Attachment" class="control-label"></label>
                         <div>
-                            <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept="application/pdf" required></span>
+                            <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept="application/pdf"></span>
                         </div>
                     </div>
                 </div>
