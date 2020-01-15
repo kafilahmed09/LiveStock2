@@ -1,0 +1,53 @@
+﻿@model List<BES.Areas.LMS.Models.EmpLeaveSummary>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+
+<div class="row" style="margin:10px 10px 0 10px">
+    <h3>Employee Leave Summary - @ViewBag.Name</h3>
+    <hr />
+    <form asp-action="Edit">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ElementAt(0).LeaveType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ElementAt(0).Total)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ElementAt(0).Availed)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(int index = 0;index < Model.Count; index++ )
+                {
+                    <input type="hidden" asp-for="@Model[index].LeaveTypeID" />
+                    <input type="hidden" asp-for="@Model[index].EmployeeID" />
+                    <input type="hidden" asp-for="@Model[index].EmpLeaveSummaryID" />
+                    <tr>
+                        <td><input asp-for="@Model[index].LeaveType.Name" class="form-control" readonly="readonly" /></td>
+                        <td><input asp-for="@Model[index].Total" class="form-control" readonly="readonly" /></td>
+                        <td><input asp-for="@Model[index].Availed" class="form-control" /></td>
+                    </tr>
+                }
+                <tr>
+                    <td style="margin:5px" class="btn btn-success"><input type="submit" value="Add Employee" class="btn btn-default" /></td>
+                </tr>
+            </tbody>           
+        </table>
+    </form>
+</div>
+
+<div style="margin-left:10px">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
