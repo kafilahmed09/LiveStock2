@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Education";
+    var RID = ViewBag.RID;
+    var DID = ViewBag.DID;
     //bool v
     //var eduModel = Model.Where(a => a.PartnerID == 4);
     //var EduPercent = eduModel.Sum(a => a.TotalAchieve) * 100 / eduModel.Sum(a => a.TotalTarget);
@@ -113,7 +115,7 @@
                     @Html.DisplayFor(modelItem => item.IndicatorName)
                 </td>
                 <td>
-                    <a class="=Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-Type=1 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=1 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @Html.DisplayFor(modelItem => item.PotentailAchieve) of
                         @Html.DisplayFor(modelItem => item.PotentailTarget)
@@ -122,7 +124,7 @@
                 </td>
 
                 <td>
-                    <a class="=Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-Type=2 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID  asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=2 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @*<a class="search" data-url='@Url.Action("SchoolList", "ProjectUpdates", new { id = item.IndicatorID, Type=2, IndicatorName= item.IndicatorName })' data-toggle="modal" data-target="#exampleModalLong1">*@
                         @Html.DisplayFor(modelItem => item.FeederAchieve) of
@@ -136,7 +138,7 @@
 
 
                 <td>
-                    <a class="=Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-Type=3 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID  asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=3 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @Html.DisplayFor(modelItem => item.NLAchieve) of
                         @Html.DisplayFor(modelItem => item.NLTarget)
@@ -145,7 +147,7 @@
                 </td>
 
                 <td>
-                    <a class="=Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID  asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID"  asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @Html.DisplayFor(modelItem => item.TotalAchieve) of
                         @Html.DisplayFor(modelItem => item.TotalTarget)
@@ -165,6 +167,7 @@
 <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
     <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
         <div class="modal-content">
+
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -246,24 +249,26 @@
 
     });
     $(function () {
-        //debugger;
-        $('.search').click(function () {
-            var url = $(this).data('url');
-            var RID = $('#RegionID option:selected').val();
-            var DID = $('#DistrictID option:selected').val();
-            if (DID > 0)
-                url = url + "&DID=" + DID;
-            else if (RID > 0)
-                url = url + "&RID=" + RID;
-            //alert(url);
-            var route = url;
+        
+        //$('.Search').click(function () {
+        //    debugger;
+        //    var url = this.href
+        //    var RID = $('#RegionID option:selected').val();
+        //    var DID = $('#DistrictID option:selected').val();
+        //    if (DID > 0)
+        //        url = url + "&DID=" + DID;
+        //    else if (RID > 0)
+        //        url = url + "&RID=" + RID;
+        //    //alert(url);
+        //    var route = url;
 
-            $('#partial').load(route);
-        });
+        //    $('#partial').load(route);
+        //});
     });
 
     //Clear Datatable
     $('#exampleModalLong1').on('hidden.bs.modal', function (e) {
+       // debugger;
         var table = $('#dataTables-example').DataTable();
         $(this).removeData('bs.modal');
         //alert("Closing and clearing data");
