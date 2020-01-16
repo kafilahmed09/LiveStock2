@@ -113,7 +113,7 @@
                     @Html.DisplayFor(modelItem => item.IndicatorName)
                 </td>
                 <td>
-                    <a class="=Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-Type=1 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    <a class="=Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-Type=1 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @Html.DisplayFor(modelItem => item.PotentailAchieve) of
                         @Html.DisplayFor(modelItem => item.PotentailTarget)

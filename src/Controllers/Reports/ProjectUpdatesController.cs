@@ -123,13 +123,14 @@ namespace BES.Controllers.Reports
             return PartialView(query);
         }
 
-        public async Task<IActionResult> SchoolList (int id,short?RID, short?DID,int? Type, string IndicatorName)
+        public async Task<IActionResult> SchoolList (int id,short?RID, short?DID, bool verify,int? Type, string IndicatorName)
         {
             ViewBag.IndicatorName = IndicatorName;
-            var query = _context.schIndicatorStatuses.FromSql("exec IndicatorSchoolWiseStatus @RID, @DID, @IID, @Type", 
+            var query = _context.schIndicatorStatuses.FromSql("exec IndicatorSchoolWiseStatus @RID, @DID, @IID, @Type, @verify", 
                                                                                 new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), 
                                                                                 new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID),
                                                                                 new SqlParameter("@IID", id),
+                                                                                new SqlParameter("@verify", verify),
                                                                                  new SqlParameter("@Type", Type == null ? (object)DBNull.Value : Type)
                                                                                                      ); //.ToList<IndicatorsSummary>();
 
