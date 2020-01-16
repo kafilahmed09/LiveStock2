@@ -10,6 +10,10 @@
   <ItemGroup>
     <Compile Remove="Controllers\Data\SchoolsoldController.cs" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Remove="wwwroot\%2a%2a" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />

@@ -99,6 +99,7 @@ namespace BES.Areas.LMS.Controllers
                 {
                     try
                     {
+                        empLeaveSummary.LeaveType = null;
                         _context.Update(empLeaveSummary);
                     }
                     catch (DbUpdateConcurrencyException)

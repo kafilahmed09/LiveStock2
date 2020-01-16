@@ -4,11 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-
-
 <div class="row" style="margin:10px 10px 0 10px">
-    <h3>Employee Leave Summary - @ViewBag.Name</h3>
-    <hr />
+    <h5 style="font-weight:bolder">Employee Leave Summary - @ViewBag.Name</h5>    
     <form asp-action="Edit">
         <table>
             <thead>
@@ -37,7 +34,7 @@
                     </tr>
                 }
                 <tr>
-                    <td style="margin:5px" class="btn btn-success"><input type="submit" value="Add Employee" class="btn btn-default" /></td>
+                    <td style="margin:5px"><input class="btn btn-success sm" type="submit" value="Submit" style="margin-top:10px"/></td>
                 </tr>
             </tbody>           
         </table>
