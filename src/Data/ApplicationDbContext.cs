@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Models.Data;
+using BES.Areas.LMS.Models;
 
 namespace BES.Data
 {
@@ -41,6 +42,7 @@ namespace BES.Data
         public DbSet<BES.Models.Data.SchIndicatorStatus> schIndicatorStatuses { get; set; }
         public DbSet<BES.Models.Data.Contractor> Contractor { get; set; }
         public DbSet<BES.Models.Data.Partner> Partners { get; set; }
+        public DbSet<BES.Models.Data.Section> Section { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
 
 
@@ -145,5 +147,7 @@ namespace BES.Data
         public DbSet<BES.Areas.Procurement.Models.AddendumWorks> AddendumWorks { get; set; }
         public DbSet<BES.Models.Data.Contact> Contact { get; set; }
         public DbSet<BES.Areas.Procurement.Models.AddendumWorkDetail> AddendumWorkDetail { get; set; }
+        public DbSet<BES.Areas.LMS.Models.Employee> Employee { get; set; }
+        public DbSet<BES.Areas.LMS.Models.EmpLeaveSummary> EmpLeaveSummary { get; set; }
     }
 }

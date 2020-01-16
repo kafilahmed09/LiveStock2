@@ -9,17 +9,9 @@
                 <img src="~/img/EU-Logo2.png" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>
-                    @if (User.Identity.Name != null)
-                    {
-                        <text>@ProfileManager.CurrentUser.UserName</text>
-
-                    }
-                </p>
-
-
-                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-</div>
+                <p>@ProfileManager.CurrentUser.UserName</p>
+                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
         </div>
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
@@ -35,139 +27,35 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>
-            @*<li class="treeview @(Html.IsMenuActive("/Dashboards") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-dashboard"></i> <span>Dashboards</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.IsMenuActive("/Dashboards/Dashboard1") ? "active" : "")"><a href="~/Dashboards/Dashboard1"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                <li class="@(Html.IsMenuActive("/Dashboards/Dashboard2") ? "active" : "")"><a href="~/Dashboards/Dashboard2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-            </ul>
-        </li>*@
-            <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="926982" asp-route-verify=True><i class="fa fa-circle-o text-olive"></i> Project Progress</a></li>
-
-
-            @* **********Baseline********** *@
-            <li class="treeview @(Html.IsMenuActive("/Dashboards") ? "active" : "")">
-                <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>Baseline</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="Dashboard" asp-route-id="926982"><i class="fa fa- "></i> Dashoord </a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline List</a></li>
-                </ul>
-            </li>
-
-            @* ********** Procurement ******* *@
+            <li class="header">MAIN NAVIGATION</li>           
             <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
                 <a href="#">
                     <i class="fa fa-gear"></i>
-                    <span>Procurement</span>
+                    <span>LMS</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/Procurement/ProcurementPlans/Dashboard"><i class="fa fa-user"></i> Dashboard</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Account") ? "active" : "")"><a href="~/Procurement/Activities?PPID=1"><i class="fa fa-lock"></i> Goods</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/LMS"><i class="fa fa-user"></i> Staff</a></li>                   
                 </ul>
             </li>
-            @*******Education Section***********@
-            <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
+            @*@<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
                 <a href="#">
-                    <i class="fa fa-book"></i>
-                    <span>Education</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
-                    <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="926982"><i class="fa fa-circle-o text-olive"></i> Evidances Summary</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="index" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Update Progress</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
-
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Verifid List</a></li>
-
-
-                    @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
-                </ul>
-            </li>
-            @*Development*@
-            <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
-                <a href="#">
-                    <i class="fa fa-home"></i>
-                    <span>Development</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="index" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Update Progress</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Verifid List</a></li>
-
-                    @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
-                </ul>
-            </li>
-
-            @*M&E*@
-            <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
-                <a href="#">
-                    <i class="fa fa-book"></i>
-                    <span>M&E</span>
+                    <i class="fa fa-gear"></i>
+                    <span>Settings</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
-
-                    @*Edu Part*@
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneVerifyEdu" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Verify Education Evidences</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Reupload Edu Queries</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Verifid Edu List</a></li>
-                    @*Dev part*@
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneVerifyEdu" asp-route-id="352769"><i class="fa fa-home"></i> Verify Development Evidences</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="352769"><i class="fa fa-home"></i> Reupload Dev Queries</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="352769"><i class="fa fa-home"></i> Verifid Dev List</a></li>
-
-                    @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/Settings/Profile"><i class="fa fa-user"></i> Profile</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Account") ? "active" : "")"><a href="~/Settings/Account"><i class="fa fa-lock"></i> Account</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Settings/Security"><i class="fa fa-user-secret"></i> Security</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="~/Settings/History"><i class="fa fa-history"></i> History</a></li>
                 </ul>
             </li>
-            <li><a href="~/Examples/UnderConstruction"><i class="fa fa-circle-o text-blue"></i> <span>Finance</span></a></li>
-            <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/treeview"><i class="fa fa-user"></i> LMS</a></li>
-            @*<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
-            <a href="#">
-                <i class="fa fa-gear"></i>
-                <span>Settings</span>
-                <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                </span>
-            </a>
-            <ul class="treeview-menu">
-                <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/Settings/Profile"><i class="fa fa-user"></i> Profile</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/Account") ? "active" : "")"><a href="~/Settings/Account"><i class="fa fa-lock"></i> Account</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Settings/Security"><i class="fa fa-user-secret"></i> Security</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="~/Settings/History"><i class="fa fa-history"></i> History</a></li>
-            </ul>
-        </li>
-        <li class="@(Html.IsMenuActive("/Widgets") ? "active" : "")">
+            <li class="@(Html.IsMenuActive("/Widgets") ? "active" : "")">
             <a href="~/Widgets">
                 <i class="fa fa-th"></i> <span>Widgets</span>
                 <span class="pull-right-container">
