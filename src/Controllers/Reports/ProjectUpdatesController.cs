@@ -30,11 +30,20 @@ namespace BES.Controllers.Reports
             ViewBag.SectionID = id;
             ViewBag.Verify = verify;
 
-            if (id == 926982)  
-                ViewBag.Section = "Education Section";
+            if (id == 926982)
+            {
+                ////Temp code
+                if (verify)
+                   ViewBag.Section = "Project all Sections";
+                else
+                    ViewBag.Section = "Education Section";
+            }
+            
+           // ViewBag.Section = "Education Section";
+           ////End temp code 
             else if (id == 352769)
                 ViewBag.Section = "Development Section";
-            else if(id==123987)
+            else if (id == 123987)
                 ViewBag.Section = "Project all Sections";
             else
                 return RedirectToAction("index", "BaselineGenerals");
@@ -67,6 +76,8 @@ namespace BES.Controllers.Reports
         {
             if(RID==0)            { RID = null; }
             ViewBag.Verify = verify;
+            ViewBag.RID = RID;
+            ViewBag.DID = DID;
             var indicatorsSummaries = _context.IndicatorsSummaries.FromSql("exec IndicatorSummarySP @RID, @DID, @verify", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID), new SqlParameter("@verify", verify )); //.ToList<IndicatorsSummary>();
             var indicatorTotalTarget = _context.indicatorsTotalTargets.FromSql("exec IndicatorsTotalTargetSP @RID, @DID", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID)); //.ToList<IndicatorsTotalTarget>(); ;
            // var indicatorTotalTarget = _context.indicatorsTotalTargets;
@@ -123,13 +134,14 @@ namespace BES.Controllers.Reports
             return PartialView(query);
         }
 
-        public async Task<IActionResult> SchoolList (int id,short?RID, short?DID,int? Type, string IndicatorName)
+        public async Task<IActionResult> SchoolList (int id,int? RID, int? DID, bool verify,int? Type, string IndicatorName)
         {
             ViewBag.IndicatorName = IndicatorName;
-            var query = _context.schIndicatorStatuses.FromSql("exec IndicatorSchoolWiseStatus @RID, @DID, @IID, @Type", 
+            var query = _context.schIndicatorStatuses.FromSql("exec IndicatorSchoolWiseStatus @RID, @DID, @IID, @Type, @verify", 
                                                                                 new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), 
                                                                                 new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID),
                                                                                 new SqlParameter("@IID", id),
+                                                                                new SqlParameter("@verify", verify),
                                                                                  new SqlParameter("@Type", Type == null ? (object)DBNull.Value : Type)
                                                                                                      ); //.ToList<IndicatorsSummary>();
 
