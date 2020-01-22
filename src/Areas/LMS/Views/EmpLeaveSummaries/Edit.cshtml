@@ -29,7 +29,28 @@
                     <input type="hidden" asp-for="@Model[index].EmpLeaveSummaryID" />
                     <tr>
                         <td><input asp-for="@Model[index].LeaveType.Name" class="form-control" readonly="readonly" /></td>
-                        <td><input asp-for="@Model[index].Total" class="form-control" readonly="readonly" /></td>
+                        @{
+                            if (Model[index].LeaveTypeID == 3)
+                            {
+                                if (Model[index].Employee.Gender == 1)
+                                {
+                                    <td><input value="5" class="form-control" readonly="readonly" /></td>
+                                    <input type="hidden" asp-for="@Model[index].Total" />
+                                }
+                                else
+                                {
+                                    <td><input asp-for="@Model[index].Total" class="form-control" readonly="readonly" /></td>
+                                }
+                            }
+                            else if (Model[index].LeaveTypeID == 1)
+                            {
+                                <td><input asp-for="@Model[index].Total" class="form-control" /></td>
+                            }
+                            else
+                            {
+                                <td><input asp-for="@Model[index].Total" class="form-control" readonly="readonly" /></td>
+                            }
+                        }
                         <td><input asp-for="@Model[index].Availed" class="form-control" /></td>
                     </tr>
                 }

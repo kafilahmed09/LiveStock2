@@ -77,7 +77,7 @@ namespace BES.Areas.LMS.Controllers
         public async Task<IActionResult> Edit(int id)
         {           
 
-            var empLeaveSummary = await _context.EmpLeaveSummary.Include(a=>a.LeaveType).Where(a=>a.EmployeeID == id && a.LeaveTypeID > 0).ToListAsync();
+            var empLeaveSummary = await _context.EmpLeaveSummary.Include(a=>a.LeaveType).Include(a=>a.Employee).Where(a=>a.EmployeeID == id && a.LeaveTypeID > 0).ToListAsync();
             if (empLeaveSummary == null)
             {
                 return NotFound();
