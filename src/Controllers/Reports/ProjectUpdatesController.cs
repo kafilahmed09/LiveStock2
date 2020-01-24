@@ -32,10 +32,7 @@ namespace BES.Controllers.Reports
 
             if (id == 926982)
             {
-                ////Temp code
-                if (verify)
-                   ViewBag.Section = "Project all Sections";
-                else
+               
                     ViewBag.Section = "Education Section";
             }
             
@@ -119,15 +116,19 @@ namespace BES.Controllers.Reports
             }
 
             // Todo: need optimzation below code taking 3 secs more. 
-            //try
-            //{
+            try
+            {
                 var eduQuery = query.Where(a => a.PartnerID == 4);
+           // var eduTotal = eduQuery.Sum(a => a.TotalTarget);
+           // if (eduTotal > 0)
                 ViewBag.EduPercent = eduQuery.Sum(a => a.TotalAchieve) * 100 / eduQuery.Sum(a => a.TotalTarget);
-            //}
-            //catch
-            //{
-            //    ViewBag.EduPercent = 0;
-            //}
+            //else
+              //  ViewBag.EduPercent = 0;
+            }
+            catch
+            {
+                ViewBag.EduPercent = 0;
+            }
             //try { ViewBag.DevPercent = query.Where(a => a.PartnerID == 3).Sum(a => a.TotalAchieve) * 100 / query.Where(a => a.PartnerID == 3).Sum(a => a.TotalTarget); }
             //catch { ViewBag.DevPercent = 0; }
             ViewBag.DevPercent = 0;

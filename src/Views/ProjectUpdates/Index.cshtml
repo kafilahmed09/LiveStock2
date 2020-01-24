@@ -103,7 +103,7 @@
           $('#DistrictID').change(function () {
             var DID = $(this).val();
             $("#divLoading").show();
-            $.get('@Url.Action("FilterView")', {id:@ViewBag.SectionID, DID: DID}, function(content){
+            $.get('@Url.Action("FilterView")', {id:@ViewBag.SectionID, DID: DID,verify:'@ViewBag.Verify'}, function(content){
                 $("#dynamicContentContainer").html(content);
                 $("#divLoading").hide();
             });
