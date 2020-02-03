@@ -163,20 +163,25 @@ namespace BES.Controllers.Data
                 ViewBag.Section = "Development Section";
                 if(sch.NewConstruction==false)
                 {   // remove Soil test and Master Plan
-                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 24 && a.IndicatorID != 25);
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 27 && a.IndicatorID != 28);
                 }
                 if(sch.ExternalDevelopment==false)
                 {
-                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 39);
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 42);
                 }
             }
+          //  applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 29 && a.IndicatorID>34);
+
+            //Remove Andorid App Indicators
+
+
             //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
             //List<IndicatorTracking> indicatorTrackings = new List<IndicatorTracking>();
             //foreach(var indi in applicationDbContext)
             //{
             //    if(indi.SchoolID!=id ||)
             //}
-            
+
             ViewData["ids"] = applicationDbContext.Select(a => a.IndicatorID).ToArray();
             return View(applicationDbContext.ToList());
         }

@@ -136,13 +136,18 @@
                 </td>
 
                 <td>
-                    <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=2 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    @if (item.FeederTarget > 0)
+                    {   <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=2 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @*<a class="search" data-url='@Url.Action("SchoolList", "ProjectUpdates", new { id = item.IndicatorID, Type=2, IndicatorName= item.IndicatorName })' data-toggle="modal" data-target="#exampleModalLong1">*@
                         @Html.DisplayFor(modelItem => item.FeederAchieve) of
                         @Html.DisplayFor(modelItem => item.FeederTarget)
 
-                    </a>
+                    </a>}
+                    else
+                    {
+                        <text> N/A </text>
+                    }
                 </td>
 
 
@@ -150,19 +155,25 @@
 
 
                 <td>
-                    <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=3 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    @if (item.NLTarget > 0)
+                    {
+                        <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=3 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
-                        @Html.DisplayFor(modelItem => item.NLAchieve) of
-                        @Html.DisplayFor(modelItem => item.NLTarget)
-                    </a>
-                    @*@Html.DisplayFor(modelItem => item.NLPercent)*@
-                </td>
+                            @Html.DisplayFor(modelItem => item.NLAchieve) of
+                            @Html.DisplayFor(modelItem => item.NLTarget)
+                        </a>}
+                    else
+                    {
+                    <text> N / A </text>
+                    }
+                                            @*@Html.DisplayFor(modelItem => item.NLPercent)*@
+                                        </td>
 
                 <td>
                     <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @Html.DisplayFor(modelItem => item.TotalAchieve) of
-                        @Html.DisplayFor(modelItem => item.TotalTarget)
+                        @(item.PotentailTarget+ item.FeederTarget+item.NLTarget)
                     </a>
                     @*@Html.DisplayFor(modelItem => item.TotalPercent)*@
                 </td>
