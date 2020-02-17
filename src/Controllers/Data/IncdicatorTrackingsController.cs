@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BES.Controllers.Data
 {
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class IncdicatorTrackingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -45,8 +46,10 @@ namespace BES.Controllers.Data
 
         // GET: IncdicatorTrackings
         //[Authorize(Roles = "Administrator,Education,Development")]
+
         public async Task<IActionResult> Index(int id)
         {
+           
             if (User.Identity.Name==null)
                 return RedirectToAction("Login","Account");
             ViewBag.SectionID = id;
