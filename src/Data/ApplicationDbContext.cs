@@ -150,5 +150,6 @@ namespace BES.Data
         public DbSet<BES.Areas.LMS.Models.Employee> Employee { get; set; }
         public DbSet<BES.Areas.LMS.Models.EmpLeaveSummary> EmpLeaveSummary { get; set; }
         public DbSet<BES.Areas.LMS.Models.View_Models.LeaveSummaries> LeaveSummaries { get; set; }
+        public DbSet<BES.Areas.LMS.Models.LeaveType> LeaveType { get; set; }
     }
 }

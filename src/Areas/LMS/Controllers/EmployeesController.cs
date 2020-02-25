@@ -31,6 +31,7 @@ namespace BES.Areas.LMS.Controllers
         // GET: LMS/Employees
         public ActionResult TreeView()
         {
+            int totalStaff = 0;
             List<EmployeeTreeView> EmpSectionWise = new List<EmployeeTreeView>();
             var sections = _context.Section.Where(a => a.SectionID < 10).ToList();
             foreach(var section in sections)
@@ -40,7 +41,9 @@ namespace BES.Areas.LMS.Controllers
                 Obj.Name = section.Name;
                 Obj.EmployeeList = _context.Employee.Where(a => a.SectionID == section.SectionID).ToList();
                 EmpSectionWise.Add(Obj);
-            }            
+                totalStaff = totalStaff + Obj.EmployeeList.Count;
+            }
+            ViewBag.totalStaff = totalStaff;
             return View(EmpSectionWise.ToList());
         }
         // GET: LMS/Employees/Details/5

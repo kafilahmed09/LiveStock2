@@ -14,6 +14,75 @@
   <ItemGroup>
     <Content Remove="wwwroot\%2a%2a" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="wwwroot\css\site.css" />
+    <Content Include="wwwroot\css\site.min.css" />
+    <Content Include="wwwroot\images\collapse.png" />
+    <Content Include="wwwroot\images\edit.png" />
+    <Content Include="wwwroot\images\pending.png" />
+    <Content Include="wwwroot\images\photodune-1062948-nature-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-1471528-insant-camera-kid-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-174908-rocking-the-night-away-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-2255072-relaxed-man-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-2360379-colors-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-2360571-jump-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-2361384-culture-for-business-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-2441670-spaghetti-with-tuna-fish-and-parsley-s.jpg" />
+    <Content Include="wwwroot\images\photodune-247190-secret-email-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-268693-businesswoman-using-laptop-outdoors-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-287182-blah-blah-blah-yellow-road-sign-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-2943363-budget-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-3444921-street-art-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-352207-search-of-code-s.jpg" />
+    <Content Include="wwwroot\images\photodune-3552322-insurance-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-3807845-food-s.jpg" />
+    <Content Include="wwwroot\images\photodune-3835655-down-office-worker-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-460760-colors-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-461673-retro-party-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-4619216-ui-control-knob-regulators-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-514834-touchscreen-technology-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-5771958-health-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-682990-online-search-xs.jpg" />
+    <Content Include="wwwroot\images\photodune-916206-legal-xs.jpg" />
+    <Content Include="wwwroot\images\PicView.png" />
+    <Content Include="wwwroot\images\plus.png" />
+    <Content Include="wwwroot\images\uploadfile.png" />
+    <Content Include="wwwroot\images\viewPic.png" />
+    <Content Include="wwwroot\img\avatar.png" />
+    <Content Include="wwwroot\img\avatar04.png" />
+    <Content Include="wwwroot\img\avatar2.png" />
+    <Content Include="wwwroot\img\avatar3.png" />
+    <Content Include="wwwroot\img\avatar5.png" />
+    <Content Include="wwwroot\img\boxed-bg.jpg" />
+    <Content Include="wwwroot\img\boxed-bg.png" />
+    <Content Include="wwwroot\img\credit\american-express.png" />
+    <Content Include="wwwroot\img\credit\cirrus.png" />
+    <Content Include="wwwroot\img\credit\mastercard.png" />
+    <Content Include="wwwroot\img\credit\mestro.png" />
+    <Content Include="wwwroot\img\credit\paypal.png" />
+    <Content Include="wwwroot\img\credit\paypal2.png" />
+    <Content Include="wwwroot\img\credit\visa.png" />
+    <Content Include="wwwroot\img\cross.png" />
+    <Content Include="wwwroot\img\default-50x50.gif" />
+    <Content Include="wwwroot\img\EU-Logo2.png" />
+    <Content Include="wwwroot\img\icons.png" />
+    <Content Include="wwwroot\img\photo1.png" />
+    <Content Include="wwwroot\img\photo2.png" />
+    <Content Include="wwwroot\img\photo3.jpg" />
+    <Content Include="wwwroot\img\photo4.jpg" />
+    <Content Include="wwwroot\img\sspinner.gif" />
+    <Content Include="wwwroot\img\submit.png" />
+    <Content Include="wwwroot\img\tick.png" />
+    <Content Include="wwwroot\img\user1-128x128.jpg" />
+    <Content Include="wwwroot\img\user2-160x160.jpg" />
+    <Content Include="wwwroot\img\user3-128x128.jpg" />
+    <Content Include="wwwroot\img\user4-128x128.jpg" />
+    <Content Include="wwwroot\img\user5-128x128.jpg" />
+    <Content Include="wwwroot\img\user6-128x128.jpg" />
+    <Content Include="wwwroot\img\user7-128x128.jpg" />
+    <Content Include="wwwroot\img\user8-128x128.jpg" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />

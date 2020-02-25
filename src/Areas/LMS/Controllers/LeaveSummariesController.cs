@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BES.Areas.LMS.Models;
 using BES.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +21,10 @@ namespace BES.Areas.LMS.Controllers
         // GET: LMS/EmpLeaveSummaries
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.LeaveSummaries;
+            var applicationDbContext = _context.LeaveSummaries.OrderByDescending(a=>a.Section);
             return View(await applicationDbContext.ToListAsync());
         }
+       
+      
     }
 }
