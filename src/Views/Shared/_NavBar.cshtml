@@ -48,7 +48,7 @@
                 <li class="@(Html.IsMenuActive("/Dashboards/Dashboard2") ? "active" : "")"><a href="~/Dashboards/Dashboard2"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
             </ul>
         </li>*@
-            <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="926982" asp-route-verify=True><i class="fa fa-circle-o text-olive"></i> Project Progress</a></li>
+            <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="123987" asp-route-verify=True><i class="fa fa-circle-o text-olive"></i> Project Progress</a></li>
 
 
             @* **********Baseline********** *@
@@ -116,12 +116,13 @@
                 </a>
                 <ul class="treeview-menu">
                     @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
+                    <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="352769"><i class="fa fa-circle-o text-olive"></i> Evidances Summary</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="index" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Update Progress</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Verifid List</a></li>
 
                     @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
+        <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
                 </ul>
             </li>
 

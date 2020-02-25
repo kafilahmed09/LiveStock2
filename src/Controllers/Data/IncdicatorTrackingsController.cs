@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BES.Controllers.Data
 {
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class IncdicatorTrackingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -45,8 +46,10 @@ namespace BES.Controllers.Data
 
         // GET: IncdicatorTrackings
         //[Authorize(Roles = "Administrator,Education,Development")]
+
         public async Task<IActionResult> Index(int id)
         {
+           
             if (User.Identity.Name==null)
                 return RedirectToAction("Login","Account");
             ViewBag.SectionID = id;
@@ -163,20 +166,25 @@ namespace BES.Controllers.Data
                 ViewBag.Section = "Development Section";
                 if(sch.NewConstruction==false)
                 {   // remove Soil test and Master Plan
-                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 24 && a.IndicatorID != 25);
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 27 && a.IndicatorID != 28);
                 }
                 if(sch.ExternalDevelopment==false)
                 {
-                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 39);
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 42);
                 }
             }
+          //  applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 29 && a.IndicatorID>34);
+
+            //Remove Andorid App Indicators
+
+
             //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
             //List<IndicatorTracking> indicatorTrackings = new List<IndicatorTracking>();
             //foreach(var indi in applicationDbContext)
             //{
             //    if(indi.SchoolID!=id ||)
             //}
-            
+
             ViewData["ids"] = applicationDbContext.Select(a => a.IndicatorID).ToArray();
             return View(applicationDbContext.ToList());
         }
@@ -478,7 +486,7 @@ namespace BES.Controllers.Data
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                           Proj_IncdicatorTracking.ReUpload == true && Indicators.PartnerID == PId
+                                           Proj_IncdicatorTracking.Verified == true && Indicators.PartnerID == PId
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
