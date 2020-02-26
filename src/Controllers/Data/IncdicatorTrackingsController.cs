@@ -529,8 +529,6 @@ namespace BES.Controllers.Data
             return View(await applicationDbContext.ToListAsync());
         }
 
-       
-
         public IActionResult MneVerifyIndicators(int id, int SecID)
         {
             int PId = SecID == 926982 ? 4 : 3;
