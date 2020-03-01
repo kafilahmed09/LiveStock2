@@ -185,7 +185,7 @@
                 <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
                 </ul>
             </li>
-            <li><a href="~/Examples/UnderConstruction"><i class="fa fa-user-o "></i> <span>HR</span></a></li>
+            <li><a asp-area="LMS" asp-controller="LeaveRequests" asp-action="LeaveSummary"><i class="fa fa-user-o "></i> <span>HR</span></a></li>
             <li><a href="~/Examples/UnderConstruction"><i class="fa fa-caret-square-o-up "></i> <span>Finance</span></a></li>
 
             @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/treeview"><i class="fa fa-user"></i> LMS</a></li>*@
