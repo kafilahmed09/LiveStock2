@@ -36,6 +36,8 @@ namespace BES.Data
         public DbSet<BES.Models.Data.BLTeacherPresent> BLTeacherPresents { get; set; }
         public DbSet<BES.Models.Data.BLTeacherSection> BLTeacherSections { get; set; }
 
+        public DbSet<BES.Models.Data.ESSChecklist> ESSChecklist { get; set; }
+
         public DbSet<BES.Models.Reports.BLEUDetailView> BLEUDetailViews { get; set; }
         public DbSet<BES.Models.Reports.IndicatorsSummary> IndicatorsSummaries { get; set; }
         public DbSet<BES.Models.Reports.IndicatorsTotalTarget> indicatorsTotalTargets { get; set; }

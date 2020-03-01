@@ -122,9 +122,43 @@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Verifid List</a></li>
 
                     @*<li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
-        <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
+                <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
                 </ul>
             </li>
+
+            @*ESS*@
+            <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
+                <a href="#">
+                    <i class="fa fa-leaf"></i>
+                    <span>Environment (ESS)</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
+                    <li class="treeview @(Html.IsMenuActive("/ESSChecklists") ? "active" : "")">
+                        <a href="#">
+                            <i class="fa fa-sitemap"></i>
+                            <span>Siting Stage </span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
+                            <li class="@(Html.IsMenuActive("/ESSChecklists/Index") ? "active" : "")"><a asp-controller="ESSChecklists" asp-action="index2"><i class="fa fa-anchor "></i> Create New </a></li>
+                            <li class="@(Html.IsMenuActive("/ESSChecklists/Index") ? "active" : "")"><a asp-controller="ESSChecklists" asp-action="index"><i class="fa fa-angellist "></i> Verified List </a></li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+
+
 
             @*M&E*@
             <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
@@ -151,8 +185,12 @@
                 <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>*@
                 </ul>
             </li>
-            <li><a href="~/Examples/UnderConstruction"><i class="fa fa-circle-o text-blue"></i> <span>Finance</span></a></li>
-            <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/LeaveRequests/LeaveSummary"><i class="fa fa-user"></i> LMS</a></li>
+            <li><a href="~/Examples/UnderConstruction"><i class="fa fa-user-o "></i> <span>HR</span></a></li>
+            <li><a href="~/Examples/UnderConstruction"><i class="fa fa-caret-square-o-up "></i> <span>Finance</span></a></li>
+
+            @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/treeview"><i class="fa fa-user"></i> LMS</a></li>*@
+
+
             @*<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
             <a href="#">
                 <i class="fa fa-gear"></i>
