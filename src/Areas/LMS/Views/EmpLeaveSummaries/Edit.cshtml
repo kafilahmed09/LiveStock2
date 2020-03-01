@@ -32,7 +32,7 @@
                         @{
                             if (Model[index].LeaveTypeID == 3)
                             {
-                                if (Model[index].Employee.Gender == 1)
+                                if (Model[index].Employee.Gender == "Male")
                                 {
                                     <td><input value="5" class="form-control" readonly="readonly" /></td>
                                     <input type="hidden" asp-for="@Model[index].Total" />
@@ -55,7 +55,7 @@
                     </tr>
                 }
                 <tr>
-                    <td style="margin:5px"><input class="btn btn-success sm" type="submit" value="Submit" style="margin-top:10px"/></td>
+                    <td style="margin:5px"><input class="btn btn-success sm" type="submit" value="Save" style="margin-top:10px"/></td>
                 </tr>
             </tbody>           
         </table>

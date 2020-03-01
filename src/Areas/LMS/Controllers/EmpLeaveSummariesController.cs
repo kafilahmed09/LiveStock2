@@ -7,18 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.LMS.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace BES.Areas.LMS.Controllers
 {
     [Area("LMS")]
-    public class EmpLeaveSummariesController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+    public class EmpLeaveSummariesController : BaseController
+    {        
 
-        public EmpLeaveSummariesController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public EmpLeaveSummariesController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
+        { }        
 
         // GET: LMS/EmpLeaveSummaries
         public async Task<IActionResult> Index()
@@ -60,10 +58,11 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmpLeaveSummaryID,Total,Availed,EmployeeID,LeaveTypeID")] EmpLeaveSummary empLeaveSummary)
+        public async Task<IActionResult> Create([Bind("EmpLeaveSummaryID,Total,Availed,Pending,EmployeeID,LeaveTypeID")] EmpLeaveSummary empLeaveSummary)
         {
             if (ModelState.IsValid)
             {
+                empLeaveSummary.Pending = 0;
                 _context.Add(empLeaveSummary);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -77,7 +76,7 @@ namespace BES.Areas.LMS.Controllers
         public async Task<IActionResult> Edit(int id)
         {           
 
-            var empLeaveSummary = await _context.EmpLeaveSummary.Include(a=>a.LeaveType).Include(a=>a.Employee).Where(a=>a.EmployeeID == id && a.LeaveTypeID > 0).ToListAsync();
+            var empLeaveSummary = await _context.EmpLeaveSummary.Include(a=>a.LeaveType).Include(a=>a.Employee).Where(a=>a.EmployeeID == id).ToListAsync();
             if (empLeaveSummary == null)
             {
                 return NotFound();

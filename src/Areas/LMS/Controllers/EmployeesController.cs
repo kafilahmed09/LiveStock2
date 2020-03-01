@@ -9,17 +9,16 @@ using BES.Areas.LMS.Models;
 using BES.Data;
 using Microsoft.AspNetCore.Authorization;
 using BES.Areas.LMS.Models.View_Models;
+using Microsoft.AspNetCore.Http;
 
 namespace BES.Areas.LMS.Controllers
 {
     [Area("LMS")]
-    public class EmployeesController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+    public class EmployeesController : BaseController
+    {        
 
-        public EmployeesController(ApplicationDbContext context)
-        {
-            _context = context;
+        public EmployeesController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
+        {            
         }
 
         // GET: LMS/Employees
@@ -27,6 +26,11 @@ namespace BES.Areas.LMS.Controllers
         {
             var applicationDbContext = _context.Employee.Include(e => e.Section);
             return View(await applicationDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> Index2()
+        {
+            var applicationDbContext = _context.Employee.Include(e => e.Section);
+            return PartialView(await applicationDbContext.ToListAsync());
         }
         // GET: LMS/Employees
         public ActionResult TreeView()
@@ -45,7 +49,7 @@ namespace BES.Areas.LMS.Controllers
             }
             ViewBag.totalStaff = totalStaff;
             return View(EmpSectionWise.ToList());
-        }
+        }       
         // GET: LMS/Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -71,14 +75,14 @@ namespace BES.Areas.LMS.Controllers
             return Json(new SelectList(employeeList, "EmployeeID", "Name"));
         }
 
-        [Authorize(Roles = "ICT")]
+        [Authorize(Roles = "HR")]
         // GET: LMS/Employees/Create
         public IActionResult Create()
         {
             ViewData["Gender"] = new List<SelectListItem>
             {
-                new SelectListItem {Text = "Male", Value = "1"},
-                new SelectListItem {Text = "Female", Value = "2"}
+                new SelectListItem {Text = "Male", Value = "Male"},
+                new SelectListItem {Text = "Female", Value = "Female"}
             };
             ViewData["SupervisorID"] = new SelectList(_context.Employee.Where(a=>a.SectionID == 1 || a.SectionID == 10), "SectionID", "Name");
             ViewData["SectionID"] = new SelectList(_context.Section, "SectionID", "Name");
@@ -90,7 +94,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeID,Name,Designation,Gender,ContactNo,SupervisorID,SectionID")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,SectionID")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -115,6 +119,22 @@ namespace BES.Areas.LMS.Controllers
             {
                 return NotFound();
             }
+            if(employee.Gender == "Male")
+            {
+                ViewData["Gender"] = new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Male", Value = "Male"},
+                    new SelectListItem {Text = "Female", Value = "Female"}
+                };
+            }
+            else
+            {
+                ViewData["Gender"] = new List<SelectListItem>
+                {                
+                    new SelectListItem {Text = "Female", Value = "Female"},
+                    new SelectListItem {Text = "Male", Value = "Male"}
+                };
+            }
             ViewData["SectionID"] = new SelectList(_context.Section, "SectionID", "Name", employee.SectionID);
             ViewData["SupervisorID"] = new SelectList(_context.Employee.Where(a => a.SectionID == employee.SectionID || a.SectionID == 10), "SectionID", "Name");
             return View(employee);
@@ -125,7 +145,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,Name,Designation,Gender,ContactNo,SupervisorID,SectionID")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,SectionID")] Employee employee)
         {
             if (id != employee.EmployeeID)
             {

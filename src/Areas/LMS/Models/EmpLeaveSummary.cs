@@ -11,9 +11,9 @@ namespace BES.Areas.LMS.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EmpLeaveSummaryID { get; set; }
-        public short Total { get; set; }
-        public short Availed { get; set; }
-        
+        public double Total { get; set; }
+        public double Availed { get; set; }
+        public double Pending { get; set; }
         [ForeignKey("EmployeeID")]
         public int EmployeeID { get; set; }
         public virtual Employee Employee { get; set; }

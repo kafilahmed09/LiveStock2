@@ -27,8 +27,8 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">MAIN NAVIGATION</li>           
-            <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
+            <li class="header">MAIN NAVIGATION</li>
+            <li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")" id="LMS">
                 <a href="#">
                     <i class="fa fa-gear"></i>
                     <span>LMS</span>
@@ -37,7 +37,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/LMS"><i class="fa fa-user"></i> Staff</a></li>                   
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/LeaveRequests/LeaveSummary"><i class="fa fa-user"></i> Leave Summary</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Leaverequests/Create"><i class="fa fa-user"></i> Leave Form</a></li>
                 </ul>
             </li>
             @*@<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
@@ -207,6 +208,38 @@
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>*@
+
+            <li class="treeview @(Html.IsMenuActive("/Charts") ? "active" : "")" id="Supervisor">
+                <a href="#">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>Supervisor</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="0"><i class="fa fa-user"></i> Inbox (<span id="inbox"></span>)</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="1"><i class="fa fa-user"></i> Accepted (<span id="accepted"></span>)</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="2"><i class="fa fa-user"></i> Rejected (<span id="rejected"></span>)</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.IsMenuActive("/Charts") ? "active" : "")" id="HR">
+                <a href="#">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>HR</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/Index"><i class="fa fa-user"></i> PMU Staff</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/Treeview"><i class="fa fa-user"></i> PMU Tree View</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/Create"><i class="fa fa-user"></i> Add Employee</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/EmpleaveSummaries/Index"><i class="fa fa-user"></i> Leave Balance</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/EmpleaveSummaries/Index"><i class="fa fa-user"></i> Transfer Employee</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/EmpleaveSummaries/Index"><i class="fa fa-user"></i> Block Employee</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

@@ -14,12 +14,20 @@ namespace BES.Areas.LMS.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EmployeeID { get; set; }
+        [DisplayName("Full Name")]
         public string Name { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string Email { get; set; }
         public string Designation { get; set; }
-        public short Gender { get; set; }
+        public string Gender { get; set; }
+        [Display(Name = "Mobile Number:")]
+        [Required(ErrorMessage = "Mobile Number is required.")]
+        [RegularExpression(@"^([0-9]{12})$", ErrorMessage = "Invalid Mobile Number.")]
         public string ContactNo { get; set; }
         [DisplayName("Supervisor/Section Head")]
         public int SupervisorID { get; set; }
+        public bool IsSectionHead { get; set; }
+        [DisplayName("SectionID")]
         [ForeignKey("SectionID")]
         public short SectionID { get; set; }
         public virtual Section Section { get; set; }

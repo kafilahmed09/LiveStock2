@@ -5,9 +5,8 @@
 }
 
 
-<div class="row" style="margin:10px">
-    <h3>Add Employee</h3>
-    <hr />
+<div class="row" style="margin:30px">
+    <h4 style="font-weight:bold;" class="text-center">Add New Employee</h4>
     <form asp-action="Create">
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,8 +22,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="ContactNo" class="control-label"></label>
-                <input asp-for="ContactNo" class="form-control" />
+                <input asp-for="ContactNo" class="form-control"  placeholder="92----------"/>
                 <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Add Employee" class="btn btn-default" />
@@ -60,6 +64,10 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Supervisor").hide();
+            $("#LMS").hide();
+        });
         $('#SectionID').change(function () {            
             var url = '@Url.Content("~/lms/")' + "employees/GetSectionEmployee";
             var ddlsource = "#SectionID";

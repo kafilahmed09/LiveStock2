@@ -14,6 +14,6 @@ namespace BES.Areas.LMS.Models
         [Key]
         public short LeaveTypeID { get; set; }        
         public string Name { get; set; }
-        public short Total { get; set; }
+        public double Total { get; set; }
     }
 }

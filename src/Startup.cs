@@ -110,6 +110,7 @@ namespace BES
             }
 
             services.AddScoped<Services.Profile.ProfileManager>();
+            services.AddHttpContextAccessor();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
