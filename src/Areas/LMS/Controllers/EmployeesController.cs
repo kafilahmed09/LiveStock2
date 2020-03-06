@@ -24,6 +24,12 @@ namespace BES.Areas.LMS.Controllers
         // GET: LMS/Employees
         public async Task<IActionResult> Index()
         {
+            ViewBag.Inbox = Inbox;
+            ViewBag.Accepted = AcceptedRequests;
+            ViewBag.Rejected = RejectedRequests;
+            ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
+            ViewBag.IsPD = IsPD ? 1 : 0;
             var applicationDbContext = _context.Employee.Include(e => e.Section);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -35,6 +41,12 @@ namespace BES.Areas.LMS.Controllers
         // GET: LMS/Employees
         public ActionResult TreeView()
         {
+            ViewBag.Inbox = Inbox;
+            ViewBag.Accepted = AcceptedRequests;
+            ViewBag.Rejected = RejectedRequests;
+            ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
+            ViewBag.IsPD = IsPD ? 1 : 0;
             int totalStaff = 0;
             List<EmployeeTreeView> EmpSectionWise = new List<EmployeeTreeView>();
             var sections = _context.Section.Where(a => a.SectionID < 10).ToList();
@@ -79,13 +91,19 @@ namespace BES.Areas.LMS.Controllers
         // GET: LMS/Employees/Create
         public IActionResult Create()
         {
+            ViewBag.Inbox = Inbox;
+            ViewBag.Accepted = AcceptedRequests;
+            ViewBag.Rejected = RejectedRequests;
+            ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
+            ViewBag.IsPD = IsPD ? 1 : 0;
             ViewData["Gender"] = new List<SelectListItem>
             {
                 new SelectListItem {Text = "Male", Value = "Male"},
                 new SelectListItem {Text = "Female", Value = "Female"}
             };
             ViewData["SupervisorID"] = new SelectList(_context.Employee.Where(a=>a.SectionID == 1 || a.SectionID == 10), "SectionID", "Name");
-            ViewData["SectionID"] = new SelectList(_context.Section, "SectionID", "Name");
+            ViewData["SectionID"] = new SelectList(_context.Section.Where(a=>a.SectionID < 10), "SectionID", "Name");
             return View();
         }
 
@@ -94,7 +112,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,SectionID")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,IsSectionHead,SectionID,JoiningDate,ContractStartDate,ContractEndDate")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -102,13 +120,18 @@ namespace BES.Areas.LMS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SectionID"] = new SelectList(_context.Section, "SectionID", "Name", employee.SectionID);
+            ViewData["SectionID"] = new SelectList(_context.Section.Where(a => a.SectionID < 10), "SectionID", "Name", employee.SectionID);
             return View(employee);
         }
 
         // GET: LMS/Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Inbox = Inbox;
+            ViewBag.Accepted = AcceptedRequests;
+            ViewBag.Rejected = RejectedRequests;
+            ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
             if (id == null)
             {
                 return NotFound();
@@ -145,7 +168,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,SectionID")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,IsSectionHead,SectionID,JoiningDate,ContractStartDate,ContractEndDate")] Employee employee)
         {
             if (id != employee.EmployeeID)
             {

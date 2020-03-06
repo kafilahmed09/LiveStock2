@@ -237,14 +237,14 @@ namespace BES.Areas.Procurement.Controllers
                         _context.Add(Obj);
                         await _context.SaveChangesAsync();
                     }
-                    //string msg = "Procurement: Added New Activity(" + _context.ProcurementPlan.Find(activity.ProcurementPlanID).Name + ")\nSTEP Reference# " + activity.StepReferenceNo + "\nName: " + activity.Name + "\nmore detail: http://eu.bep.org.pk";
-                    //ZongSMS ObjSMS = new ZongSMS();
-                    //var contacts = _context.Contact.Where(a=>a.IsActive == true).ToList();
-                    //foreach(var contact in contacts)
-                    //{
-                    //    ObjSMS.SendSingleSMS(msg,contact.ContactNumber);                        
-                    //}
-                                        
+                    string msg = "Procurement: Added New Activity(" + _context.ProcurementPlan.Find(activity.ProcurementPlanID).Name + ")\nSTEP Reference# " + activity.StepReferenceNo + "\nName: " + activity.Name + "\nmore detail: http://eu.bep.org.pk";
+                    ZongSMS ObjSMS = new ZongSMS();
+                    var contacts = _context.Contact.Where(a => a.IsActive == true).ToList();
+                    foreach (var contact in contacts)
+                    {
+                        ObjSMS.SendSingleSMS(msg, contact.ContactNumber);
+                    }
+
                     return RedirectToAction(nameof(Index),new { PPID = id });                    
                 }
                 else

@@ -56,7 +56,16 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $("#Supervisor").hide();
+            $("#LMS").hide();
+             if (@ViewBag.IsHRAdmin == 1) {                
+                $("#HRAdmin").show();
+                $("#PD").hide();
+                $("#LeaveRequest").show();
+                 $("#inboxHRAdmin").text(@ViewBag.Inbox);
+                 $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+                 $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            }     
                 $('.dataTables-example').DataTable({
                    
                   

@@ -217,8 +217,16 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).DateTo)
                     </th>
+                    @{
+                        if (ViewBag.IsSupervisor != 1)
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedBySection)
+                            </th>
+                        }
+                    }
                     <th>
-                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedBySection)
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedByHR)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedByPD)
@@ -228,49 +236,68 @@
             <tbody>
                 @foreach (var item in Model.Item1)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AppliedDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LeaveType.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotalDays)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateFrom)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateTo)
-                        </td>
-                        <td>
-                            @{
-                                if (item.ApprovedBySection == 0)
-                                {
-                                    <span style="color:dodgerblue;font-weight:bold">Pending</span>
-                                }
-                                else if (item.ApprovedBySection == 1)
-                                {
-                                    <span style="color:#00a65a;font-weight:bold">Accepted</span> }
-                                else
-                                { <span style="color:firebrick;font-weight:bold">Rejected</span> }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppliedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalDays)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTo)
+                    </td>
+
+                    @{
+                        if (ViewBag.IsSupervisor != 1)
+                        {
+                            if (item.ApprovedBySection == 0)
+                            {
+                                <td><span style="color:dodgerblue;font-weight:bold">Pending</span></td>
                             }
-                        </td>
-                        <td>
-                            @{
-                                if (item.ApprovedByPD == 0)
-                                {
-                                    <span style="color:dodgerblue;font-weight:bold">Pending</span>
-                                }
-                                else if (item.ApprovedByPD == 1)
-                                {
-                                    <span style="color:#00a65a;font-weight:bold">Accepted</span> }
-                                else
-                                { <span style="color:firebrick;font-weight:bold">Rejected</span> }
+                            else if (item.ApprovedBySection == 1)
+                            {
+                                <td><span style="color:#00a65a;font-weight:bold">Accepted</span></td>
                             }
-                        </td>
-                    </tr>
+                            else
+                            {
+                                <td><span style="color:firebrick;font-weight:bold">Rejected</span> }</td>
+                            }
+                        }
+                    }
+
+                    <td>
+                        @{
+                            if (item.ApprovedByHR == 0)
+                            {
+                                <span style="color:dodgerblue;font-weight:bold">Pending</span>
+                            }
+                            else if (item.ApprovedByHR == 1)
+                            {
+                                <span style="color:#00a65a;font-weight:bold">Accepted</span> }
+                            else
+                            { <span style="color:firebrick;font-weight:bold">Refused</span> }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if (item.ApprovedByPD == 0)
+                            {
+                                <span style="color:dodgerblue;font-weight:bold">Pending</span>
+                            }
+                            else if (item.ApprovedByPD == 1)
+                            {
+                                <span style="color:#00a65a;font-weight:bold">Accepted</span> }
+                            else
+                            { <span style="color:firebrick;font-weight:bold">Rejected</span> }
+                        }
+                    </td>
+                </tr>
                 }
             </tbody>
             <tfoot><tr><td style="padding-bottom:60px"></td></tr></tfoot>
@@ -288,18 +315,29 @@
     <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
+            $("#PD").hide();
+            $("#refused").text(@ViewBag.Refused);
         if (@ViewBag.IsSupervisor == 1) {
             $("#Supervisor").show();
+            $("#LeaveRequest").hide();            
             $("#inbox").text(@ViewBag.Inbox);
             $("#accepted").text(@ViewBag.Accepted);
             $("#rejected").text(@ViewBag.Rejected);
+            $("#refused").text(@ViewBag.Refused);
         } else {
             $("#Supervisor").hide();
             }
-         if (@ViewBag.IsHR == 1) {
-            $("#HR").show();
-        } else {
-            $("#HR").hide();
+         if (@ViewBag.IsHRAdmin == 1) {
+            $("#HRAdmin").show();
+             $("#LeaveRequest").show();
+             $("#PD").hide();
+         }
+         else {
+            $("#HRAdmin").hide();
+                $("#LeaveRequest").hide();
+            }
+        if (@ViewBag.IsPD == 1) {
+            $("#PD").show();
         }
             $('.dataTables-example').DataTable({
                 "bPaginate": false,

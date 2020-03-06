@@ -234,8 +234,18 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function () {
-            $("#Supervisor").hide();
-            $("#LMS").hide();
+            if (@ViewBag.IsHRAdmin == 1) {
+                $("#Supervisor").hide();
+                $("#HRAdmin").show();
+                $("#LMS").hide();
+                $("#PD").hide();
+                $("#LeaveRequest").show();
+                $("#inboxHRAdmin").text(@ViewBag.Inbox);
+                $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+                $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            } else {
+                $("#LeaveRequest").hide();
+            }       
             $('[data-toggle="popover"]').popover({
                 placement: 'top',
                 trigger: 'hover'

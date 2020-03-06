@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit";
 }
 
-   
+
 <div class="row" style="margin:30px">
     <h4 style="font-weight:bold;" class="text-center">Edit Employee</h4>
     <form asp-action="Edit">
@@ -49,18 +49,34 @@
                 <select asp-for="Gender" class="form-control" asp-items="ViewBag.Gender"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="SupervisorID" class="control-label"></label>
                 <select asp-for="SupervisorID" class="form-control" asp-items="ViewBag.SupervisorID" disabled="disabled"></select>
                 <span asp-validation-for="SupervisorID" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="JoiningDate" class="control-label"></label>
+                <input asp-for="JoiningDate" class="form-control" required />
+                <span asp-validation-for="JoiningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractStartDate" class="control-label"></label>
+                <input asp-for="ContractStartDate" class="form-control" required />
+                <span asp-validation-for="ContractStartDate" class="text-danger"></span>
+            </div>
 
-
+            <div class="form-group">
+                <label asp-for="ContractEndDate" class="control-label"></label>
+                <input asp-for="ContractEndDate" class="form-control" required />
+                <span asp-validation-for="ContractEndDate" class="text-danger"></span>
+            </div>
         </div>
     </form>
+
 </div>
-<div>
+<div style="margin:20px">
     <a asp-action="Index">Back to List</a>
 </div>
 
@@ -71,6 +87,12 @@
         $(document).ready(function () {
             $("#Supervisor").hide();
             $("#LMS").hide();
+              if(@ViewBag.IsHRAdmin == 1){              
+                $("#LeaveRequest").show();
+               $("#inboxHRAdmin").text(@ViewBag.Inbox);
+               $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+               $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            } 
         });
     </script>
 }

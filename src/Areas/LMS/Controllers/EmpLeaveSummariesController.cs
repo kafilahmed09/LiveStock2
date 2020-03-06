@@ -21,6 +21,12 @@ namespace BES.Areas.LMS.Controllers
         // GET: LMS/EmpLeaveSummaries
         public async Task<IActionResult> Index()
         {
+            ViewBag.Inbox = Inbox;
+            ViewBag.Accepted = AcceptedRequests;
+            ViewBag.Rejected = RejectedRequests;
+            ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
+            ViewBag.IsPD = IsPD ? 1 : 0;
             var applicationDbContext = _context.Employee.Include(e => e.Section);
             return View(await applicationDbContext.ToListAsync());
         }

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
 }
     <div style="margin:30px 10px 0 10px">
-        <h4 style="font-weight:bold">List of Pending Requests</h4>
+        <h4 style="font-weight:bold">@ViewBag.Text</h4>
 
         <table class="table table-striped dataTables-example">
             <thead>
@@ -100,24 +100,38 @@
             $(document).ready(function () {
                 $('.dataTables-example').DataTable({                   
                 });
-            if (@ViewBag.IsSupervisor == 1 || @ViewBag.IsPD == 1) {
-            $("#Supervisor").show();
+                
+        if (@ViewBag.IsSupervisor == 1 || @ViewBag.IsPD == 1) {
+            $("#Supervisor").show();            
+            $("#PD").hide();            
             $("#inbox").text(@ViewBag.Inbox);
             $("#accepted").text(@ViewBag.Accepted);
             $("#rejected").text(@ViewBag.Rejected);
+            $("#refused").text(@ViewBag.Refused);
         } else {
             $("#Supervisor").hide();
         }
-        if (@ViewBag.IsHR == 1) {
-            $("#HR").show();
+            if (@ViewBag.IsHRAdmin == 1) {
+                $("#LMS").hide();
+                $("#PD").hide();
+                $("#HRAdmin").show();
+                $("#LeaveRequest").show();
+                $("#inboxHRAdmin").text(@ViewBag.Inbox);
+                $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+                $("#rejectedHRAdmin").text(@ViewBag.Rejected);
         } else {
-            $("#HR").hide();
-                }
-        if (@ViewBag.IsPD == 0) {
+            $("#HRAdmin").hide();
+            $("#LeaveRequest").hide();
             $("#LMS").show();
-        } else {
-            $("#LMS").hide();
         }
-            });
+         if (@ViewBag.IsPD == 1) {
+            $("#PD").show();
+            $("#LMS").hide();
+            $("#Supervisor").hide();
+            $("#inboxPD").text(@ViewBag.Inbox);
+            $("#acceptedPD").text(@ViewBag.Accepted);
+            $("#rejectedPD").text(@ViewBag.Rejected);
+                }
+        });
         </script>
     }

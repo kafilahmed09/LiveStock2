@@ -23,6 +23,14 @@ namespace BES.Areas.LMS.Models
         public short TotalDays { get; set; }
         [DisplayName("Remarks")]
         public string Remarks { get; set; }
+
+        [DisplayName("Clearence By HR")]
+        public short ApprovedByHR { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? ApprovedByHRDate { get; set; }
+        [DisplayName("Remarks(if any)")]
+        public string HRRemarks { get; set; }        
+
         [DisplayName("Approved By Supervisor")]
         public short ApprovedBySection { get; set; }
         [DataType(DataType.Date)]
@@ -35,6 +43,14 @@ namespace BES.Areas.LMS.Models
         public DateTime? ApprovedByPDDate { get; set; }
         [DisplayName("Remarks(if any)")]
         public string PDRemarks { get; set; }
+
+        [DisplayName("Nomination")]
+        public string Nomination { get; set; }        
+        public int? NominatedID { get; set; }
+        [DisplayName("On Behalf Of")]
+        public string OnBehalfOf { get; set; }
+        public bool IsMedicalCertificateRequired { get; set; }
+        public string MedicalCertificatePath { get; set; }
         [DataType(DataType.Date)]
         [DisplayName("Applied On")]
         public DateTime AppliedDate { get; set; }

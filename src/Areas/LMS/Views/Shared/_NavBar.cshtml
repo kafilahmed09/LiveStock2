@@ -39,6 +39,7 @@
                 <ul class="treeview-menu">
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/LeaveRequests/LeaveSummary"><i class="fa fa-user"></i> Leave Summary</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Leaverequests/Create"><i class="fa fa-user"></i> Leave Form</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="IndexRefused"><i class="fa fa-user"></i> Refused (<span id="refused"></span>)</a></li>
                 </ul>
             </li>
             @*@<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
@@ -223,7 +224,35 @@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="2"><i class="fa fa-user"></i> Rejected (<span id="rejected"></span>)</a></li>
                 </ul>
             </li>
-            <li class="treeview @(Html.IsMenuActive("/Charts") ? "active" : "")" id="HR">
+            <li class="treeview @(Html.IsMenuActive("/Charts") ? "active" : "")" id="LeaveRequest">
+                <a href="#">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>Leave Requests</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="0"><i class="fa fa-user"></i> Inbox (<span id="inboxHRAdmin"></span>)</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="1"><i class="fa fa-user"></i> Verified (<span id="acceptedHRAdmin"></span>)</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="2"><i class="fa fa-user"></i> Unverified (<span id="rejectedHRAdmin"></span>)</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.IsMenuActive("/Charts") ? "active" : "")" id="PD">
+                <a href="#">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>Project Director</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="0"><i class="fa fa-user"></i> Inbox (<span id="inboxPD"></span>)</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="1"><i class="fa fa-user"></i> Accepted (<span id="acceptedPD"></span>)</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-area="LMS" asp-controller="Leaverequests" asp-action="Index" asp-route-id="2"><i class="fa fa-user"></i> Rejected (<span id="rejectedPD"></span>)</a></li>
+                </ul>
+            </li>
+            <li class="treeview @(Html.IsMenuActive("/Charts") ? "active" : "")" id="HRAdmin">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
                     <span>HR</span>
@@ -236,8 +265,8 @@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/Treeview"><i class="fa fa-user"></i> PMU Tree View</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Employees/Create"><i class="fa fa-user"></i> Add Employee</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/EmpleaveSummaries/Index"><i class="fa fa-user"></i> Leave Balance</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/EmpleaveSummaries/Index"><i class="fa fa-user"></i> Transfer Employee</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/EmpleaveSummaries/Index"><i class="fa fa-user"></i> Block Employee</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Base/UnderConstruction"><i class="fa fa-user"></i> Transfer Employee</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a href="~/LMS/Base/UnderConstruction"><i class="fa fa-user"></i> Block Employee</a></li>
                 </ul>
             </li>
         </ul>

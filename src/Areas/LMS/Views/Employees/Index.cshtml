@@ -82,8 +82,18 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $("#Supervisor").hide();
-            $("#LMS").hide();
+            
+           if(@ViewBag.IsHRAdmin == 1){
+                $("#Supervisor").hide();
+                $("#LMS").hide();
+                $("#PD").hide();
+                $("#LeaveRequest").show();
+               $("#inboxHRAdmin").text(@ViewBag.Inbox);
+               $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+               $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            } else {
+                $("#LeaveRequest").hide();
+            } 
             $('#example1').DataTable({            
                 dom: 'Bfrtip',
                 buttons: [

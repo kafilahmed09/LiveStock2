@@ -21,6 +21,7 @@
     <Content Include="wwwroot\css\site.min.css" />
     <Content Include="wwwroot\images\collapse.png" />
     <Content Include="wwwroot\images\edit.png" />
+    <Content Include="wwwroot\images\loading2.gif" />
     <Content Include="wwwroot\images\pending.png" />
     <Content Include="wwwroot\images\photodune-1062948-nature-xs.jpg" />
     <Content Include="wwwroot\images\photodune-1471528-insant-camera-kid-xs.jpg" />
@@ -84,6 +85,10 @@
     <Content Include="wwwroot\img\user6-128x128.jpg" />
     <Content Include="wwwroot\img\user7-128x128.jpg" />
     <Content Include="wwwroot\img\user8-128x128.jpg" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap.css" />
+    <Content Include="wwwroot\libs\bootstrap\css\bootstrap.min.css" />
     <Content Include="wwwroot\libs\datatables\css\dataTables.bootstrap.css" />
     <Content Include="wwwroot\libs\datatables\css\dataTables.bootstrap.min.css" />
     <Content Include="wwwroot\libs\datatables\css\dataTables.bootstrap4.css" />

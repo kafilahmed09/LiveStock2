@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BES.Areas.LMS.Models;
 using BES.Data;
 using Microsoft.AspNetCore.Http;
+using BES.API;
+using System.IO;
 
 namespace BES.Areas.LMS.Controllers
 {
@@ -17,26 +19,56 @@ namespace BES.Areas.LMS.Controllers
         public LeaveRequestsController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {                   
         }
+        public async Task<IActionResult> IndexRefused()
+        {           
+            ViewBag.Inbox = Inbox;
+            ViewBag.refused = Refused;
+            ViewBag.Accepted = AcceptedRequests;
+            ViewBag.Rejected = RejectedRequests;
+            ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
+            ViewBag.IsPD = IsPD ? 1 : 0;                        
+            var applicationDbContext = _context.LeaveRequest.Include(l => l.LeaveType).Include(e => e.Employee.Section).Where(a => a.ApprovedByHR == 2);
+            return View(await applicationDbContext.ToListAsync());            
+        }
         // GET: LMS/LeaveRequests
         public async Task<IActionResult> Index(int id)
         {
             ViewBag.Id = id;
+            if(id == 0)
+            {
+                ViewBag.Text = "List of Pending Requests";
+            }
+            else if(id == 1)
+            {
+                ViewBag.Text = "List of Accepted Requests";
+            }
+            else
+            {
+                ViewBag.Text = "List of Rejected Requests";
+            }
             ViewBag.Inbox = Inbox;
+            ViewBag.refused = Refused;
             ViewBag.Accepted = AcceptedRequests;
             ViewBag.Rejected = RejectedRequests;
             ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
-            ViewBag.IsHR = IsHR ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
             ViewBag.IsPD = IsPD ? 1 : 0;
             if (IsSpervisor)
             {
                 var applicationDbContext = _context.LeaveRequest.Include(l => l.LeaveType).Include(e => e.Employee).Where(a => a.Employee.SectionID == SectionID && a.ApprovedBySection == id && a.EmployeeID != EmployeeID);
                 return View(await applicationDbContext.ToListAsync());
             }
+            else if(IsHRAdmin)
+            {
+                var applicationDbContext = _context.LeaveRequest.Include(l => l.LeaveType).Include(e => e.Employee.Section).Where(a => a.ApprovedByHR == id);
+                return View(await applicationDbContext.ToListAsync());
+            }
             else
             {
                 var applicationDbContext = _context.LeaveRequest.Include(l => l.LeaveType).Include(e => e.Employee.Section).Where(a => a.ApprovedBySection == 1 && a.ApprovedByPD == id);
                 return View(await applicationDbContext.ToListAsync());
-            }            
+            }          
            
         }
 
@@ -81,15 +113,17 @@ namespace BES.Areas.LMS.Controllers
                 return RedirectToAction(nameof(UserNotFound));
             }           
             ViewBag.Inbox = Inbox;
+            ViewBag.Refused = Refused;
             ViewBag.Accepted = AcceptedRequests;
             ViewBag.Rejected = RejectedRequests;
             ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
-            ViewBag.IsHR = IsHR ? 1 : 0;
+            ViewBag.IsPD = IsPD ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
             if (IsPD)
             {
                 return RedirectToAction(nameof(Index) , new { id = 0});
             }
-            if (IsHR)
+            if (IsHRAdmin)
             {
                 return RedirectToAction("Index","Employees");
             }
@@ -105,10 +139,11 @@ namespace BES.Areas.LMS.Controllers
         public ActionResult LeaveSummaryOf(int id)
         {            
             ViewBag.Inbox = Inbox;
+            ViewBag.Refused = Refused;
             ViewBag.Accepted = AcceptedRequests;
             ViewBag.Rejected = RejectedRequests;
             ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
-            ViewBag.IsHR = IsHR ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
             ViewBag.IsPD = IsPD ? 1 : 0;
             var leaverequest = _context.LeaveRequest.Include(l => l.LeaveType).Include(e=>e.Employee).Where(a => a.LeaveRequestID == id).FirstOrDefault();
             var leaverequests = _context.LeaveRequest.Include(l => l.LeaveType).Where(a => a.EmployeeID == EmployeeID).ToList();
@@ -129,6 +164,12 @@ namespace BES.Areas.LMS.Controllers
                 Obj.ApprovedBySection = val;
                 Obj.ApprovedBySectionDate = DateTime.Now.Date;
                 Obj.SupervisorRemarks = remarks;
+            }
+            if (IsHRAdmin)
+            {
+                Obj.ApprovedByHR = val;
+                Obj.ApprovedByHRDate = DateTime.Now.Date;
+                Obj.HRRemarks = remarks;
             }
             if (IsPD)
             {
@@ -154,8 +195,9 @@ namespace BES.Areas.LMS.Controllers
             ViewBag.Inbox = Inbox;
             ViewBag.Accepted = AcceptedRequests;
             ViewBag.Rejected = RejectedRequests;
+            ViewBag.refused = Refused;
             ViewBag.IsSupervisor = IsSpervisor ? 1 : 0;
-            ViewBag.IsHR = IsHR ? 1 : 0;
+            ViewBag.IsHRAdmin = IsHRAdmin ? 1 : 0;
             var loginName = User.Identity.Name;
             var employee = _context.Employee.Where(a => a.Name == loginName).FirstOrDefault();
             ViewBag.SectionHead = _context.Employee.Where(a => a.EmployeeID == employee.SupervisorID).Select(a=>a.Name).FirstOrDefault();
@@ -166,6 +208,7 @@ namespace BES.Areas.LMS.Controllers
             ViewBag.SBalance = empSummary.Where(a => a.LeaveTypeID == 2).Max(a => a.Total) - empSummary.Where(a => a.LeaveTypeID == 2).Max(a => a.Availed) - empSummary.Where(a => a.LeaveTypeID == 2).Max(a => a.Pending);            
             ViewBag.Designation = employee.Designation;            
             ViewData["LeaveTypeID"] = new SelectList(_context.LeaveType.Where(a=> a.LeaveTypeID < 3), "LeaveTypeID", "Name");
+            ViewData["OnBehalfOfName"] = new SelectList(_context.Employee.Where(a => a.SectionID == SectionID && a.EmployeeID != EmployeeID), "EmployeeID", "Name");
             return View();
         }
 
@@ -174,10 +217,10 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LeaveRequestID,DateFrom,DateTo,TotalDays,EmployeeID,LeaveTypeID,Remarks,ApprovedBySection,ApprovedBySectionDate,SupervisorRemarks,ApprovedByPD,ApprovedByPDDate,PDRemarks,AppliedDate")] LeaveRequest leaveRequest, short Days)
+        public async Task<IActionResult> Create([Bind("LeaveRequestID,DateFrom,DateTo,TotalDays,EmployeeID,LeaveTypeID,Remarks,ApprovedBySection,ApprovedBySectionDate,SupervisorRemarks,ApprovedByPD,ApprovedByPDDate,PDRemarks,Nomination,NominatedID,OnBehalfOf,IsMedicalCertificateRequired,MedicalCertificatePath,AppliedDate")] LeaveRequest leaveRequest, short Days, IFormFile Attachment)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 //-------------
                 var empSummaryObj = _context.EmpLeaveSummary.Where(a => a.EmployeeID == EmployeeID && a.LeaveTypeID == leaveRequest.LeaveTypeID).FirstOrDefault();
                 empSummaryObj.Pending = empSummaryObj.Availed + Days;
@@ -192,8 +235,41 @@ namespace BES.Areas.LMS.Controllers
                     leaveRequest.ApprovedBySection = 1;
                     leaveRequest.ApprovedBySectionDate = DateTime.Now.Date;
                 }
+                //-----------------------Attachment------------------------
+                if (Attachment != null)
+                {
+                    var rootPath = Path.Combine(
+                            Directory.GetCurrentDirectory(), "wwwroot\\Documents\\HR\\");
+                    string fileName = Path.GetFileName(Attachment.FileName);
+                    fileName = fileName.Replace("&", "n");
+                    string Code = _context.Employee.Include(a => a.Section).Where(a=>a.EmployeeID == leaveRequest.EmployeeID).Select(a => a.Section.Name).FirstOrDefault() + "_EID_" + leaveRequest.EmployeeID + leaveRequest.AppliedDate.ToString("ddMMyyyy");
+
+                    leaveRequest.MedicalCertificatePath = Path.Combine("/Documents/HR/", Code);//Server Path                
+                    string sPath = Path.Combine(rootPath + Code);
+                    if (!System.IO.Directory.Exists(sPath))
+                    {
+                        System.IO.Directory.CreateDirectory(sPath);
+                    }
+                    string FullPathWithFileName = Path.Combine(sPath, fileName);
+                    using (var stream = new FileStream(FullPathWithFileName, FileMode.Create))
+                    {
+                        await Attachment.CopyToAsync(stream);
+                    }
+                }
+                //-----------------------END-------------------------------
                 _context.Add(leaveRequest);
                 await _context.SaveChangesAsync();
+                //-------------SMS--------------------------------
+                string msg = "HR-LMS\n Days("+ Days.ToString() +") " + _context.LeaveType.Where(a=>a.LeaveTypeID == leaveRequest.LeaveTypeID).Select(a=>a.Name).FirstOrDefault() + "leave required for approval in your MIS inbox.\nVisit http://eu.bep.org.pk";
+                ZongSMS ObjSMS = new ZongSMS();
+                //var contacts = _context.Contact.Where(a => a.IsActive == true).ToList();
+                //foreach (var contact in contacts)
+                //{
+                //    ObjSMS.SendSingleSMS(msg, contact.ContactNumber);
+                //}
+                ObjSMS.SendSingleSMS(msg, "923337905929");
+                ObjSMS.SendSingleSMS(msg, "923327822567");
+                //-------------END SMS----------------------------
                 return RedirectToAction(nameof(LeaveSummary));
             }
             ViewBag.Inbox = Inbox;
@@ -210,6 +286,7 @@ namespace BES.Areas.LMS.Controllers
             ViewBag.SBalance = empSummary.Where(a => a.LeaveTypeID == 2).Max(a => a.Total) - empSummary.Where(a => a.LeaveTypeID == 2).Max(a => a.Availed);
             ViewBag.Designation = employee.Designation;            
             ViewData["LeaveTypeID"] = new SelectList(_context.LeaveType.Where(a => a.LeaveTypeID > 0 && a.LeaveTypeID < 3), "LeaveTypeID", "Name", leaveRequest.LeaveTypeID);
+            ViewData["OnBehalfOfName"] = new SelectList(_context.Employee.Where(a => a.SectionID == SectionID && a.EmployeeID != EmployeeID), "EmployeeID", "Name");
             return View(leaveRequest);
         }
 
@@ -235,7 +312,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LeaveRequestID,DateFrom,DateTo,TotalDays,EmployeeID,LeaveTypeID,Remarks,ApprovedBySection,ApprovedBySectionDate,SupervisorRemarks,ApprovedByPD,ApprovedByPDDate,PDRemarks,AppliedDate")] LeaveRequest leaveRequest)
+        public async Task<IActionResult> Edit(int id, [Bind("LeaveRequestID,DateFrom,DateTo,TotalDays,EmployeeID,LeaveTypeID,Remarks,ApprovedBySection,ApprovedBySectionDate,SupervisorRemarks,ApprovedByPD,ApprovedByPDDate,PDRemarks,Nomination,NominatedID,OnBehalfOf,IsMedicalCertificateRequired,MedicalCertificatePath,AppliedDate")] LeaveRequest leaveRequest)
         {
             if (id != leaveRequest.LeaveRequestID)
             {

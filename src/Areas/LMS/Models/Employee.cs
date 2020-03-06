@@ -27,6 +27,16 @@ namespace BES.Areas.LMS.Models
         [DisplayName("Supervisor/Section Head")]
         public int SupervisorID { get; set; }
         public bool IsSectionHead { get; set; }
+        [DisplayName("Joining Date")]
+        [DataType(DataType.Date)]
+        public DateTime? JoiningDate { get; set; }
+        [DisplayName("Contract Start Date")]
+        [DataType(DataType.Date)]
+        public DateTime? ContractStartDate { get; set; }
+        [DisplayName("Contract End Date")]
+        [DataType(DataType.Date)]
+        public DateTime? ContractEndDate { get; set; }
+
         [DisplayName("SectionID")]
         [ForeignKey("SectionID")]
         public short SectionID { get; set; }

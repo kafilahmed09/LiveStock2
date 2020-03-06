@@ -253,15 +253,15 @@
             </div>
             <div class="row">
                 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-group">
-                        <input type="button" value="Accept" class="btn btn-success" onclick="process(1)" />
-                        <input type="button" value="Reject" class="btn btn-danger"onclick="process(2)" />
+                        <input type="button" value="Verified" class="btn btn-success" onclick="process(1)" />
+                        <input type="button" value="Unverified" class="btn btn-danger"onclick="process(2)" />
                     </div>
                 </div>  
-                <div class="col-md-10">                   
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Remarks(If Any)" id="remarks" />
+                <div class="col-md-9">                   
+                    <div class="form-group">                        
+                        <textarea class="form-control" text-wrap:normal" type="text" placeholder="Please add your remarks" id="remarks" required></textarea>
                     </div>
                 </div>
             </div>
@@ -287,10 +287,10 @@
         } else {
             $("#Supervisor").hide();
             }
-         if (@ViewBag.IsHR == 1) {
-            $("#HR").show();
+         if (@ViewBag.IsHRAdmin == 1) {
+            $("#HRAdmin").show();
         } else {
-            $("#HR").hide();
+            $("#HRAdmin").hide();
             }
         if (@ViewBag.IsPD == 0) {
             $("#LMS").show();
@@ -308,13 +308,16 @@
                 trigger: 'hover'
             });
         });
-        function process(val) {            
+        function process(val) { 
+            var remarks = $("#remarks").val();            
+            if (remarks == "") {
+                alert("Please enter your remarks");
+                return;
+            }
             $.ajax({
                 type: "POST",
-                data: { id: @Model.Item2.LeaveRequestID, val: val, remarks: $("#remarks").val(), emplyeeID: @Model.Item2.EmployeeID },
-                url: "/LMS/LeaveRequests/SubmitLeave",
-                @*data: '{id:@Model.Item2.LeaveRequestID,val:'+ val +',remarks:"' + $("#remarks").val() + '" }',*@                
-                //contentType: "application/json; charset=utf-8",
+                data: { id: @Model.Item2.LeaveRequestID, val: val, remarks: remarks, emplyeeID: @Model.Item2.EmployeeID },
+                url: "/LMS/LeaveRequests/SubmitLeave",               
                 dataType: "json",
                 success: function (response) {
                     alert("Response: " + response);
