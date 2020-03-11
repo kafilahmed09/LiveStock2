@@ -43,7 +43,7 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-        [Authorize(Roles = "Administrator,Education")]
+        [Authorize(Roles = "Administrator,Development")]
         public async Task<IActionResult> Index2()
         {
            
