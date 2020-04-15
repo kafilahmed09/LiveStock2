@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BES.Controllers.Reports
 {
+    public class ProcurementProgress
+    {
+        public short ProcurementPlanID { get; set; }
+        [Key]
+        public string StepReferenceNo { get; set; }
+        public string Activity { get; set; }
+        public int Initiated { get; set; }
+        public int Completed { get; set; }
+
+    }
+
+    public class ProjectSummary
+    {
+        public List<IndicatorsSummary> indicatorsSummaries { get; set; }
+        public List<ProcurementProgress> procurementProgresses { get; set; }
+    }
+
     public class ProjectUpdatesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -69,16 +87,16 @@ namespace BES.Controllers.Reports
             return Json(new SelectList(districtList, "DistrictID", "DistrictName"));
         }
 
-        public async Task<IActionResult> FilterView(int? id, bool verify,short? RID, short? DID, DateTime? StartDate, DateTime? EndDate)
+        public async Task<IActionResult> FilterView(int? id, bool verify, short? RID, short? DID, DateTime? StartDate, DateTime? EndDate)
         {
-            if(RID==0)            { RID = null; }
+            if (RID == 0) { RID = null; }
             ViewBag.Verify = verify;
             ViewBag.RID = RID;
             ViewBag.DID = DID;
-            var indicatorsSummaries = _context.IndicatorsSummaries.FromSql("exec IndicatorSummarySP @RID, @DID, @verify", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID), new SqlParameter("@verify", verify )); //.ToList<IndicatorsSummary>();
+            var indicatorsSummaries = _context.IndicatorsSummaries.FromSql("exec IndicatorSummarySP @RID, @DID, @verify", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID), new SqlParameter("@verify", verify)); //.ToList<IndicatorsSummary>();
             var indicatorTotalTarget = _context.indicatorsTotalTargets.FromSql("exec IndicatorsTotalTargetSP @RID, @DID", new SqlParameter("@RID", RID == null ? (object)DBNull.Value : RID), new SqlParameter("@DID", DID == null ? (object)DBNull.Value : DID)); //.ToList<IndicatorsTotalTarget>(); ;
-           // var indicatorTotalTarget = _context.indicatorsTotalTargets;
-            var indictorAll = _context.Indicator.Where(a=>a.IndicatorID<=40);
+                                                                                                                                                                                                                                                                   // var indicatorTotalTarget = _context.indicatorsTotalTargets;
+            var indictorAll = _context.Indicator.Where(a => a.IndicatorID <= 40);
             var query = from target in indicatorTotalTarget
                             //from summary in indicatorsSummaries
                             //from Indicator in indictorAll
@@ -100,8 +118,8 @@ namespace BES.Controllers.Reports
                             PotentailTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair : target.PotentialNew) : target.Potential,
                             FeederTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.FeederRepair : target.FeederNew) : (Indicator.IsFeeder ? target.Feeder : 0),
                             NLTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.NextLevelRepair : target.NextLevelNew) : (Indicator.IsNextLevel ? target.NextLevel : 0),
-                            TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.TotalRepair : target.TotalNew) : target.TotalTarget 
-                      // TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair+ target.FeederRepair +target.NextLevelRepair : target.PotentialNew+ target.PotentialRepair+ target.NextLevelNew) : target.Potential+ target.Feeder+ target.NextLevel
+                            TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.TotalRepair : target.TotalNew) : target.TotalTarget
+                            // TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair+ target.FeederRepair +target.NextLevelRepair : target.PotentialNew+ target.PotentialRepair+ target.NextLevelNew) : target.Potential+ target.Feeder+ target.NextLevel
                         };
 
             if (id == 926982)
@@ -119,11 +137,11 @@ namespace BES.Controllers.Reports
             try
             {
                 var eduQuery = query.Where(a => a.PartnerID == 4);
-           // var eduTotal = eduQuery.Sum(a => a.TotalTarget);
-           // if (eduTotal > 0)
+                // var eduTotal = eduQuery.Sum(a => a.TotalTarget);
+                // if (eduTotal > 0)
                 ViewBag.EduPercent = eduQuery.Sum(a => a.TotalAchieve) * 100 / eduQuery.Sum(a => a.TotalTarget);
-            //else
-              //  ViewBag.EduPercent = 0;
+                //else
+                //  ViewBag.EduPercent = 0;
             }
             catch
             {
@@ -132,7 +150,27 @@ namespace BES.Controllers.Reports
             //try { ViewBag.DevPercent = query.Where(a => a.PartnerID == 3).Sum(a => a.TotalAchieve) * 100 / query.Where(a => a.PartnerID == 3).Sum(a => a.TotalTarget); }
             //catch { ViewBag.DevPercent = 0; }
             ViewBag.DevPercent = 0;
-            return PartialView(query);
+
+            ProjectSummary projectSummary = new ProjectSummary
+            {
+                indicatorsSummaries = await query.ToListAsync(),
+                procurementProgresses = await (from Activity in _context.Activity
+                                                   //  where Activity.ProcurementPlanID==1
+                                               select new ProcurementProgress
+                                               {
+                                                   ProcurementPlanID = Activity.ProcurementPlanID,
+                                                   StepReferenceNo = Activity.StepReferenceNo,
+                                                   Activity = Activity.Name,
+                                                   Initiated = Activity.Status >= 1 ? 1 : 0,
+                                                   Completed = Activity.Status == 4 ? 1 : 0
+                                                   
+                                               }).ToListAsync()
+            };
+
+            ViewBag.ProcPercent = projectSummary.procurementProgresses.Sum(a => a.Initiated) * 25 / projectSummary.procurementProgresses.Count()
+                                + projectSummary.procurementProgresses.Sum(a => a.Completed) * 75 / projectSummary.procurementProgresses.Count();
+
+            return PartialView(projectSummary);
         }
 
         public async Task<IActionResult> SchoolList (int id,int? RID, int? DID, bool verify,int? Type, string IndicatorName)
