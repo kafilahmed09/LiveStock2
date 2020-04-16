@@ -15,7 +15,9 @@
   <ItemGroup>
     <Content Remove="wwwroot\%2a%2a" />
   </ItemGroup>
-  
+  <ItemGroup>  
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />  
+</ItemGroup>  
   <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
@@ -122,6 +124,8 @@
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
 
     <PackageReference Include="Sendgrid" Version="9.9.0" />
+
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>

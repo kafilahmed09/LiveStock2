@@ -12,6 +12,7 @@ using BES.Data;
 
 namespace BES.Pages.Account
 {
+  
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -104,5 +105,7 @@ namespace BES.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        
     }
 }

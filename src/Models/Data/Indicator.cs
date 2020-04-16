@@ -23,6 +23,9 @@ namespace BES.Models.Data
         public string EvidanceType { get; set; }
         public bool IsSummary { get; set; }
 
+        public short bifurcationToApp { get; set; }
+        public bool IsEvidenceFromApp { get; set; }
+
         public virtual Partner Partner { get; set; }
     }
 }
