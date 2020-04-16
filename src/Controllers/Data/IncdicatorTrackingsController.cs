@@ -45,13 +45,22 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-        //[Authorize(Roles = "Administrator,Education,Development")]
+
+        [Authorize(Roles = "Administrator,Education,Development")]
 
         public async Task<IActionResult> Index(int id)
         {
            
             if (User.Identity.Name==null)
                 return RedirectToAction("Login","Account");
+            if (User.IsInRole("Education"))
+                id = 926982;
+            else if (User.IsInRole("Development"))
+                id = 352769;
+            else if (User.IsInRole("Administrator"))
+            { }
+            else
+                return RedirectToPage("/AccessDenied");
             ViewBag.SectionID = id;
             if (id == 926982)
             {
@@ -384,7 +393,16 @@ namespace BES.Controllers.Data
         public async Task<IActionResult> ReuploadEvidence(int id)
         {
             int PId = 0;// id == 926982 ? 4 : 3;
-
+            if (User.Identity.Name == null)
+                return RedirectToAction("Login", "Account");
+            if (User.IsInRole("Education"))
+                id = 926982;
+            else if (User.IsInRole("Development"))
+                id = 352769;
+            else if (User.IsInRole("Administrator") || User.IsInRole("M&E"))
+            { }
+            else
+                return RedirectToPage("/AccessDenied");
             ViewBag.id = id;
             if (id == 926982)
             {
@@ -459,7 +477,16 @@ namespace BES.Controllers.Data
         {
 
             int PId = 0;// id == 926982 ? 4 : 3;
-
+            if (User.Identity.Name == null)
+                return RedirectToAction("Login", "Account");
+            if (User.IsInRole("Education"))
+                id = 926982;
+            else if (User.IsInRole("Development"))
+                id = 352769;
+            else if (User.IsInRole("Administrator") || User.IsInRole("M&E"))
+            { }
+            else
+                return RedirectToPage("/AccessDenied");
             ViewBag.SectionID = id;
             if (id == 926982)
             {
