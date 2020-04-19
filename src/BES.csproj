@@ -9,6 +9,7 @@
 
   
   <ItemGroup>
+    <Compile Remove="Controllers\ApiDevApp\IndicatorTrackApiController.cs" />
     <Compile Remove="Controllers\Data\SchoolsoldController.cs" />
   </ItemGroup>
   
@@ -30,12 +31,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\DevApp\Models\" />
+    <Folder Include="Areas\DevApp\Views\" />
     <Folder Include="Areas\Education\Controllers\" />
     <Folder Include="Areas\Education\Data\" />
     <Folder Include="Areas\Education\Models\" />
     <Folder Include="Areas\Education\Views\" />
     <Folder Include="Areas\LMS\Data\" />
     <Folder Include="Areas\Procurement\Data\" />
+    <Folder Include="Controllers\ApiDevApp\" />
   </ItemGroup>
 
   
