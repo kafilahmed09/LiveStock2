@@ -113,10 +113,7 @@ namespace BES
 
             services.AddScoped<Services.Profile.ProfileManager>();
             services.AddHttpContextAccessor();
-            services.AddSwaggerGen(x =>
-            {                
-                x.SwaggerDoc("v1", new OpenApiInfo {Title="API", Version = "v1" });
-            });
+    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -139,16 +136,6 @@ namespace BES
             //app.UseCookiePolicy();
 
             app.UseAuthentication();
-            var swaggerOptions = new SwaggerOptions();
-            Configuration.GetSection(nameof(swaggerOptions)).Bind(swaggerOptions);
-            app.UseSwagger(option =>
-            {
-                option.RouteTemplate = swaggerOptions.JsonRoute;
-            });
-            app.UseSwaggerUI(option =>
-            {
-                option.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description);
-            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

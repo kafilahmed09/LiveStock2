@@ -27,7 +27,7 @@ namespace BES.Controllers.ApiDevApp
         {
             bool status = true;
             string message = "Success";
-            var indicatorList = await _context.Indicator.Where(a => a.IndicatorID >= 29 && a.IndicatorID <= 40 && a.IsEvidenceFromApp == true).Select(a => new {a.IndicatorID, a.IndicatorName, IsFeeder = a.IsFeeder ? 1 : 0, IsPotential = a.IsPotential ? 1 : 0, IsNextLevel = a.IsNextLevel ? 1 : 0, a.bifurcationToApp }).ToListAsync();
+            var indicatorList = await _context.Indicator.Where(a => a.IndicatorID >= 29 && a.IndicatorID <= 40 && a.IsEvidenceFromApp == true).Select(a => new {a.IndicatorID, a.IndicatorName, IsFeeder = a.IsFeeder==true ? 1 : 0, IsPotential = a.IsPotential == true ? 1 : 0, IsNextLevel = a.IsNextLevel == true ? 1 : 0, a.bifurcationToApp }).ToListAsync();
             return Ok(new { status, message, indicatorList });
         }
 

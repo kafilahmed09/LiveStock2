@@ -27,7 +27,7 @@ namespace BES.Controllers.Api
         {
             bool status = true;
             string message = "Success";
-            var schoolList = await _context.Schools.Select(a => new { a.SchoolID, a.SName, a.BEMIS, a.SLevel,a.type,a.Latitude,a.Longitude,a.UCID, NewConstruction = a.NewConstruction == true ? 1 : 0, RepairRennovation = a.RepairRennovation == true ? 1 : 0,a.CurrentStage, a.RepairRennovationStatus }).ToListAsync();
+            var schoolList = await _context.Schools.Where(a=>a.NewConstruction == true || a.RepairRennovation == true).Select(a => new { a.SchoolID, a.SName, a.BEMIS, a.SLevel,a.type,a.Latitude,a.Longitude,a.UCID, NewConstruction = a.NewConstruction == true ? 1 : 0, RepairRennovation = a.RepairRennovation == true ? 1 : 0, CurrentStage = a.CurrentStage ?? 0, RepairRennovationStatus = a.RepairRennovationStatus ?? 1 }).ToListAsync();
             return Ok(new { status, message, schoolList });
         }
 
