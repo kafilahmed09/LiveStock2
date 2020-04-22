@@ -1,6 +1,8 @@
-﻿@model IEnumerable<BES.Models.Reports.IndicatorsSummary>
-
+﻿@model BES.Controllers.Reports.ProjectSummary
 @{
+    var Goods = Model.procurementProgresses.Where(a => a.ProcurementPlanID == 1);
+    var works = Model.procurementProgresses.Where(a => a.ProcurementPlanID == 2);
+
     ViewData["Title"] = "Education";
     var RID = ViewBag.RID;
     var DID = ViewBag.DID;
@@ -13,46 +15,46 @@
 @*<p>
         <a asp-action="Create">Create New</a>
     </p>*@
-@if(ViewBag.Verify ==true)
-    {
+@if (ViewBag.Verify == true)
+{
 
-       <div class="box-body">
-            <div class="row">
-                <div class="col-xs-6 col-md-3 text-center">
-                    <input type="text" class="knob" value="@ViewBag.EduPercent" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#3c8dbc" data-readonly="true">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-6 col-md-3 text-center">
+                <input type="text" class="knob" value="@ViewBag.EduPercent" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#3c8dbc" data-readonly="true">
 
-                    <div class="knob-label">Education Section Progress</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-6 col-md-3 text-center">
-                    <input type="text" class="knob" value="@ViewBag.DevPercent" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#f56954" data-readonly="true">
-
-                    <div class="knob-label">Development Section Progress</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-6 col-md-3 text-center">
-                    <input type="text" class="knob" value="0" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#00a65a" data-readonly="true">
-
-                    <div class="knob-label">Procurement Section Progress</div>
-                </div>
-                <!-- ./col -->
-                <div class="col-xs-6 col-md-3 text-center">
-                    <input type="text" class="knob" value="0" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#00c0ef" data-readonly="true">
-
-                    <div class="knob-label">M&E Section Progress</div>
-                </div>
-                <!-- ./col -->
+                <div class="knob-label">Education Section Progress</div>
             </div>
-            <!-- /.row -->
-        </div>
+            <!-- ./col -->
+            <div class="col-xs-6 col-md-3 text-center">
+                <input type="text" class="knob" value="@ViewBag.DevPercent" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#f56954" data-readonly="true">
 
-        }
-    
+                <div class="knob-label">Development Section Progress</div>
+            </div>
+            <!-- ./col -->
+            <div class="col-xs-6 col-md-3 text-center">
+                <input type="text" class="knob" value="@ViewBag.ProcPercent" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#00a65a" data-readonly="true">
+
+                <div class="knob-label">Procurement Section Progress</div>
+            </div>
+            <!-- ./col -->
+            <div class="col-xs-6 col-md-3 text-center">
+                <input type="text" class="knob" value="0" data-skin="tron" data-thickness="0.2" data-width="120" data-height="120" data-fgColor="#00c0ef" data-readonly="true">
+
+                <div class="knob-label">M&E Section Progress</div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IndicatorID)
+                Indicator ID
             </th>
             <th>
                 Indicators
@@ -97,7 +99,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.indicatorsSummaries)
         {
             @if (item.IndicatorID == 2)
             {
@@ -114,10 +116,14 @@
             }
             @if (item.IndicatorID == 21)
             {
-                <tr><td colspan="6"><h4>
-    Development Section  @if (ViewBag.Verify == true)
-    {<text>(Progress @ViewBag.DevPercent %) </text>}
-</h4></td></tr>
+                <tr>
+                    <td colspan="6">
+                        <h4>
+                            Development Section  @if (ViewBag.Verify == true)
+                            {<text>(Progress @ViewBag.DevPercent %) </text>}
+                        </h4>
+                    </td>
+                </tr>
             }
             <tr>
                 <td>
@@ -137,13 +143,13 @@
 
                 <td>
                     @if (item.FeederTarget > 0)
-                    {   <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=2 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
+                    {<a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-Type=2 asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
-                        @*<a class="search" data-url='@Url.Action("SchoolList", "ProjectUpdates", new { id = item.IndicatorID, Type=2, IndicatorName= item.IndicatorName })' data-toggle="modal" data-target="#exampleModalLong1">*@
-                        @Html.DisplayFor(modelItem => item.FeederAchieve) of
-                        @Html.DisplayFor(modelItem => item.FeederTarget)
+                            @*<a class="search" data-url='@Url.Action("SchoolList", "ProjectUpdates", new { id = item.IndicatorID, Type=2, IndicatorName= item.IndicatorName })' data-toggle="modal" data-target="#exampleModalLong1">*@
+                            @Html.DisplayFor(modelItem => item.FeederAchieve) of
+                            @Html.DisplayFor(modelItem => item.FeederTarget)
 
-                    </a>}
+                        </a>}
                     else
                     {
                         <text> N/A </text>
@@ -164,16 +170,16 @@
                         </a>}
                     else
                     {
-                    <text> N / A </text>
+                        <text> N / A </text>
                     }
-                                            @*@Html.DisplayFor(modelItem => item.NLPercent)*@
-                                        </td>
+                    @*@Html.DisplayFor(modelItem => item.NLPercent)*@
+                </td>
 
                 <td>
                     <a class="Search" asp-controller="ProjectUpdates" asp-action="SchoolList" asp-route-id=@item.IndicatorID asp-route-verify="@ViewBag.Verify" asp-route-RID="@RID" asp-route-DID="@DID" asp-route-IndicatorName=@item.IndicatorName data-toggle="modal" data-target="#exampleModalLong1">
 
                         @Html.DisplayFor(modelItem => item.TotalAchieve) of
-                        @(item.PotentailTarget+ item.FeederTarget+item.NLTarget)
+                        @(item.PotentailTarget + item.FeederTarget + item.NLTarget)
                     </a>
                     @*@Html.DisplayFor(modelItem => item.TotalPercent)*@
                 </td>
@@ -185,6 +191,81 @@
     </tbody>
 </table>
 
+@*Procurement Section*@
+<h4>Procurement Section (Progress @ViewBag.ProcPercent %)</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Goods Activities
+            </th>
+            <th>
+                Initiated
+            </th>
+            <th>
+                Completed
+            </th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Goods)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Activity)
+                </td>
+                <td>
+                    @(item.Initiated * 100) %
+                </td>
+                <td>
+                    @(item.Completed * 75) %
+                </td>
+                <td>
+                    <text>@(item.Initiated * 25 + item.Completed * 75) %</text>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*Works*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Works Activities
+            </th>
+            <th>
+                Initiated
+            </th>
+            <th>
+                Completed
+            </th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in works)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Activity)
+                </td>
+                <td>
+                    @(item.Initiated * 100) %
+                </td>
+                <td>
+                    @(item.Completed * 75) %
+                </td>
+                <td>
+                    <text>@(item.Initiated * 25 + item.Completed * 75) %</text>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <!-- Modal1 -->
 <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">
@@ -272,7 +353,7 @@
 
     });
     $(function () {
-        
+
         //$('.Search').click(function () {
         //    debugger;
         //    var url = this.href
@@ -291,7 +372,7 @@
 
     //Clear Datatable
     $('#exampleModalLong1').on('hidden.bs.modal', function (e) {
-       // debugger;
+        // debugger;
         var table = $('#dataTables-example').DataTable();
         $(this).removeData('bs.modal');
         //alert("Closing and clearing data");

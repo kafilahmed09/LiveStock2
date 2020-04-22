@@ -63,6 +63,10 @@ namespace BES.Data
                 table.SchoolID,
                 table.IndicatorID
             });
+            builder.Entity<BES.Models.Data.IndicatorDevApp>().HasKey(table => new {
+                table.SchoolID,
+                table.IndicatorID
+            });
         }
         //public DbSet<BES.Models.Data.>  { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }

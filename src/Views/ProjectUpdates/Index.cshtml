@@ -3,11 +3,28 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+@section Styles {
+    <style>
+        #divLoading {
+            position: absolute;
+            display: none;
+            top: 20%;
+            left: 20%;
+            right: 5%;
+            bottom: 10%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+}
+
+
 @*<div class="box-header with-border">*@
 <h2> @ViewBag.Section @ViewBag.SummaryType </h2>
 
 <!-- /.box-header -->
-
 @*</div>*@
 <p>
     @*<a asp-action="Create">Create New</a>*@
@@ -56,27 +73,39 @@
     </div>
 
     <div id="divLoading">
-        <div id="loading-div" class="ui-corner-all">
+        <div id="loading-div" class="ui-corner-all text-center fa-align-center" style="margin-top:10%; color:white">
             <div id="loadingbar"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
-            <h3 style="color:gray;font-weight:normal;">Generating....</h3>
+            <h3 style="color:white;font-weight:normal;">Generating Analysis....</h3>
         </div>
     </div>
 
     <div id="dynamicContentContainer"></div>
+    @*<div id="ProcurementContainer"></div>*@
 </section>
 @section Scripts {
     <!-- jQuery Knob -->
-   @* <script src="~/libs/jquery-knob/jquery.knob.min.js"></script>*@
+    @* <script src="~/libs/jquery-knob/jquery.knob.min.js"></script>*@
     <!-- Sparkline -->
     <script src="~/libs/jquery-sparklines/jquery.sparkline.min.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
+      //  debugger;
+        $("#divLoading").show();
 
+        //clearTimeout(5000);
+@*//Procurement Pratial View
+        $.get('@Url.Action("Procurement")', function (content) {
+            $("#ProcurementContainer").html(content);
+            //$("#divLoading").hide();
+        });*@
 
           $.get('@Url.Action("FilterView",new { id = @ViewBag.SectionID, verify = ViewBag.Verify })', function (content) {
             $("#dynamicContentContainer").html(content);
             $("#divLoading").hide();
         });
+
+
+
         // on Region ID
         $('#RegionID').change(function () {
             var url = '@Url.Content("~/baselinegenerals")' + "/GetDistrict";
