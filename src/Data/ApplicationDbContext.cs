@@ -158,5 +158,7 @@ namespace BES.Data
         public DbSet<BES.Areas.LMS.Models.View_Models.LeaveSummaries> LeaveSummaries { get; set; }
         public DbSet<BES.Areas.LMS.Models.LeaveType> LeaveType { get; set; }
         public DbSet<BES.Areas.LMS.Models.LeaveRequest> LeaveRequest { get; set; }
+        public DbSet<BES.Models.Data.TeacherPost> TeacherPost { get; set; }
+        public DbSet<BES.Models.ApiDevApp.ApiUser> ApiUser { get; set; }
     }
 }

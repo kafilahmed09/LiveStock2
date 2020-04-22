@@ -73,6 +73,8 @@ namespace BES.Models.Data
        public short RepairToilets       {get;set;}
        public bool NewConstruction     {get;set;}
        public bool RepairRennovation   {get;set;}
+       public short? CurrentStage   {get;set;}
+       public short? RepairRennovationStatus { get;set;}
        public bool ExternalDevelopment {get;set;}
 
         //[DisplayName("Notification Date")]

@@ -14,6 +14,8 @@ namespace BES.Areas.LMS.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EmployeeID { get; set; }
+        [DisplayName("Employee Code")]
+        public string EmpCode { get; set; }
         [DisplayName("Full Name")]
         public string Name { get; set; }
         [EmailAddress(ErrorMessage = "Invalid Email Address")]

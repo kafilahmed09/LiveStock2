@@ -112,7 +112,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,IsSectionHead,SectionID,JoiningDate,ContractStartDate,ContractEndDate")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeID,EmpCode,Name,Designation,Gender,ContactNo,Email,SupervisorID,IsSectionHead,SectionID,JoiningDate,ContractStartDate,ContractEndDate")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -168,7 +168,7 @@ namespace BES.Areas.LMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,Name,Designation,Gender,ContactNo,Email,SupervisorID,IsSectionHead,SectionID,JoiningDate,ContractStartDate,ContractEndDate")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,EmpCode,Name,Designation,Gender,ContactNo,Email,SupervisorID,IsSectionHead,SectionID,JoiningDate,ContractStartDate,ContractEndDate")] Employee employee)
         {
             if (id != employee.EmployeeID)
             {
