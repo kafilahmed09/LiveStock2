@@ -1,0 +1,37 @@
+﻿@model LIVESTOCK.Areas.website.Models.Initiative
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Initiative</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.filepath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.filepath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.InitiativeId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

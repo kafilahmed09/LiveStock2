@@ -1,0 +1,133 @@
+﻿@model LIVESTOCK.Areas.website.Models.WhatNew
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<style>
+    .image-holder-degree {
+        font-size: 20px;
+        border: 3px groove #b8c7ce;
+        border-radius: 8px;        
+        text-align: center;      
+        vertical-align: middle;
+        display: table-cell;
+    }
+</style>
+
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Edit & Upload What's News Activity</u></h4></div>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-9">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="WhatNewsID" type="hidden" />
+                <input asp-for="PicturePath" type="hidden" />
+                <input asp-for="CreatedOn" type="hidden" />
+                <div class="form-group">
+                    <label asp-for="Heading" class="control-label"></label>
+                    <input asp-for="Heading" class="form-control" maxlength="300" />
+                    <span asp-validation-for="Heading" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="OnDate" class="control-label"></label>
+                    <input asp-for="OnDate" class="form-control" />
+                    <span asp-validation-for="OnDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" rows="10" maxlength="2000" cols="30" class="form-control" placeholder="News Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Post-Upload" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="Visibility" /> @Html.DisplayNameFor(model => model.Visibility)
+                        </label>
+                    </div>
+                </div>
+                <div id="image-holder" class="image-holder-degree">
+                    @{
+                        if (Model.PicturePath != null)
+                        {
+                            <img data-toggle="modal" data-target="#myModal" id="degree" src="@Model.PicturePath" style="cursor:zoom-in;width:200px;height:200px" />
+                        }
+                        else
+                        {
+                            <img data-toggle="modal" data-target="#myModal" id="degree" src="~/img/LDDDLogo.png" style="cursor:zoom-in;width:120px;height:90px" />
+                        }
+                    }
+                </div>
+                <div class="form-group">
+                    <label asp-for="PicturePath" class="control-label"></label>
+                    <div>
+                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" id="fileUploadDegree" accept=".jpg,.jpeg,.png"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="margin-left:10px">
+    <a asp-action="Create">Back to List</a>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img class="img-responsive" src="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+        $("#fileUploadDegree").on('change', function () {
+            if (typeof (FileReader) != "undefined") {
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("<img  />", {
+                        "src": e.target.result,
+                        "class": "thumb-image",
+                        "style": "width:80px;height:90px",
+                        "id": "degree"
+                    }).appendTo(image_holder);
+                }
+                image_holder.show();
+                reader.readAsDataURL($(this)[0].files[0]);
+            } else {
+                alert("This browser does not support FileReader.");
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('img').on('click', function () {
+                var image = $(this).attr('src');
+                $('#myModal').on('show.bs.modal', function () {
+                    $(".img-responsive").attr("src", image);
+                });
+            });
+        });
+    </script>
+}

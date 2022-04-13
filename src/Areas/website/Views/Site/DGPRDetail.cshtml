@@ -1,0 +1,161 @@
+﻿@model LIVESTOCK.Areas.website.Models.DGPR
+
+@{
+    ViewData["Title"] = "WhatNewsDetail";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+}
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    .image-holder-degree {
+        position: relative;
+    }
+
+    .img-magnifier-glass {
+        position: absolute;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: none;
+        /*Set the size of the magnifier glass:*/
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<script>
+    function magnify(imgID, zoom) {
+        var img, glass, w, h, bw;
+        img = document.getElementById(imgID);
+        /*create magnifier glass:*/
+        glass = document.createElement("DIV");
+        glass.setAttribute("class", "img-magnifier-glass");
+        /*insert magnifier glass:*/
+        img.parentElement.insertBefore(glass, img);
+        /*set background properties for the magnifier glass:*/
+        glass.style.backgroundImage = "url('" + img.src + "')";
+        glass.style.backgroundRepeat = "no-repeat";
+        glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+        bw = 3;
+        w = glass.offsetWidth / 2;
+        h = glass.offsetHeight / 2;
+        /*execute a function when someone moves the magnifier glass over the image:*/
+        glass.addEventListener("mousemove", moveMagnifier);
+        img.addEventListener("mousemove", moveMagnifier);
+        /*and also for touch screens:*/
+        glass.addEventListener("touchmove", moveMagnifier);
+        img.addEventListener("touchmove", moveMagnifier);
+        function moveMagnifier(e) {
+            var pos, x, y;
+            /*prevent any other actions that may occur when moving over the image*/
+            e.preventDefault();
+            /*get the cursor's x and y positions:*/
+            pos = getCursorPos(e);
+            x = pos.x;
+            y = pos.y;
+            /*prevent the magnifier glass from being positioned outside the image:*/
+            if (x > img.width - (w / zoom)) { x = img.width - (w / zoom); }
+            if (x < w / zoom) { x = w / zoom; }
+            if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+            if (y < h / zoom) { y = h / zoom; }
+            /*set the position of the magnifier glass:*/
+            glass.style.left = (x - w) + "px";
+            glass.style.top = (y - h) + "px";
+            /*display what the magnifier glass "sees":*/
+            glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+        }
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /*get the x and y positions of the image:*/
+            a = img.getBoundingClientRect();
+            /*calculate the cursor's x and y coordinates, relative to the image:*/
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /*consider any page scrolling:*/
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return { x: x, y: y };
+        }
+    }
+</script>
+<style>
+    .image-holder-degree {
+        font-size: 20px;
+        border: 3px groove #b8c7ce;
+        border-radius: 8px;
+        text-align: center;        
+        vertical-align: middle;
+        display: table-cell;
+    }
+</style>
+<div class="row" style="margin:20px;min-height:400px">
+    <div class="col-md-6">
+        <h3>DGPR News Detail</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.OnDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OnDate)
+            </dd>
+            <dt>
+                <text>Heading</text>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Heading)
+            </dd>
+            <dt>
+                <text>Detail</text>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+        <a asp-action="Index">Back to List</a>
+    </div>
+    <div class="col-md-6" style="padding-top:45px">
+        <hr />
+        <div id="image-holder" class="image-holder-degree">
+            @{
+                if (Model.PicturePath != null)
+                {
+                    <img data-toggle="modal" data-target="#myModal" id="degree" src="@Model.PicturePath" style="cursor:zoom-in;" />
+                }
+                else
+                {
+                    <img data-toggle="modal" data-target="#myModal" id="degree" src="~/img/LDDDLogo.png" style="cursor: zoom-in;" />
+                }
+            }
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="modalImg" class="img-responsive" src="" onClick="abc()" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/website/js/jquery/jquery-2.2.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('img').on('click', function () {
+            var image = $(this).attr('src');
+            $('#myModal').on('show.bs.modal', function () {
+                $(".img-responsive").attr("src", image);
+            });
+        });
+    });
+</script>
+<script>
+    /* Initiate Magnify Function
+    with the id of the image, and the strength of the magnifier glass:*/
+    magnify("degree", 3);
+</script>

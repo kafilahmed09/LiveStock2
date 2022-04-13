@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using BES.Services.Mail;
+using LIVESTOCK.Services.Mail;
 
 namespace Microsoft.AspNetCore.Mvc
 {

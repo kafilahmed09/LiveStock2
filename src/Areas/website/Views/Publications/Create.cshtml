@@ -1,0 +1,75 @@
+﻿@model LIVESTOCK.Areas.website.Models.Publication
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Upload Publication Activity</u></h4></div>
+
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-7">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Visibility" type="hidden" />
+                <input asp-for="CreatedOn" type="hidden" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Upload" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label asp-for="FilePath" class="control-label"></label>
+                    <div>
+                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept="application/pdf" required></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="AuthorName" class="control-label"></label>
+                    <input asp-for="AuthorName" class="form-control" />
+                    <span asp-validation-for="AuthorName" class="text-danger"></span>
+                </div>
+            </div>            
+        </div>
+    </form>
+
+</div>
+
+<div class="row" style="margin-left:10px">
+    <div class="col-md-3">
+        <h4 class="box-title">
+            <text style="font-weight:bold">List of Publications </text>
+        </h4>
+    </div>
+    <div class="col-md-1" id="divLoading">
+        <img src="~/img/sspinner.gif" width="40" height="40" />
+    </div>
+
+</div>
+
+<div id="dynamicContentContainer" style="margin:0 15px 0 15px"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index2", "Publications")', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+
+}

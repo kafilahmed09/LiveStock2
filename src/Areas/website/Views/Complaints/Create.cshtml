@@ -1,0 +1,64 @@
+﻿@model LIVESTOCK.Areas.website.Models.Complaint
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="alert alert-success text-center" style="background-color: #2E5395; padding: 0">
+        <h4 style="color:white">Feedback Form</h4>
+    </div>
+    <div class="contact-form-area">
+        <form asp-action="Create">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <input asp-for="Name" type="text" class="form-control" id="name" placeholder="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <input asp-for="CNIC" type="text" class="form-control" id="email" placeholder="CNIC xxxxx-xxxxxxx-x">
+                        <span asp-validation-for="CNIC" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <input asp-for="MobileNo" type="text" class="form-control" id="email" placeholder="Mobile 03xxxxxxxxx">
+                        <span asp-validation-for="MobileNo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <input asp-for="Subject" name="subject" class="form-control" id="subject" placeholder="Subject" maxlength="199">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <textarea asp-for="Description" class="form-control" cols="30" rows="10" placeholder="Message" maxlength="999"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn mag-btn mt-10" style="background-color: #2E5395" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/website/js/jquery/jquery-2.2.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            if (@ViewBag.Val == 1) {
+                alert("Your complaint submitted successfully!")
+            }
+        });
+    </script>
+}

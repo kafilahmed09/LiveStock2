@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BES.Pages.UI
+namespace LIVESTOCK.Pages.UI
 {
     public class ModalsModel : PageModel
     {

@@ -1,0 +1,66 @@
+﻿@model LIVESTOCK.Areas.website.Models.MainSlider
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<div style="margin:20px 20px 0 20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Upload Slider Pictures</u></h4></div>
+    @{ 
+        if(ViewBag.Msg != null)
+            {
+                <h4 style="color:red">@ViewBag.Msg</h4>
+            }
+    }
+    <h4></h4>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Visibility" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="OrderSequence" class="control-label"></label>
+                    <input asp-for="OrderSequence" class="form-control" maxlength="25" />
+                    <span asp-validation-for="OrderSequence" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Upload Pictures</label>
+                    <div>
+                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept=".jpg,.jpeg,.png" multiple required></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="submit" value="Upload" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div style="margin-left:10px">
+        <a asp-controller="WebAdmin" asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
+<div id="dynamicContentContainer" style="margin:0 15px 0 15px"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index2", "MainSliders")', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+
+}
+

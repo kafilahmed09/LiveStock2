@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="title" content="LIVESTOCK Balochistan Department LDDD">
+    <meta name="description" content="LIVESTOCK Balochistan LIVESTOCK Livestock & Dairy Development Research DG Research DG DIRECTORATE GENERAL OF ANIMAL HEALTH & PRODUCTION DIRECTORATE GENERAL OF FARMS AND FEED RESOURCES">
+    <meta name="keywords" content="LIVESTOCK, Balochistan, LDDD, Livestock & Dairy Development Research, DG Research, LIVESTOCK, DIRECTORATE GENERAL OF ANIMAL HEALTH & PRODUCTION, DIRECTORATE GENERAL OF FARMS AND FEED RESOURCES">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Title -->
+    <title>LDDD</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/img/LDDDLogo.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="~/website/style.css">
+    <style>
+        .mainheading {
+            font-size: 20px;
+        }
+        .mainheading {
+            line-height: 22px !important;
+        }
+        @@media screen and (max-width:460px) {
+            .mainheading {
+                font-size: 18px !important;
+                line-height: 0;
+                line-height: 22px !important;
+                margin-bottom: 5px;
+            }
+        }
+        @@media screen and (max-width:460px) {
+            .mainheading {
+                font-size: 15px !important;
+            }
+        }
+
+        ﻿.glyphicon {
+            margin-right: 4px !important; /*override*/
+        }
+
+                .pagination .glyphicon {
+                    margin-right: 0px !important; /*override*/
+                }
+
+                .pagination a {
+                    color: #555;
+                }
+
+                .panel ul {
+                    padding: 0px;
+                    margin: 0px;
+                    list-style: none;
+                }
+
+                .news-item {
+                    padding: 4px 4px;
+                    margin: 0px;
+                    border-bottom: 1px dotted #555;
+                }
+
+                .navbar-expand-md .navbar-nav .nav-link {
+                    padding-right: 1rem;
+                    padding-left: 1rem;
+                    color: white;
+                }
+
+                .navbar-brand {
+                    font-size: 2rem;
+                }
+
+                .navbar-expand-md .navbar-nav .nav-link:hover {
+                    border: 1px solid #00ffdc !important;
+                    color: #00ffdc !important;
+                    border-radius: 5px;
+                }
+    </style>
+
+    <link href="~/website/css/news_bootstrap.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/libs/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/libs/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+
+    @RenderSection("Styles", required: false)
+</head>
+<body class="hold-transition skin-green sidebar-mini fixed" style="background-color:#f2f2f2">
+
+    @*<div class="preloader d-flex align-items-center justify-content-center">
+        <div class="spinner">
+            <div class="double-bounce1"><img src="~/img/LDDDLogo.png" alt="LDDD" width="100" height="100" /></div>
+            <div class="double-bounce2"><img src="~/img/LDDDLogo.png" alt="LDDD" width="100" height="100" /></div>
+        </div>
+    </div>*@
+
+    <!-- ##### Header Area Start ##### -->
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color:#2E5395">
+            <div class="container-fluid" style="padding:5px 0 5px 20px">
+                @*<a asp-area="Website" asp-controller="Site" asp-action="Index" class="navbar-brand" style="color:white">LDDD</a>*@
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" asp-area="Website" asp-controller="Site" asp-action="Index">Home</a>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">DIRECTORATES</a>
+                            <div class="dropdown-menu">
+
+                                <a asp-area="Website" asp-controller="Site" asp-action="ViewDirector" asp-route-Id="1" class="dropdown-item">Animal Health &amp; Production</a>
+                                <a asp-area="Website" asp-controller="Site" asp-action="ViewDirector" asp-route-Id="2" class="dropdown-item">Farm &amp; Feed Resources</a>
+                                <a asp-area="Website" asp-controller="Site" asp-action="ViewDirector" asp-route-Id="3" class="dropdown-item">Research &amp; Supplies</a>
+                                <a href="http://livestock.gob.pk:81/" target="_blank" class="dropdown-item">AHIS</a>
+                            </div>
+                        </div>
+                        @* <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dashboard</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="http://mastechnos.com/LIVESTOCK/DashBoard.php">Covid-19</a>
+            </div>
+        </div>*@
+                        <!--<div class="nav-item dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Procurements</a>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" asp-area="Website" asp-controller="Tenders" asp-action="Index" asp-route-id="true">Open Tender</a>
+        <a asp-area="Website" asp-controller="Tenders" asp-action="Index" asp-route-id="false" class="dropdown-item">Close Tender</a>-->
+                        @*<a href="#" class="dropdown-item">Read Aloud Rates</a>
+        <a href="#" class="dropdown-item">Process Publications</a>*@
+                        <!--</div>
+    </div>-->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Livestock</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Website" asp-controller="Site" asp-action="AHS">Animal Husbandry System</a>
+                                <a href="~/Documents/5. livestock breeds Balochistan_Livestock_Population.pdf" target="_blank" class="dropdown-item">Livestock Population and Breeds</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Services</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Website" asp-controller="ProjectServices" asp-action="Index">List of Services</a>
+                                <a asp-area="Website" asp-controller="ServiceCenters" asp-action="Index" class="dropdown-item">Service Centers</a>
+                                <a class="dropdown-item" asp-area="Website" asp-controller="ProjectServices" asp-action="Weather">Weather</a>
+                            </div>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Projects</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Website" asp-controller="Ongoings" asp-action="Index" asp-route-id="1">OnGoing Schemes</a>
+                                <a asp-area="Website" asp-controller="Ongoings" asp-action="Index" asp-route-id="2" class="dropdown-item">New Schemes</a>
+                            </div>
+                        </div>
+                        <a class="nav-item nav-link" href="https://www.oie.int/en/what-we-do/animal- health-and-welfare/animal-diseases" target="_blank">Diseases</a>
+                        
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Downloads</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Website" asp-controller="Notifications" asp-action="Index">Notifications</a>
+                                <a class="dropdown-item" asp-area="Website" asp-controller="Publications" asp-action="Index">Publications</a>
+                            </div>
+                        </div>
+                        <a class="nav-item nav-link" asp-area="Website" asp-controller="Budgets" asp-action="Index">Budget</a>
+                        @*<a class="nav-item nav-link" target="_blank" href="~/Documents/CamScanner 06-02-2021 09.37.pdf">Initiatives</a>*@
+                        <a class="nav-item nav-link" asp-area="Website" asp-controller="Initiatives" asp-action="Index">Initiatives</a>
+                        <a class="nav-item nav-link" asp-area="Website" asp-controller="Complaints" asp-action="Create">Feedback</a>
+                        <a class="nav-item nav-link" asp-area="Website" asp-controller="Site" asp-action="Contact">Contact Us</a>
+                        @*<form class="form-inline">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" style="height:30px">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary btn-sm"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </form>*@
+                        <div class="navbar-nav">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+                <div class="container-fluid" style="background-color:#f2f2f2">
+            <div class="content-wrapper" style="margin-top:65px;margin-bottom:0">
+                <div class="row">
+
+                    <div class="col-md-2 col-sm-3 col-lg-2 col-xs-3">
+                        <img src="~/img/LDDDLogo.png" style="float:left;max-height:80px" />
+                    </div>
+                    <div class="col-md-8  col-sm-6 col-lg-8 col-xs-6 header-style">
+                        <div class="text-center header-text">
+                            <h2 class="mainheading">
+                               Livestock &amp; Dairy Development Department
+                            </h2>
+                            <p class="display-4 mainheading" style="color: #22845a;"><b> GOVERNMENT OF BALOCHISTAN</b> </p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-3 col-lg-2 col-xs-3" style="margin-top:5px;"><img src="~/img/logo_gob.png" style="float:right; height:75px" /></div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    @RenderBody()
+
+    <!-- /.content-wrapper -->
+    <!-- =============================================== -->
+    <!-- Page footer. -->
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row">
+                <!-- Footer Widget Area -->
+                <div class="col-12">
+                    <div class="footer-widget" style="margin-bottom:2px">
+                        <!-- Logo -->
+                        <a href="index.html" class="foo-logo">Livestock &amp; Dairy Development Department</a>
+                        <p class="text-justify">First Veterinary Unit was established by the British Empire, in 1884 at Tehsil Duki. Thereafter. Veterinary Units Dispensaries were established at Barkhan. Duki and Pishin in 1904, the name of the Department was Civil Veterinary Department. Which was administered through Director residing at Bombay (India) with Deputy Director for Sindh and Balochistan at Karachi. Rapid Development was started in 1958, 1st  five-year plan was implemented for establishing poultry, sheep, goats and cattle farms. Disease diagnostic facility and animal health coverage was started at mass scale. As a result number of livestock were increased rapidly. During 1982-85, 1000 Friesian Cows were imported from Denmark for increasing Milk Production in the area through ADB Loan.</p>
+                        <h6 class="widget-title">Important Links</h6>
+                        <nav class="footer-widget-nav">
+                            <ul>
+                                @{
+                                    int count = 0, secondCounter = 0;
+                                    int total = ViewBag.TotalLinks;
+                                    string[,] Two_Dim_Array = new string[2, total];
+                                    @foreach (var str in ViewBag.ILinks)
+                                    {
+                                        if (count < total)
+                                        {
+                                            Two_Dim_Array[0, count] = str;
+                                        }
+                                        else
+                                        {
+                                            Two_Dim_Array[1, secondCounter] = str;
+                                            secondCounter = secondCounter + 1;
+                                        }
+                                        count = count + 1;
+                                    }
+                                    count = 0;
+                                    @for (int i = 0; i < total; i++)
+                                    {
+                                        <li><a href="@Two_Dim_Array[1, count]"><i class="fa fa-angle-double-right" aria-hidden="true"></i> @Two_Dim_Array[0, count]</a></li>
+                                        count = count + 1;
+                                    }
+                                }
+                            </ul>
+                        </nav>
+                        <div class="footer-social-info">
+                            <a href="@(((string[])ViewData["Modes"])[0]) " class="facebook"><i class="fa fa-facebook"></i></a>
+                            @*<a href="@(((string[])ViewData["Modes"])[1]) " class="google-plus"><i class="fa fa-google-plus"></i></a>*@
+                            <a href="@(((string[])ViewData["Modes"])[2]) " class="instagram"><i class="fa fa-instagram"></i></a>
+                            <a href="@(((string[])ViewData["Modes"])[3]) " class="twitter"><i class="fa fa-twitter"></i></a>
+                            <a href="@(((string[])ViewData["Modes"])[4]) " class="linkedin"><i class="fa fa-linkedin"></i></a>
+                            <a href="@(((string[])ViewData["Modes"])[5]) " class="single-youtube-channel"><i class="fa fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>
+
+        <!-- Copywrite Area -->
+        <div class="copywrite-area">
+            <div class="container">
+                <div class="row">
+                    <!-- Copywrite Text -->
+                    <div class="col-12 col-sm-8">
+                        <p class="copywrite-text">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->                            
+                            <span style="font-size:12px">All rights reserved to the Livestock &amp; DDD And SCIENCE &amp; IT DEPARTMENT, DIRECTORATE GENERAL IT BALOCHISTAN</span>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <nav class="footer-nav">
+                            <ul>
+                                <li><a class="nav-item nav-link active" asp-area="Website" asp-controller="Site" asp-action="Index">Home</a></li>
+                                @*<li><a class="nav-item nav-link" asp-area="Website" asp-controller="Site" asp-action="AboutUs">About Us</a></li>*@
+                                @*<li><a class="nav-item nav-link" asp-area="Website" asp-controller="Notifications" asp-action="Index">Notification</a></li>*@
+                                <li><a class="nav-item nav-link" asp-area="Website" asp-controller="Complaints" asp-action="Create">Feedback</a></li>
+                                <li><a class="nav-item nav-link" asp-area="Website" asp-controller="Site" asp-action="Contact">Contact Us</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ./wrapper -->
+
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/website/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="~/website/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/website/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="~/website/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="~/website/js/active.js"></script>
+    <script src="~/website/js/jquery.bootstrap.newsbox.min.js"></script>
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+    <script>
+        $(function () {
+            $(".demo1").bootstrapNews({
+                newsPerPage: 5,
+                autoplay: true,
+                pauseOnHover: true,
+                direction: 'up',
+                newsTickerInterval: 1000,
+                onToDo: function () {
+                    //console.log(this);
+                }
+            });
+        });
+        @*$(document).ready(function () {
+            $('.dataTables-example').DataTable({
+            });
+        });*@
+    </script>
+</body>
+</html>

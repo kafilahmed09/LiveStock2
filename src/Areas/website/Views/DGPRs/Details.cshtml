@@ -1,0 +1,88 @@
+﻿@model LIVESTOCK.Areas.website.Models.DGPR
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<style>
+    .image-holder-degree {
+        font-size: 20px;
+        border: 3px groove #b8c7ce;
+        border-radius: 8px;
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+    }
+</style>
+<div style="margin:20px">
+    <h4 style="font-weight:bold">DGPR News</h4>
+    <hr />
+    <div class="col-md-8">
+        <dl class="dl-horizontal">
+            <dt>
+                <text>Heading</text>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Heading)
+            </dd>
+            <dt>
+                <text>Description</text>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.OnDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OnDate)
+            </dd>
+        </dl>
+        <div style="margin-left:10px">
+            <a asp-action="Create">Back to List</a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="image-holder" class="image-holder-degree">
+            @{
+                if (Model.PicturePath != null)
+                {
+                    <img data-toggle="modal" data-target="#myModal" id="degree" src="@Model.PicturePath" style="cursor:zoom-in;width:220px;height:200px" />
+                }
+                else
+                {
+                    <img data-toggle="modal" data-target="#myModal" id="degree" src="~/img/LDDDLogo.png" style="cursor:zoom-in;width:120px;height:90px" />
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img class="img-responsive" src="" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+        $(document).ready(function () {
+            $('img').on('click', function () {
+                var image = $(this).attr('src');
+                $('#myModal').on('show.bs.modal', function () {
+                    $(".img-responsive").attr("src", image);
+                });
+            });
+        });
+    </script>
+}

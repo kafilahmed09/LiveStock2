@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using BES.Data;
-using BES.Services.Mail;
+using LIVESTOCK.Data;
+using LIVESTOCK.Services.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace BES.Pages.Settings.TwoFactorAuth
+namespace LIVESTOCK.Pages.Settings.TwoFactorAuth
 {
     public class ConfigModel : PageModel
     {
@@ -128,7 +128,7 @@ namespace BES.Pages.Settings.TwoFactorAuth
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("BES"),
+                _urlEncoder.Encode("LIVESTOCK"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

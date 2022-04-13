@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BES.Data
+namespace LIVESTOCK.Data
 {
     public class ApplicationUserRole : IdentityUserRole<string>
     {

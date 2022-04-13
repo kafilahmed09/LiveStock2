@@ -1,0 +1,96 @@
+﻿@model LIVESTOCK.Areas.website.Models.ContactInfo
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Update Contact Us Information</u></h4></div>
+    <hr />
+    
+    <form asp-action="Edit">
+        <div class="row">
+            <div class="col-md-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ContactInfoID" />
+                <div class="form-group">
+                    <label asp-for="PhoneNo1" class="control-label"></label>
+                    <input asp-for="PhoneNo1" class="form-control" />
+                    <span asp-validation-for="PhoneNo1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="PhoneNo2" class="control-label"></label>
+                    <input asp-for="PhoneNo2" class="form-control" />
+                    <span asp-validation-for="PhoneNo2" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="PhoneNo3" class="control-label"></label>
+                    <input asp-for="PhoneNo3" class="form-control" />
+                    <span asp-validation-for="PhoneNo3" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="PhoneNo4" class="control-label"></label>
+                    <input asp-for="PhoneNo4" class="form-control" />
+                    <span asp-validation-for="PhoneNo4" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="FaxNo1" class="control-label"></label>
+                    <input asp-for="FaxNo1" class="form-control" />
+                    <span asp-validation-for="FaxNo1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="FaxNo2" class="control-label"></label>
+                    <input asp-for="FaxNo2" class="form-control" />
+                    <span asp-validation-for="FaxNo2" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <textarea cols="30" rows="3" placeholder="Address" asp-for="Address" class="form-control"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update-Save" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="WhatsAppNo" class="control-label"></label>
+                    <input asp-for="WhatsAppNo" class="form-control" />
+                    <span asp-validation-for="WhatsAppNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="FaxNo3" class="control-label"></label>
+                    <input asp-for="FaxNo3" class="form-control" />
+                    <span asp-validation-for="FaxNo3" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin-left:10px">
+    <a asp-controller="WebAdmin" asp-action="Index">Back to List</a>
+</div>
+

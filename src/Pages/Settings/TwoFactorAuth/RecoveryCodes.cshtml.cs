@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BES.Data;
-using BES.Services.Mail;
+using LIVESTOCK.Data;
+using LIVESTOCK.Services.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace BES.Pages.Settings.TwoFactorAuth
+namespace LIVESTOCK.Pages.Settings.TwoFactorAuth
 {
     public class RecoveryCodesModel : PageModel
     {

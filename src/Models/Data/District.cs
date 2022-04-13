@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace BES.Models.Data
+namespace LIVESTOCK.Models.Data
 {
     public class District
     {

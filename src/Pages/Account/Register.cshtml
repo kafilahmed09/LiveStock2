@@ -4,13 +4,10 @@
     ViewData["Title"] = "Register";
      var Roles = new List<SelectListItem>
                 {
-                    new SelectListItem { Value = "Administrator", Text = "Administrator" },
-                    new SelectListItem { Value = "Procurement", Text = "Procurement" },
-                    new SelectListItem { Value = "Education", Text = "Education" },
-                    new SelectListItem { Value = "Development", Text = "Development"  },
-                    new SelectListItem { Value = "M&E", Text = "M&E"  },
-                    new SelectListItem { Value = "Finance", Text = "Finance"  },
-                    new SelectListItem { Value = "HR", Text = "HR"  },
+                    new SelectListItem { Value = "Administrator", Text = "Administrator" },                   
+                    new SelectListItem { Value = "SMS", Text = "SMS"  },
+                    new SelectListItem { Value = "Website", Text = "Website"  },                    
+                    new SelectListItem { Value = "CovidLab", Text = "CovidLab"  },                    
                     new SelectListItem { Value = "Admin", Text = "Admin"  },
                     new SelectListItem { Value = "Guest", Text = "Guest"  },
                 };
@@ -46,6 +43,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         </div>
         <div class="form-group has-feedback">
+            <input asp-for="Input.LabAccess" class="form-control" placeholder="Lab Access Eg. 1,2,3">
+            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+            <span asp-validation-for="Input.LabAccess" class="help-block"></span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="form-group has-feedback">
             <select asp-for="Input.SectionRole" asp-items="Roles"></select>
             <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             <span asp-validation-for="Input.SectionRole" class="help-block"></span>
@@ -70,7 +73,7 @@
         </div>
     </form>
 
-    <div class="social-auth-links text-center">
+    @*<div class="social-auth-links text-center">
         <p>- OR -</p>
         <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
             <i class="fa fa-facebook"></i> Sign up using Facebook
@@ -78,7 +81,7 @@
         <a href="#" class="btn btn-block btn-social btn-google btn-flat">
             <i class="fa fa-google-plus"></i> Sign up using Google+
         </a>
-    </div>
+    </div>*@
             
 
     <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-center">I already have a membership</a>

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BES.Data;
+using LIVESTOCK.Data;
 
-namespace BES.Pages.Account
+namespace LIVESTOCK.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {

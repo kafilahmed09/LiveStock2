@@ -1,0 +1,64 @@
+﻿@model LIVESTOCK.Areas.website.Models.Gallery
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<div style="margin:20px 20px 0 20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Upload Gallery Pictures</u></h4></div>
+    <div class="row">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Visibility" />
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="GalleryFolderId" class="control-label">Select Gallary Albem</label>
+                    <select asp-for="GalleryFolderId" class="form-control" asp-items="ViewBag.GalleryFolderId"></select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>                
+                <div class="form-group">
+                    <label class="control-label">Browse Pictures</label>
+                    <div>
+                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" multiple accept=".jpg,.jpeg,.png" required></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mt-2">
+                    <input type="submit" value="Upload" class="btn btn-success" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="margin-left:10px">
+        <a asp-controller="WebAdmin" asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
+<div id="dynamicContentContainer" style="margin:0 15px 0 15px"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+
+    $(document).ready(function () {
+        var galleryFolderId = $("#GalleryFolderId").val();
+        $.get('@Url.Action("Index2", "Galleries")', { galleryFolderId: galleryFolderId }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        $("#GalleryFolderId").change(function () {
+                var galleryFolderId = $("#GalleryFolderId").val();
+            $.get('@Url.Action("Index2", "Galleries")', { galleryFolderId: galleryFolderId }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+            })
+        });
+</script>
+
+}
+

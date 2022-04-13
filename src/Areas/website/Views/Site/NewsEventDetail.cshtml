@@ -1,0 +1,52 @@
+﻿@model LIVESTOCK.Areas.website.Models.NewsEvent
+
+@{
+    ViewData["Title"] = "WhatNewsDetail";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .image-holder-degree {
+        font-size: 20px;
+        border: 3px groove #b8c7ce;
+        border-radius: 8px;
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+    }
+</style>
+<div class="row justify-content-center text-justify" style="margin:20px;">
+    <div class="col-md-8">
+        <h3>News & Event Detail</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.OnDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OnDate)
+            </dd>
+            <dt>
+                <text>Heading</text>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Heading)
+            </dd>
+            <dt>
+                <text>Detail</text>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+        <a asp-action="Index">Back to List</a>
+    </div>    
+</div>
+<div class="row" style="margin:30px">
+    @foreach (var item in ViewBag.Pictures)
+    {
+        <div class="col-md-3">
+            <img src="@item.PicturePath" width="250" height="250" style="padding:20px" />
+        </div>
+    }
+</div>

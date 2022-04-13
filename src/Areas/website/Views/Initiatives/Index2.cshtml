@@ -1,0 +1,44 @@
+﻿@model IEnumerable<LIVESTOCK.Areas.website.Models.Initiative>
+
+
+
+<table class="table table-striped table-bordered  dataTables-example">
+    <thead>
+        <tr>            
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.InitiativeId">Edit</a> |
+                    <a href='@Url.Content(item.filepath)' target="_blank">View</a> |
+                    <a asp-action="Delete" asp-route-id="@item.InitiativeId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.dataTables-example').DataTable({
+        });
+    });
+</script>

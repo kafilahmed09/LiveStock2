@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using BES.Data;
+using LIVESTOCK.Data;
 
-namespace BES.Pages.Account
+namespace LIVESTOCK.Pages.Account
 {
   
     public class LoginModel : PageModel
@@ -78,6 +78,16 @@ namespace BES.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User logged in.");
+                        // Get the roles for the user
+                        var roles = await _signInManager.UserManager.GetRolesAsync(user);
+                        if (roles.ElementAt(0).ToString() == "CovidLab")
+                        {
+                            returnUrl = "/CovidLab/PatientResults/Dashboard";
+                        }
+                        if (roles.ElementAt(0).ToString() == "CovidAdmin")
+                        {
+                            returnUrl = "/CovidAdmin/PatientResults/Index";
+                        }
                         return LocalRedirect(Url.GetLocalUrl(returnUrl));
                     }
                     if (result.RequiresTwoFactor)

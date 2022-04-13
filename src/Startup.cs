@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BES.Data;
-using BES.Services;
-using BES.Services.Mail;
+using LIVESTOCK.Data;
+using LIVESTOCK.Services;
+using LIVESTOCK.Services.Mail;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.OpenApi.Models;
-using BES.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace BES
+namespace LIVESTOCK
 {
     public class Startup
     {
@@ -80,9 +80,9 @@ namespace BES
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
-                    options.Conventions.AuthorizeFolder("/");
+                    //options.Conventions.AuthorizeFolder("/");
 
-                    options.Conventions.AllowAnonymousToPage("/Error");
+                    options.Conventions.AllowAnonymousToPage("/Error");                    
                     options.Conventions.AllowAnonymousToPage("/Account/AccessDenied");
                     options.Conventions.AllowAnonymousToPage("/Account/ConfirmEmail");
                     options.Conventions.AllowAnonymousToPage("/Account/ExternalLogin");
@@ -111,9 +111,15 @@ namespace BES
                 services.AddSingleton<IMailManager, EmptyMailManager>();
             }
 
-            services.AddScoped<Services.Profile.ProfileManager>();
+            services.AddScoped<LIVESTOCK.Services.Profile.ProfileManager>();
             services.AddHttpContextAccessor();
-    
+            services.ConfigureApplicationCookie(options => {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/AccessDenied";
+                options.SlidingExpiration = true;                
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -145,7 +151,8 @@ namespace BES
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-           
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDczNTU0QDMxMzkyZTMyMmUzMEh0QU9pd2FiUWJ5ZndJRFNQNjFTTWJwS2kySFVwL3dIY0k5L29KSWFtREU9;NDczNTU1QDMxMzkyZTMyMmUzMEJsZWdlZmtoN0EwOEkxUng2aUdZUjB1RW03VGozdzk3Zk54VWdibnAzVHc9");
         }
     }
 }

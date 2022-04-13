@@ -1,0 +1,58 @@
+﻿@model LIVESTOCK.Areas.website.Models.NewsEvent
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+
+
+<div style="margin:20px">
+    <h3>Details</h3>
+    <h4 style="font-weight:bold">News & Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <text>Heading</text>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Heading)
+        </dd>
+        <dt>
+            <text>Description</text>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OnDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OnDate)
+        </dd>
+        <dt>
+            <text>Created On</text>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Visibility)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Visibility)
+        </dd>
+    </dl>
+</div>
+<div style="margin:10px">    
+    <a asp-action="Create">Back to List</a>
+</div>
+<div class="row" >
+    @foreach (var item in ViewBag.Pictures)
+    {
+        <div class="col-md-3">
+            <img src="@item.PicturePath" width="250" height="250" style="padding:20px" />           
+        </div>
+    }
+</div>
+

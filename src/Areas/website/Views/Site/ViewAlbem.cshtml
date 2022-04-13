@@ -1,0 +1,107 @@
+﻿@model IEnumerable<LIVESTOCK.Areas.website.Models.Gallery>
+@{
+    ViewData["Title"] = "ViewAlbem";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div.gallery {
+        border: 1px solid #ccc;
+    }
+
+        div.gallery:hover {
+            border: 1px solid #777;
+        }
+
+        div.gallery img {
+            width: 100%;
+            height: auto;
+        }
+
+    div.desc {
+        padding: 15px;
+        text-align: center;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .responsive {
+        padding: 0 6px;
+        float: left;
+        width: 24.99999%;
+    }
+
+    @@media only screen and (max-width: 700px) {
+        .responsive {
+            width: 49.99999%;
+            margin: 6px 0;
+        }
+    }
+
+    @@media only screen and (max-width: 500px) {
+        .responsive {
+            width: 100%;
+        }
+    }
+
+    .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+
+<h4 class="text-center">Albem Gallery: @ViewBag.Albem</h4>
+@*<div class="container">
+    <div class="row">
+        <div class="responsive">
+            <div class="gallery">
+                <a PGP href="~/images/photodune-1062948-nature-xs.jpg">
+                    <img src="~/images/photodune-1062948-nature-xs.jpg" alt="Cinque Terre" width="600" height="400">
+                </a>
+                <div class="desc">Add a description of the image here</div>
+            </div>
+        </div>
+
+
+      
+
+
+        <div class="responsive">
+            <div class="gallery">
+                <a PGP href="~/images/photodune-2255072-relaxed-man-xs.jpg">
+                    <img src="~/images/photodune-2255072-relaxed-man-xs.jpg" alt="Forest" width="600" height="400">
+                </a>
+                <div class="desc">Add a description of the image here</div>
+            </div>
+        </div>
+        <div class="responsive">
+            <div class="gallery">
+                <a PGP href="~/images/photodune-2255072-relaxed-man-xs.jpg">
+                    <img src="~/images/photodune-2255072-relaxed-man-xs.jpg" alt="Forest" width="600" height="400">
+                </a>
+                <div class="desc">Add a description of the image here</div>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div class="container">
+    <div class="row">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3">
+                <div class="gallery">
+                    <a PGP href="@item.PicturePath">
+                        <img src="@item.PicturePath" alt="Forest" width="600" height="400">
+                    </a>
+                    @*<div class="desc">Add a description of the image here</div>*@
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="clearfix"></div>
+</div>

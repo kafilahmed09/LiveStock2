@@ -1,0 +1,57 @@
+﻿@model IEnumerable<LIVESTOCK.Areas.website.Models.Card>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+
+<h4 style="font-weight:bold">List of Cards Information</h4>
+
+<table class="table table-striped table-bordered  dataTables-example">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Heading)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Heading)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OnDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CardID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CardID">Details</a> @*|
+                        <a asp-action="Delete" asp-route-id="@item.CardID">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.dataTables-example').DataTable({
+            });
+        });
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@model LIVESTOCK.Areas.website.Models.ImportantLink
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Edit & Upload Important Links Activity</u></h4></div>
+
+<div class="row">
+    <form asp-action="Edit">
+        <div class="col-md-4">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ImportantLinkID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>           
+            <div class="form-group">
+                <input type="submit" value="Update-Save" class="btn btn-success" />
+            </div>   
+    </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+</form>
+</div>
+</div>
+<div style="margin-left:10px">
+    <a asp-action="Create">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

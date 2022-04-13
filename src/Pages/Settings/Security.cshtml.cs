@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using BES.Data;
-using BES.Services.Mail;
+using LIVESTOCK.Data;
+using LIVESTOCK.Services.Mail;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace BES.Pages.Settings
+namespace LIVESTOCK.Pages.Settings
 {
     public class SecurityModel : PageModel
     {

@@ -1,0 +1,58 @@
+﻿@model LIVESTOCK.Areas.website.Models.Budget
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+@{
+    IEnumerable<SelectListItem> yearsList = (IEnumerable<SelectListItem>)ViewBag.YearsList;
+    var currentlySelectedIndex = 0; // Currently selected index (usually will come from model)
+}
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Edit & Upload Budget</u></h4></div>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="BudgetID" type="hidden" />
+                <input asp-for="filepath" type="hidden" />
+                <input asp-for="CreatedOn" type="hidden" />
+                <div class="form-group">
+                    <label class="control-label">Select Year</label>
+                    <select class="form-control" asp-for="@currentlySelectedIndex" asp-items="yearsList"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Project State</label>
+                    <select asp-for="Quarter" class="form-control" asp-items="@((List<SelectListItem>)ViewData["ddQuarterList"])">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Edit" class="btn btn-success" />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label asp-for="filepath" class="control-label"></label>
+                    <div>
+                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept="application/pdf"></span>
+                    </div>
+                </div>
+            </div>                     
+        </div>
+    </form>
+
+</div>
+
+<div style="margin-left:10px">
+    <a asp-action="Create">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

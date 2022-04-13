@@ -1,0 +1,24 @@
+﻿@model IEnumerable<LIVESTOCK.Areas.website.Models.MainSlider>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <form asp-action="Delete3" enctype="multipart/form-data">
+            <input type="hidden" value="@item.MainSliderID" name="Id" />          
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <a href="#">
+                        <img src="@item.PicturePath" alt="Lights" height="800">
+                        <div class="text-center">
+                            <input value="@item.OrderSequence" name="neworder" />
+                            <input type="submit" value="Save" name="save" class="btn-sm btn-flat" />
+                            <input type="submit" value="Remove" name="remove" class="btn-sm btn-flat" />
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </form>
+    }
+
+</div>

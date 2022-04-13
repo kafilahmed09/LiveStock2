@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BES.Controllers
+namespace LIVESTOCK.Controllers
 {
     public class DashboardsController : Controller
     {

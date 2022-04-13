@@ -1,0 +1,137 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-Company.WebApplication1-53bc9b9d-9d6a-45d4-8429-2a2761773502</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <AssemblyName>LIVESTOCK</AssemblyName>
+    <RootNamespace>LIVESTOCK</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Areas\Education\**" />
+    <Content Remove="Areas\Education\**" />
+    <EmbeddedResource Remove="Areas\Education\**" />
+    <None Remove="Areas\Education\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <Compile Remove="Controllers\Data\SchoolsoldController.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Remove="wwwroot\%2a%2a" />
+    <Content Remove="wwwroot\website\js\news_bootstrap.js" />
+  </ItemGroup>
+  
+ 
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.48" />
+    <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
+    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="5.8.64" />
+
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
+
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
+
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="19.2.0.47" />
+
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Controllers\" />
+    <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="Areas\Identity\Models\" />
+    <Folder Include="Areas\Identity\Views\" />
+    <Folder Include="Areas\website\Data\" />
+    <Folder Include="Controllers\Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\website\fonts\classy.svg" />
+    <None Include="wwwroot\website\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\website\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\website\fonts\themify.svg" />
+    <None Include="wwwroot\website\js\active.js" />
+    <None Include="wwwroot\website\js\bootstrap\bootstrap.min.js" />
+    <None Include="wwwroot\website\js\bootstrap\popper.min.js" />
+    <None Include="wwwroot\website\js\jquery\jquery-2.2.4.min.js" />
+    <None Include="wwwroot\website\js\plugins\plugins.js" />
+    <None Include="wwwroot\website\scss\style.scss" />
+    <None Include="wwwroot\website\scss\_fonts.scss" />
+    <None Include="wwwroot\website\scss\_mixin.scss" />
+    <None Include="wwwroot\website\scss\_responsive.scss" />
+    <None Include="wwwroot\website\scss\_theme_color.scss" />
+    <None Include="wwwroot\website\scss\_variables.scss" />
+    <None Include="wwwroot\web\js\site.js" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\adminlte.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\adminlte.min.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.components.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.components.min.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.core.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.core.min.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.extra-components.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.extra-components.min.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.pages.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.pages.min.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.plugins.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\css\alt\adminlte.plugins.min.css.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\adminlte.js" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\adminlte.js.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\adminlte.min.js" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\adminlte.min.js.map" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\demo.js" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\pages\dashboard.js" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\pages\dashboard2.js" />
+    <None Include="wwwroot\web\lib\admin-lte\dist\js\pages\dashboard3.js" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\web\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\web\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\web\lib\fontawesome-free\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\web\lib\fontawesome-free\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\web\lib\fontawesome-free\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\web\lib\fontawesome-free\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\web\lib\fontawesome-free\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\web\lib\fontawesome-free\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\web\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\web\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\web\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\web\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\web\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\web\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\web\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\web\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\web\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\web\lib\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+</Project>

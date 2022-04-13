@@ -1,0 +1,365 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+    //Layout = null;
+}
+<link href="~/css/weather.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="hero-area owl-carousel">
+                <!-- Single Blog Post -->
+                @foreach (var item in ViewBag.MainSlider)
+                {
+                    <div class="hero-blog-post">
+                        <img src="@item.PicturePath" alt="" style="height:100%" />
+                        <!--<div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-12">-->
+                        <!-- Post Contetnt -->
+                        <!--<div class="post-content text-center">
+                                        <div class="post-meta" data-animation="fadeInUp" data-delay="100ms">
+                                            <a href="#" style="color:white">@item.Title</a>
+                                        </div>
+                                        <a href="video-post.html" class="post-title" data-animation="fadeInUp" data-delay="300ms">Party Jokes Startling But Unnecessary</a>
+                                        <a href="video-post.html" class="video-play" data-animation="bounceIn" data-delay="500ms"><i class="fa fa-play"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@*<div id="41879023977426eb4f172505434b021c" class="ww-informers-box-854753"><p class="ww-informers-box-854754"><a href="https://world-weather.info/forecast/pakistan/sibi/month/">Sibi - weather</a><br><a href="https://world-weather.info/forecast/usa/san_diego/">world-weather.info</a></p></div>
+    <script type="text/javascript" charset="utf-8" src="https://world-weather.info/wwinformer.php?userid=41879023977426eb4f172505434b021c"></script>*@
+@*<a class="weatherwidget-io" href="https://forecast7.com/en/30d1866d97/quetta/" data-label_1="QUETTA" data-label_2="WEATHER" data-theme="original">QUETTA WEATHER</a>
+    <script>
+        !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = 'https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'weatherwidget-io-js');
+    </script>*@
+<hr style="height:2px;border-width:0;color:gray;background-color:gray">
+<div class="container mt-2" style="max-width:1200px">
+    <div class="text-center"><p id="rcorners3" style="background-color: #2E5395; color:white"><i class="fa fa-eye" style="padding-right:10px"></i>Messages</p></div>
+    <div class="row">
+        @foreach (var item in ViewBag.Card)
+        {
+            <div class="col-md-3 col-sm-6">
+                <div class="card card-block" style="padding:10px">
+                    <img class="imgcard" src="@item.PicturePath" alt="Photo of sunset">
+                    <h5 class="card-title mt-3 mb-3">@item.Heading</h5>
+                    <p class="card-text" style="line-height:1.5;text-align:justify;font-size:13px">@item.Description <a href="@item.DetailLink">more..</a></p>
+                </div>
+            </div>
+        }
+        @*<div class="col-md-3 col-sm-6">
+                <div class="card card-block" style="padding:5px">
+                    <img class="imgcard" src="https://static.pexels.com/photos/7357/startup-photos.jpg" alt="Photo of sunset">
+                    <h5 class="card-title  mt-3 mb-3">ProVyuh</h5>
+                    <p class="card-text">This is a company that builds websites, web .</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card card-block" style="padding:5px">
+                    <img class="imgcard" src="~/img/card2.jpg" alt="Photo of sunset">
+                    <h5 class="card-title  mt-3 mb-3">ProVyuh</h5>
+                    <p class="card-text">This is a company that builds websites, web apps and e-commerce solutions.</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card card-block" style="padding:5px">
+                    <img class="imgcard" src="https://static.pexels.com/photos/326424/pexels-photo-326424.jpeg" alt="Photo of sunset">
+                    <h5 class="card-title  mt-3 mb-3">ProVyuh</h5>
+                    <p class="card-text">This is a company that builds websites, web apps and e-commerce solutions.</p>
+                </div>
+            </div>*@
+    </div>
+
+</div>
+
+@*<div class="col-md-4" id="latestnews" style="background-color:#28a745;padding:0">
+        <div class="alert alert-success" style="background-color:#2E5395;margin-bottom:0">
+            <b style="color:white">What's New</b>
+        </div>
+        <div class="panel panel-default" style="padding:10px 20px 10px 20px">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="demo1">
+                            @foreach (var item in ViewBag.WhatNews)
+                            {
+                                <li class="news-item">
+                                    <table cellpadding="4" style="font-size:16px">
+                                        <tr>
+                                            <td><a href="#">@item.OnDate.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Heading <a asp-action="WhatNewsDetail" asp-controller="Site" asp-route-id="@item.WhatNewsID"> Read more...</a></td>
+                                        </tr>
+                                    </table>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>*@
+
+<!-- ##### Hero Area Start ##### -->
+<!-- ##### Hero Area End ##### -->
+<!-- ##### Mag Posts Area Start ##### -->
+
+<section class="mag-posts-area d-flex flex-wrap">
+
+    <!-- >>>>>>>>>>>>>>>>>>>>
+     Post Left Sidebar Area
+    <<<<<<<<<<<<<<<<<<<<< -->
+    <div class="post-sidebar-area left-sidebar mt-30 mb-30 bg-white box-shadow">
+        <!-- Sidebar Widget -->
+        <div class="single-sidebar-widget p-30" style="background-color:#28a745;">
+            <!-- Section Title -->
+            <div style="background-color:white;min-height:745px">
+                <div class="alert alert-success text-center" style="background-color:#2E5395">
+                    <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">News & Events</span>
+                </div>
+                <div class="panel panel-default" style="padding:10px">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <ul class="demo1">
+                                    @foreach (var item in ViewBag.NewsEvent)
+                                    {
+                                        <li class="news-item">
+                                            <table cellpadding="4" style="font-size:15px">
+                                                <tr>
+                                                    <td><a asp-area="Website" asp-controller="Site" asp-action="NewsEventDetail" asp-route-id="@item.NewsEventID">@item.OnDate.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Heading <a asp-area="Website" asp-controller="Site" asp-action="NewsEventDetail" asp-route-id="@item.NewsEventID"> View Detail</a></td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Widget -->
+        @*<div class="single-sidebar-widget">
+                <a href="#" class="add-img"><img src="~/website/img/bg-img/add.png" alt=""></a>
+            </div>*@
+
+
+    </div>
+
+    <!-- >>>>>>>>>>>>>>>>>>>>
+         Main Posts Area
+    <<<<<<<<<<<<<<<<<<<<< -->
+    <div class="mag-posts-content mt-30 mb-30 p-30 box-shadow">
+        <!-- Trending Now Posts Area -->
+        <div class="trending-now-posts mb-30">
+            <!-- Section Title -->
+            <div class="alert alert-success text-center" style="background-color:#2E5395">
+                <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">Press Release News</span>
+            </div>
+
+            <div class="trending-post-slides owl-carousel">
+                <!-- Single Trending Post -->
+                @foreach (var item in ViewBag.DGPR)
+                {
+                    <div>
+                        <img src="@item.PicturePath" alt="">
+                        <div class="post-content" style="min-height:70px">
+                            <span style="color:white; font-family:Poppins, sans-serif;font-size:14px">
+                                <a asp-controller="Site" asp-action="DGPRDetail" asp-route-id="@item.DGPRID" class="post-cata">@item.Heading</a>
+                            </span>
+                            @*<a href="video-post.html" class="post-title">A Guide To Rocky Mountain Vacations</a>*@
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+
+        <!-- Most Viewed Videos -->
+        <div class="most-viewed-videos mb-30">
+            <!-- Section Title -->
+            <div class="alert alert-success text-center" style="background-color:#2E5395">
+                <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">Videos</span>
+            </div>
+
+            <div class="most-viewed-videos-slide owl-carousel">
+                @foreach (var item in ViewBag.Video)
+                {
+                    <div class="single-blog-post style-4">
+                        <div class="post-thumbnail">
+                            <img src="@item.PicturePath" alt="">
+                            <span style="color:white; font-family:Poppins, sans-serif;font-size:14px">
+                                <a asp-controller="Site" asp-action="VideoDetail" asp-route-id="@item.VideoID" class="video-play"><i class="fa fa-play"></i></a>
+                            </span>
+                            <span class="video-duration">@item.Duration</span>
+                        </div>
+                        <div class="post-content">
+                            <a asp-controller="Site" asp-action="VideoDetail" asp-route-id="@item.VideoID" class="post-title" style="font-size:14px">@item.Heading</a>
+                            @*<div class="post-meta d-flex">
+                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
+                                    <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
+                                    <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+                                </div>*@
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+    <!-- >>>>>>>>>>>>>>>>>>>>
+     Post Right Sidebar Area
+    <<<<<<<<<<<<<<<<<<<<< -->
+    <div class="post-sidebar-area right-sidebar mt-30 mb-30 box-shadow">
+        <!-- Sidebar Widget -->
+        <!-- Sidebar Widget -->
+        <!--<div class="single-sidebar-widget p-30" style="background-color:#28a745">
+                    <div style="background-color:white;max-height:550px">
+                        <div class="alert alert-success text-center" style="background-color:#2E5395">
+                            <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">What's New</span>
+        </div>
+                        <div class="panel panel-default" style="padding:10px">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <ul class="demo1" style="max-height:300px">
+                                            @foreach (var item in ViewBag.WhatNews)
+                                            {
+                                                <li class="news-item">
+                                                    <table cellpadding="4" style="font-size:16px">
+                                                        <tr>
+                                                            <td><a href="#">@item.OnDate.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Heading <a asp-action="WhatNewsDetail" asp-controller="Site" asp-route-id="@item.WhatNewsID"> Read more...</a></td>
+                                                        </tr>
+                                                    </table>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+
+                            </div>
+                        </div>
+                    </div>-->
+        <!-- Section Title -->
+        <!--</div>-->
+        <div class="single-sidebar-widget p-30" style="background-color:#28a745">
+            <div style="background-color:white;max-height:530px">
+                <div class="alert alert-success text-center" style="background-color:#2E5395">
+                    <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">Notifications</span>
+                </div>
+                <div class="panel panel-default" style="padding:10px">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <ul class="demo1" style="max-height:250px">
+                                    @foreach (var item in ViewBag.Notifications)
+                                    {
+                                        <li class="news-item">
+                                            <table cellpadding="4" style="font-size:15px">
+                                                <tr>
+                                                    <td><a href="#">@item.CreatedOn.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Name <a href='@Url.Content(item.FilePath)' target="_blank"> Download</a></td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+
+                    </div>
+                </div>
+            </div>
+            <!-- Section Title -->
+
+        </div>
+        <!-- Sidebar Widget -->
+        @*<div class="single-sidebar-widget">
+                <a href="#" class="add-img"><img src="~/website/img/bg-img/add2.png" alt=""></a>
+            </div>*@
+    </div>
+    <!--Carousel Wrapper-->
+    <div class="text-center my-3" style="margin-left:10px">
+        @*<div class="alert alert-success" style="background-color:#2E5395;margin-right:15px">
+                <span style="color:white; font-family:Poppins, sans-serif;font-size:18px">GALLERY VIEW</span>
+            </div>*@
+        <div class="text-center" style="margin-right:15px"><p id="rcorners3" style="background-color: #2E5395;color:white"><i class="fa fa-file-picture-o" style="padding-right:10px;"></i>GALLERY VIEW</p></div>
+        <div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
+            <div class="carousel-inner w-100" role="listbox">
+                <div class="carousel-item row no-gutters active">
+                    @{ double count = 0; double result = 0; int temp = 0;}
+                    @{
+                        @foreach (var item in ViewBag.Gallery)
+                        {
+                            <div class="col-3 float-left">
+                                <img class="img-fluid" src="@item.PicturePath" style="padding-left:5px">
+                            </div>
+                            count = count + 1;
+                            temp = ((int)count % 4);
+                            result = count / 4;
+                            if (result == 1)
+                            {
+                                @Html.Raw("</div>");
+                                @Html.Raw("<div class='carousel-item row no-gutters'>");
+                            }
+                            @*if (result == 1)
+                                {
+                                    @Html.Raw("</div>");
+                                }*@
+                        }
+                    }
+                    @{
+                        int remaing = 4 - ((int)count % 4);
+                        @foreach (var item in ViewBag.Gallery)
+                        {
+                            if (remaing == 0)
+                            {
+                                break;
+                            }
+                            <div class="col-3 float-left"><img class="img-fluid" src="@item.PicturePath" style="padding-left:5px"></div>
+                            remaing--;
+                        }
+                        @Html.Raw("</div>");
+                    }
+                    @*<div class='carousel-item row no-gutters'>
+                            <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280?text=5"></div>
+                            <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/555?text=6"></div>
+                            <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/333/fff?text=7"></div>
+                            <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/bbb?text=8"></div>
+                        </div>*@
+                </div>
+                <a class="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#recipeCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--/.Carousel Wrapper-->
+</section>
+@*<div style="margin:0 5px 0 5px"><iframe style="width:100%" height="350" src="https://embed.windy.com/embed2.html?lat=30.183&lon=66.665&zoom=7&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=30.233&detailLon=66.929&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0"></iframe></div>*@
+
+

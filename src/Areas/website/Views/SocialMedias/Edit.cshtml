@@ -1,0 +1,52 @@
+﻿@model List<LIVESTOCK.Areas.website.Models.SocialMedia>
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Update Social Links Activity</u></h4></div>    
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ElementAt(0).Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ElementAt(0).Address)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int index = 0; index < Model.Count; index++)
+                        {
+                            <input type="hidden" asp-for="@Model[index].SocialMediaID" />
+                            <input type="hidden" asp-for="@Model[index].Name" />
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model[index].Name)
+                                </td>
+                                <td><input asp-for="@Model[index].Address" class="form-control" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="form-group">
+                    <input type="submit" value="Update-Save" class="btn btn-success" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style="margin-left:10px">
+    <a asp-controller="WebAdmin" asp-action="Index">Back to List</a>
+</div>
+

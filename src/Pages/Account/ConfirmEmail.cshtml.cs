@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BES.Data;
+using LIVESTOCK.Data;
 
-namespace BES.Pages.Account
+namespace LIVESTOCK.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {

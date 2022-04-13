@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BES.Data;
 using Microsoft.EntityFrameworkCore;
+using LIVESTOCK.Data;
 
-namespace BES.Controllers
+namespace LIVESTOCK.Controllers
 {
     [Route("[controller]/[action]")]
     public class AccountController : Controller

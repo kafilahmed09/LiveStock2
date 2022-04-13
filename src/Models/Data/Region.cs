@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BES.Models.Data
+namespace LIVESTOCK.Models.Data
 {
     public class Region
     {

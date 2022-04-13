@@ -1,0 +1,61 @@
+﻿@model LIVESTOCK.Areas.website.Models.WhatNew
+
+@{
+    ViewData["Title"] = "WhatNewsDetail";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .image-holder-degree {
+        font-size: 20px;
+        border: 3px groove #b8c7ce;
+        border-radius: 8px;
+        text-align: center;
+        vertical-align: middle;
+        display: table-cell;
+    }
+</style>
+<div class="row" style="margin:20px;min-height:400px">
+    <div class="col-md-6">       
+            <h3>News Detail</h3>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.OnDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.OnDate)
+                </dd>
+                <dt>
+                    <text>Heading</text>
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Heading)
+                </dd>
+                <dt>
+                    <text>Detail</text>
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl> 
+            <a asp-action="Index">Back to List</a>
+    </div>
+    <div class="col-md-4" style="padding-top:45px">
+        <hr />        
+        <div id="image-holder" class="image-holder-degree">
+            @{
+                if (Model.PicturePath != null)
+                {
+                    <img data-toggle="modal" data-target="#myModal" id="degree" src="@Model.PicturePath" style="cursor:zoom-in;width:200px;height:200px" />
+                }
+                else
+                {
+                    <img data-toggle="modal" data-target="#myModal" id="degree" src="~/img/LDDDLogo.png" style="cursor:zoom-in;width:120px;height:80px" />
+                }
+            }
+        </div>
+    </div>
+
+</div>
+

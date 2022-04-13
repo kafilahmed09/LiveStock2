@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
-namespace BES.Data.DataAnnotations
+namespace LIVESTOCK.Data.DataAnnotations
 {
     public class IsTrueRequired : ValidationAttribute
     {

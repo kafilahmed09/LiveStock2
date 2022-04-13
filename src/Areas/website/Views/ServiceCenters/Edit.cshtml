@@ -1,0 +1,66 @@
+﻿@model LIVESTOCK.Areas.website.Models.ServiceCenter
+
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Edit Service Cetner Activity</u></h4></div>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ServiceCenterID" />
+        <input type="hidden" asp-for="Visibility" />
+        <input type="hidden" asp-for="CreatedOn" />
+        <div class="form-group">
+            <label asp-for="ServiceCenterID" class="control-label"></label>
+        </div>
+        <div class="form-group">
+            <label asp-for="SerialNo" class="control-label"></label>
+            <input asp-for="SerialNo" class="form-control" />
+            <span asp-validation-for="SerialNo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Numbers" class="control-label"></label>
+            <input asp-for="Numbers" class="form-control" />
+            <span asp-validation-for="Numbers" class="text-danger"></span>
+        </div>
+        @* <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input asp-for="Visibility" /> @Html.DisplayNameFor(model => model.Visibility)
+                </label>
+            </div>
+        </div>*@
+        @*<div class="form-group">
+            <label asp-for="CreatedOn" class="control-label"></label>
+            <input asp-for="CreatedOn" class="form-control" />
+            <span asp-validation-for="CreatedOn" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </form>
+
+</div>
+
+<div style="margin-left:10px">
+    <a asp-action="Create">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

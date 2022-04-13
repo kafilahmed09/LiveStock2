@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BES.Pages.Account
+namespace LIVESTOCK.Pages.Account
 {
     public class SignedOutModel : PageModel
     {

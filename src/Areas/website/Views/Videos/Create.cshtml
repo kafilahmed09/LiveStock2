@@ -1,0 +1,92 @@
+﻿@model LIVESTOCK.Areas.website.Models.Video
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
+}
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+<div style="margin:20px">
+    <div><h4 style="font-weight:600;font-style:oblique"><u>Upload Video Activity</u></h4></div>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-9">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="CreatedOn" type="hidden" />
+                <input asp-for="Visibility" type="hidden" />
+                <div class="form-group">
+                    <label asp-for="Heading" class="control-label"></label>
+                    <input asp-for="Heading" class="form-control" maxlength="80" />
+                    <span asp-validation-for="Heading" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VideoLink" class="control-label"></label>
+                    <input asp-for="VideoLink" class="form-control" maxlength="80" />
+                    <span asp-validation-for="VideoLink" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label asp-for="OnDate" class="control-label"></label>
+                    <input asp-for="OnDate" class="form-control" />
+                    <span asp-validation-for="OnDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Duration" class="control-label"></label>
+                    <input asp-for="Duration" class="form-control" />
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" rows="10" maxlength="2000" cols="30" class="form-control" placeholder="News Description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Post-Upload" class="btn btn-success" />
+                </div>
+            </div> 
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Upload Picture</label>
+                    <div>
+                        <span class="btn btn-file" style="padding:0"><img src="~/images/uploadfile.png" width="30" height="30" /><input type="file" name="Attachment" accept=".jpg,.jpeg,.png" required></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row" style="margin-left:10px">
+    <div class="col-md-3">
+        <h4 class="box-title">
+            <text style="font-weight:bold">List of Uploaded Videos </text>
+        </h4>
+    </div>
+    <div class="col-md-1" id="divLoading">
+        <img src="~/img/sspinner.gif" width="40" height="40" />
+    </div>
+
+</div>
+
+<div id="dynamicContentContainer" style="margin:0 15px 0 15px"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index2", "Videos")', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+
+}

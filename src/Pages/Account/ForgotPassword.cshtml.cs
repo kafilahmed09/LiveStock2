@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using BES.Data;
-using BES.Services;
-using BES.Services.Mail;
+using LIVESTOCK.Data;
+using LIVESTOCK.Services;
+using LIVESTOCK.Services.Mail;
 
-namespace BES.Pages.Account
+namespace LIVESTOCK.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BES.Pages.Examples
+namespace LIVESTOCK.Pages.Examples
 {
     public class InvoiceModel : PageModel
     {

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<LIVESTOCK.Areas.website.Models.Ongoing>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/website/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div style="margin: 20px; min-height: 300px; font-family: Calibri">
+    <h4>@ViewBag.Projects</h4>
+    <table class="table table-striped table-bordered dataTables-example">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.SerialNo)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.PSDP)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.ProjectID)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.EstimatedCost)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Exp)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Fin)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Allocation)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.FinTar)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Thr)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.SerialNo)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.PSDP)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ProjectID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-right">
+                        <text>@string.Format("{00:n2}", item.EstimatedCost)</text>
+                    </td>
+                    <td class="text-right">
+                        <text>@string.Format("{00:n2}", item.Exp)</text>
+                    </td>
+                    <td class="text-right">
+                        <text>@String.Concat(string.Format("{00:n2}", Convert.ToString(item.Fin)), "%")</text>
+                    </td>
+                    <td class="text-right">
+                        <text>@string.Format("{00:n3}", item.Allocation)</text>
+                    </td>
+                    <td class="text-right">
+                        <text>@string.Format("{00:n2}", item.FinTar)%</text>
+                    </td>
+                    <td class="text-right">
+                        <text>@string.Format("{0:n3}", item.Thr)</text>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                @{ int totalRow = @Model.Count();
+                    double estCost = Model.Sum(a => a.EstimatedCost);
+                    double expCost = Model.Sum(a => a.Exp);
+                    double alloCount = Model.Sum(a => a.Allocation);
+                    double result = (expCost / estCost) * 100;
+                    double result2 = ((expCost + alloCount) / estCost)*100;
+                }
+                <th class="text-center" colspan="4">@totalRow</th>
+                <th class="text-right">@string.Format("{0:n3}", Model.Sum(a => a.EstimatedCost))</th>
+                <th class="text-right">@string.Format("{0:n3}", Model.Sum(a => a.Exp))</th>
+                @*<th class="text-right">@string.Format("{0:n2}", Model.Sum(a => a.Fin)/totalRow)%</th>*@
+                <th class="text-right">@string.Format("{0:n2}", result)%</th>
+                <th class="text-right">@string.Format("{0:n3}", Model.Sum(a => a.Allocation))</th>
+                <th class="text-right">@string.Format("{0:n2}", result2)%</th>
+                <th class="text-right">@string.Format("{0:n3}", Model.Sum(a => a.Thr))</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+

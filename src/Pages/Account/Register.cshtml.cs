@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using BES.Data;
-using BES.Services;
-using BES.Data.DataAnnotations;
-using BES.Services.Mail;
+using LIVESTOCK.Data;
+using LIVESTOCK.Services;
+using LIVESTOCK.Data.DataAnnotations;
+using LIVESTOCK.Services.Mail;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BES.Pages.Account
+namespace LIVESTOCK.Pages.Account
 {
     [Authorize(Roles = "Administrator")]
     public class RegisterModel : PageModel
@@ -68,6 +68,7 @@ namespace BES.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             public string RegionalAccess { get; set; }
+            public short LabAccess { get; set; }
             [Display(Name = "Agreement")]
             [IsTrueRequired(ErrorMessage = "You must agree the terms.")]
             public bool IsAgree { get; set; }
@@ -77,7 +78,7 @@ namespace BES.Pages.Account
         }
 
         public void OnGet(string returnUrl = null)
-        {
+        {            
             ReturnUrl = returnUrl;
         }
 
@@ -87,7 +88,7 @@ namespace BES.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, PhoneNumber = Input.Password, Role = Input.SectionRole,RegionalAccess=Input.RegionalAccess};
+                var user = new ApplicationUser { UserName = Input.FullName, Email = Input.Email, PhoneNumber = Input.Password, Role = Input.SectionRole,RegionalAccess=Input.RegionalAccess,LabAccess=Input.LabAccess};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

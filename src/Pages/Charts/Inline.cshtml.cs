@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BES.Pages.Charts
+namespace LIVESTOCK.Pages.Charts
 {
     public class InlineModel : PageModel
     {
