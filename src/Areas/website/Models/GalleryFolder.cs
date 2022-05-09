@@ -10,6 +10,7 @@ namespace LIVESTOCK.Areas.website.Models
     {
         [Key]
         public int GalleryFolderId { get; set; }
+        [Display(Name = "Title")]
         public string FolderTitle { get; set; }
         public string FolderImagePath { get; set; }
         public int ImageCount { get; set; }

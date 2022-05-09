@@ -10,8 +10,10 @@
                 <div class="thumbnail" style="background-image: url( @Url.Content("../../images/folder.png") );background-size: 210px 140px;background-repeat: no-repeat;min-height:200px;">
                     <div class="text-center" style="padding-top:50px">
                         <img src="@item.FolderImagePath" width="120" height="80" alt="Lights">
-                        <p style="margin:0;margin-top:5px">@item.FolderTitle</p>
-                        <div class="text-center"><input type="submit" value="Remove" class="btn btn-sm btn-outline-danger" /></div>
+                        <p style="margin:0;margin-top:5px">@item.FolderTitle <span> <a asp-action="Edit" asp-route-id="@item.GalleryFolderId" asp-controller="GalleryFolders" asp-area="Website" class="btn btn-sm btn-outline-danger"><i class="fa fa-edit"></i></a></span></p>
+                        <div class="text-center">
+                            <input type="submit" value="Remove" class="btn btn-sm btn-outline-danger" />                           
+                        </div>
                     </div>
                 </div>
             </div>

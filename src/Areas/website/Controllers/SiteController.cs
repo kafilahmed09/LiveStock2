@@ -61,13 +61,13 @@ namespace LIVESTOCK.Areas.website.Controllers
             ViewBag.TotalLinks = (ImportantLinks.Length) / 2;
             return View();
         }
-        public IActionResult ViewAlbem(int id)
+        public IActionResult ViewAlbum(int id)
         {
             ViewData["Modes"] = Modes;
             ViewData["ILinks"] = ImportantLinks;
             ViewBag.TotalLinks = (ImportantLinks.Length) / 2;
             var data = _context.Gallery.Where(a => a.GalleryFolderId == id).ToList();
-            ViewBag.Albem = _context.GalleryFolder.Find(id).FolderTitle;
+            ViewBag.Album = _context.GalleryFolder.Find(id).FolderTitle;
             return View(data);
         }
         public IActionResult SecretaryMsg()

@@ -78,7 +78,7 @@ namespace LIVESTOCK.Areas.website.Controllers
                 int counter = _context.GalleryFolder.Count();                
                 if (counter > 40)
                 {
-                    ViewBag.Msg = "Total Albem excceded limit of 10. Please first remove some albem.";
+                    ViewBag.Msg = "Total Album excceded limit of 10. Please first remove some Album.";
                     return View(galleryFolder);
                 }
                 else
@@ -199,7 +199,7 @@ namespace LIVESTOCK.Areas.website.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             return View(galleryFolder);
         }

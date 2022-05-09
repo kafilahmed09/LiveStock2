@@ -30,6 +30,161 @@
     .carousel-inner .carousel-item-left {
         transform: translateX(0);
     }
+    /*Jameel css work*/
+    .hero-img {
+        height: 100%;
+        width: 100%;
+    }
+
+    .bg-green {
+        background-color: #28a745;
+    }
+
+    .bg-primary-blue {
+        background-color: #2E5395;
+    }
+
+    .divider-line {
+        height: 2px;
+        border-width: 0;
+        color: gray;
+        background-color: gray
+    }
+
+    .card-container {
+        max-width: 1200px;
+    }
+
+    .section-head {
+        background-color: #2E5395 !important;
+        color: white !important;
+    }
+
+
+
+    .message-card {
+        border-radius: .5rem;
+        min-height: 400px;
+    }
+
+        .message-card a:focus, .message-card a:hover {
+            color: #23527c !important;
+            text-decoration: underline !important;
+        }
+
+    .imgcard {
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
+
+    .message-card a {
+        color: #337ab7 !important;
+        text-decoration: none !important;
+        margin-bottom: 16px;
+    }
+
+    .message-card .card-text {
+        line-height: 1.5;
+        text-align: justify;
+        font-size: 13px
+    }
+
+    .alert-text {
+        color: white;
+        font-family: Poppins, sans-serif;
+        font-size: 16px
+    }
+
+    .notiDiv {
+        background-color: white;
+        min-height: 650px
+    }
+
+    .post-content {
+        min-height: 70px;
+    }
+
+    .post-text {
+        color: white;
+        font-family: Poppins, sans-serif;
+        font-size: 14px
+    }
+
+    .post-title {
+        font-size: 14px !important;
+        text-align: center;
+    }
+
+    .demo1 {
+        max-height: 250px
+    }
+
+    .news-text {
+        font-size: 16px;
+    }
+
+    .figure.img-figure {
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+        /*  min-width: 220px;
+  max-width: 310px;
+  width: 100%;*/
+        background: #000000;
+        text-align: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    }
+
+    figure.img-figure * {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transition: all 0.35s ease-in-out;
+        transition: all 0.35s ease-in-out;
+    }
+
+    figure.img-figure img {
+        max-width: 100%;
+        vertical-align: top;
+    }
+
+    figure.img-figure i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        font-size: 34px;
+        color: #000000;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        background: #ffffff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+        -webkit-transform: translate(-50%, -50%) scale(0);
+        transform: translate(-50%, -50%) scale(0);
+        transition: all 300ms 0ms cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    }
+    /*figure.img-figure a {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+}*/
+
+    figure.img-figure:hover img,
+    figure.img-figure:hover img {
+        opacity: 0.3;
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+
+    figure.img-figure:hover i,
+    figure.img-figure.hover i {
+        cursor: pointer;
+        -webkit-transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) scale(1);
+        transition: all 300ms 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -146,25 +301,25 @@
      Post Left Sidebar Area
     <<<<<<<<<<<<<<<<<<<<< -->
     <div class="post-sidebar-area left-sidebar mt-30 mb-30 bg-white box-shadow">
-        <div class="single-sidebar-widget p-30" style="background-color:#28a745;">
-            <div class="notiDiv" style="background-color:white;min-height:650px">
-                <div class="alert alert-success text-center" style="background-color:#2E5395">
-                    <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">News & Events</span>
+        <div class="single-sidebar-widget p-30 bg-green">
+            <div class="notiDiv">
+                <div class="alert alert-success text-center bg-primary-blue">
+                    <span class="alert-text">News & Events</span>
                 </div>
-                <div class="panel panel-default" style="padding:10px">
+                <div class="panel panel-default p-3">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-xs-12">
                                 <ul class="demo1">
                                     @foreach (var item in ViewBag.NewsEvent)
                                     {
-                                        <li class="news-item">
-                                            <table cellpadding="4" style="font-size:15px">
-                                                <tr>
-                                                    <td><a asp-area="Website" asp-controller="Site" asp-action="NewsEventDetail" asp-route-id="@item.NewsEventID">@item.OnDate.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Heading <a asp-area="Website" asp-controller="Site" asp-action="NewsEventDetail" asp-route-id="@item.NewsEventID"> View Detail</a></td>
-                                                </tr>
-                                            </table>
-                                        </li>
+                                    <li class="news-item">
+                                        <table cellpadding="4" style="font-size:15px">
+                                            <tr>
+                                                <td><a asp-area="Website" asp-controller="Site" asp-action="NewsEventDetail" asp-route-id="@item.NewsEventID">@item.OnDate.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Heading <a asp-area="Website" asp-controller="Site" asp-action="NewsEventDetail" asp-route-id="@item.NewsEventID"> View Detail</a></td>
+                                            </tr>
+                                        </table>
+                                    </li>
                                     }
                                 </ul>
                             </div>
@@ -192,23 +347,25 @@
         <!-- Trending Now Posts Area -->
         <div class="trending-now-posts mb-30">
             <!-- Section Title -->
-            <div class="alert alert-success text-center" style="background-color:#2E5395">
-                <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">Press Release News</span>
+            <div class="alert alert-success text-center bg-primary-blue">
+                <span class="alert-text">Press Release News</span>
             </div>
 
-            <div class="trending-post-slides owl-carousel">
+            <div class="trending-post-slides owl-carousel pressRelease-box">
                 <!-- Single Trending Post -->
                 @foreach (var item in ViewBag.DGPR)
                 {
-                    <div style="height:170px">
-                        <img src="@item.PicturePath" alt="" width="300">
-                        <div class="post-content" style="min-height:70px">
-                            <span style="color:white; font-family:Poppins, sans-serif;font-size:14px">
-                                <a asp-controller="Site" asp-action="DGPRDetail" asp-route-id="@item.DGPRID" class="post-cata">@item.Heading</a>
-                            </span>
-                            @*<a href="video-post.html" class="post-title">A Guide To Rocky Mountain Vacations</a>*@
-                        </div>
+                <div style="height:170px;">
+                    <a href="@item.PicturePath" target="_blank">
+                        <img src="@item.PicturePath" class="img-fluid" alt="" width="300">
+                    </a>
+                    <div class="post-content" style="min-height:70px">
+                        <span style="color:white; font-family:Poppins, sans-serif;font-size:14px">
+                            <a asp-controller="Site" asp-action="DGPRDetail" asp-route-id="@item.DGPRID" class="post-cata">@item.Heading</a>
+                        </span>
+                        @*<a href="video-post.html" class="post-title">A Guide To Rocky Mountain Vacations</a>*@
                     </div>
+                </div>
                 }
 
 
@@ -216,32 +373,34 @@
         </div>
 
         <!-- Most Viewed Videos -->
-        <div class="most-viewed-videos mb-30">
+        <div class="most-viewed-videos mb-30 mt-5">
             <!-- Section Title -->
             <div class="alert alert-success text-center" style="background-color:#2E5395">
-                <span style="color:white; font-family:Poppins, sans-serif;font-size:16px">Videos</span>
+                <span class="alert-text">Videos</span>
             </div>
 
             <div class="most-viewed-videos-slide owl-carousel">
                 @foreach (var item in ViewBag.Video)
                 {
-                    <div class="single-blog-post style-4">
+                <div class="single-blog-post style-4">
+                    <a asp-controller="Site" asp-action="VideoDetail" asp-route-id="@item.VideoID" class="video-play">
                         <div class="post-thumbnail">
                             <img src="@item.PicturePath" alt="">
                             <span style="color:white; font-family:Poppins, sans-serif;font-size:14px">
-                                <a asp-controller="Site" asp-action="VideoDetail" asp-route-id="@item.VideoID" class="video-play"><i class="fa fa-play"></i></a>
+                                <i class="fa fa-play"></i>
                             </span>
                             <span class="video-duration">@item.Duration</span>
                         </div>
-                        <div class="post-content">
-                            <a asp-controller="Site" asp-action="VideoDetail" asp-route-id="@item.VideoID" class="post-title" style="font-size:14px">@item.Heading</a>
-                            @*<div class="post-meta d-flex">
-                                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
-                                    <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
-                                    <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
-                                </div>*@
-                        </div>
+                    </a>
+                    <div class="post-content">
+                        <a asp-controller="Site" asp-action="VideoDetail" asp-route-id="@item.VideoID" class="post-title" style="font-size:14px">@item.Heading</a>
+                        @*<div class="post-meta d-flex">
+                                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
+                                <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
+                                <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
+                            </div>*@
                     </div>
+                </div>
                 }
 
             </div>
@@ -252,7 +411,7 @@
      Post Right Sidebar Area
     <<<<<<<<<<<<<<<<<<<<< -->
     <div class="post-sidebar-area right-sidebar mt-30 mb-30 box-shadow">
-     
+
         <div class="single-sidebar-widget p-30" style="background-color:#28a745">
             <div class="notiDiv" style="background-color:white;min-height:650px">
                 <div class="alert alert-success text-center" style="background-color:#2E5395">
@@ -265,13 +424,13 @@
                                 <ul class="demo1" style="max-height:250px">
                                     @foreach (var item in ViewBag.Notifications)
                                     {
-                                        <li class="news-item">
-                                            <table cellpadding="4" style="font-size:15px">
-                                                <tr>
-                                                    <td><a href="#">@item.CreatedOn.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Name <a href='@Url.Content(item.FilePath)' target="_blank"> Download</a></td>
-                                                </tr>
-                                            </table>
-                                        </li>
+                                    <li class="news-item">
+                                        <table cellpadding="4" style="font-size:15px">
+                                            <tr>
+                                                <td><a href="#">@item.CreatedOn.ToString("dd MMM yyyy")</a><br /> &#9658; @item.Name <a href='@Url.Content(item.FilePath)' target="_blank"> Download</a></td>
+                                            </tr>
+                                        </table>
+                                    </li>
                                     }
                                 </ul>
                             </div>
@@ -304,44 +463,50 @@
                         {
                             if (counter == 1)
                             {
-                                @*<div class="carousel-item active">
-                                    <img width="900" height="1200" class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/NMSDC.png?10873">
-                                </div>*@
-                                
-                    <div class="carousel-item active">
-                        <a  class="d-block col-3 img-fluid" href="/website/site/viewalbem/1">
-                            <img src="@item.FolderImagePath" height="1200" width="900">
+                        @*<div class="carousel-item active">
+                                <img width="900" height="1200" class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/NMSDC.png?10873">
+                            </div>*@
+
+                        <div class="carousel-item active">
+                            <a class="d-block col-3 img-fluid" asp-action="ViewAlbum" asp-controller="Site" asp-area="Website" asp-route-id="@item.GalleryFolderId">
+                                <div class="img"><img src="@item.FolderImagePath" height="1200" width="900"></div>
+                                <div class="carousel-caption d-none d-md-block" style="padding-bottom:0;bottom:0">
+                                    <p style="padding:1px;color:whitesmoke;"><b>@item.FolderTitle</b></p>
+                                </div>
                             </a>
-                    </div>                                
+                        </div>
                                 counter = counter + 1;
                             }
                             else
                             {
-                <div class="carousel-item">
-                    <a class="d-block col-3 img-fluid" asp-action="ViewAlbem" asp-controller="Site" asp-area="Website" asp-route-id="@item.GalleryFolderId">
-                        <img  src="@item.FolderImagePath" height="1200" width="900">
-                    </a>
-                        @*@item.FolderTitle*@
-                </div>
+                        <div class="carousel-item">
+                            <a class="d-block col-3 img-fluid" asp-action="ViewAlbum" asp-controller="Site" asp-area="Website" asp-route-id="@item.GalleryFolderId">
+                                <div class="img"><img src="@item.FolderImagePath"></div>
+                                <div class="carousel-caption d-none d-md-block align-text-bottom" style="padding-bottom:0;bottom:0">
+                                    <p style="padding:1px;color:whitesmoke;"><b>@item.FolderTitle</b></p>
+                                </div>
+                            </a>
+                            @*@item.FolderTitle*@
+                        </div>
                             }
                         }
                     }
 
                     @* <div class="carousel-item">
-            <img class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/DBE-ACDBE-logo.png?10873">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/MBE_LOGO.png?10873">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/2018_WBENC_logo_text_gray.png?10873">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block col-3 img-fluid" src="http://novel-mg.com/assets/cert_logo.png">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block col-3 img-fluid" src="https://www.kriaanet.com/wp-content/uploads/2019/02/300ppi-feat-logo_feat_logo-EDWOSB.png">
-        </div>*@
+                            <img class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/DBE-ACDBE-logo.png?10873">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/MBE_LOGO.png?10873">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block col-3 img-fluid" src="https://cdn.shopify.com/s/files/1/2304/9095/files/2018_WBENC_logo_text_gray.png?10873">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block col-3 img-fluid" src="http://novel-mg.com/assets/cert_logo.png">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block col-3 img-fluid" src="https://www.kriaanet.com/wp-content/uploads/2019/02/300ppi-feat-logo_feat_logo-EDWOSB.png">
+                        </div>*@
                 </div>
                 <a class="carousel-control-prev" href="#recipeCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -356,7 +521,7 @@
 
     </div>
     <!--/.Carousel Wrapper-->
-    
+
 </section>
 @*<div style="margin:0 5px 0 5px"><iframe style="width:100%" height="350" src="https://embed.windy.com/embed2.html?lat=30.183&lon=66.665&zoom=7&level=surface&overlay=wind&menu=&message=&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=30.233&detailLon=66.929&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0"></iframe></div>*@
 

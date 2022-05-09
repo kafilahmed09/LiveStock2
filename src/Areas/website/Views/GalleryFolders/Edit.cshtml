@@ -5,50 +5,43 @@
     Layout = "~/Areas/website/Views/Shared/_LayoutWebadmin.cshtml";
 }
 
-<h2>Edit</h2>
+<div class="container">
+    <h2>Edit</h2>
 
-<h4>GalleryFolder</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="GalleryFolderId" />
-            <div class="form-group">
-                <label asp-for="FolderTitle" class="control-label"></label>
-                <input asp-for="FolderTitle" class="form-control" />
-                <span asp-validation-for="FolderTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FolderImagePath" class="control-label"></label>
-                <input asp-for="FolderImagePath" class="form-control" />
-                <span asp-validation-for="FolderImagePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageCount" class="control-label"></label>
-                <input asp-for="ImageCount" class="form-control" />
-                <span asp-validation-for="ImageCount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Visibility" /> @Html.DisplayNameFor(model => model.Visibility)
-                    </label>
+    <h4>Album</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="GalleryFolderId" />
+                <input type="hidden" asp-for="FolderImagePath" />
+                <input type="hidden" asp-for="ImageCount" />
+                <input type="hidden" asp-for="CreatedOn" />
+                <input type="hidden" asp-for="Visibility" />
+                <div class="form-group">
+                    <label asp-for="FolderTitle" class="control-label"></label>
+                    <input asp-for="FolderTitle" class="form-control" />
+                    <span asp-validation-for="FolderTitle" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+                @* <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input asp-for="Visibility" /> @Html.DisplayNameFor(model => model.Visibility)
+                            </label>
+                        </div>
+                    </div>*@
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Create" asp-controller="GalleryFolders" asp-area="Website">Back to List</a>
+    </div>
+
 </div>
 

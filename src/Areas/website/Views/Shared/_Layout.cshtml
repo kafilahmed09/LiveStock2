@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Title -->
-    <title>LDDD</title>
-
+    <title>Livestock Balochistan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" integrity="sha512-+EoPw+Fiwh6eSeRK7zwIKG2MA8i3rV/DGa3tdttQGgWyatG/SkncT53KHQaS5Jh9MNOT3dmFL0FjTY08And/Cw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Favicon -->
-    <link rel="icon" href="~/img/LDDDLogo.png">
+    <link rel="icon" href="~/img/LDDDLogo2.png">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="~/website/style.css">
@@ -20,9 +20,11 @@
         .mainheading {
             font-size: 20px;
         }
+
         .mainheading {
             line-height: 22px !important;
         }
+
         @@media screen and (max-width:460px) {
             .mainheading {
                 font-size: 18px !important;
@@ -31,6 +33,7 @@
                 margin-bottom: 5px;
             }
         }
+
         @@media screen and (max-width:460px) {
             .mainheading {
                 font-size: 15px !important;
@@ -41,42 +44,67 @@
             margin-right: 4px !important; /*override*/
         }
 
-                .pagination .glyphicon {
-                    margin-right: 0px !important; /*override*/
-                }
+        .nav-shadow {
+            box-shadow: 0px 10px 14px 0px rgba(0,0,0,0.19);
+            -webkit-box-shadow: 0px 10px 14px 0px rgba(0,0,0,0.19);
+            -moz-box-shadow: 0px 10px 14px 0px rgba(0,0,0,0.19);
+        }
 
-                .pagination a {
-                    color: #555;
-                }
+        .pagination .glyphicon {
+            margin-right: 0px !important; /*override*/
+        }
 
-                .panel ul {
-                    padding: 0px;
-                    margin: 0px;
-                    list-style: none;
-                }
+        .pagination a {
+            color: #555;
+        }
 
-                .news-item {
-                    padding: 4px 4px;
-                    margin: 0px;
-                    border-bottom: 1px dotted #555;
-                }
+        .panel ul {
+            padding: 0px;
+            margin: 0px;
+            list-style: none;
+        }
 
-                .navbar-expand-md .navbar-nav .nav-link {
-                    padding-right: 1rem;
-                    padding-left: 1rem;
-                    color: white;
-                }
+        .news-item {
+            padding: 4px 4px;
+            margin: 0px;
+            border-bottom: 1px dotted #555;
+        }
 
-                .navbar-brand {
-                    font-size: 2rem;
-                }
+        .navbar-expand-md .navbar-nav .nav-link {
+            padding: 16px;
+            padding-right: 2rem;
+            padding-left: 2rem;
+            color: white;
+        }
 
-                .navbar-expand-md .navbar-nav .nav-link:hover {
-                    border: 1px solid #00ffdc !important;
-                    color: #00ffdc !important;
-                    border-radius: 5px;
-                }
+        .navbar-brand {
+            font-size: 2rem;
+        }
+
+        .navbar-expand-md .navbar-nav .nav-link {
+            border: none;
+            border-bottom: 3px solid;
+            border-color: transparent;
+            border-radius: 2px;
+            white-space: nowrap;
+            padding-right: 10px;
+            padding-left: 10px;
+        }           
+
+            .navbar-expand-md .navbar-nav .nav-link:hover {
+                color: #fff;
+                border-color: #fff !important;
+                -webkit-transition-duration: 100ms !important;
+                -o-transition-duration: 100ms !important;
+                transition-duration: 100ms !important;
+            }
+
+        .footer-area .copywrite-area .footer-nav ul li a:hover, .footer-area .copywrite-area .footer-nav ul li a:focus {
+            font-weight: 400;
+            color: #fff;
+        }
     </style>
+
 
     <link href="~/website/css/news_bootstrap.css" rel="stylesheet" />
     <!-- Font Awesome -->
@@ -90,22 +118,22 @@
 <body class="hold-transition skin-green sidebar-mini fixed" style="background-color:#f2f2f2">
 
     @*<div class="preloader d-flex align-items-center justify-content-center">
-        <div class="spinner">
-            <div class="double-bounce1"><img src="~/img/LDDDLogo.png" alt="LDDD" width="100" height="100" /></div>
-            <div class="double-bounce2"><img src="~/img/LDDDLogo.png" alt="LDDD" width="100" height="100" /></div>
-        </div>
-    </div>*@
+            <div class="spinner">
+                <div class="double-bounce1"><img src="~/img/LDDDLogo2.png" alt="LDDD" width="100" height="100" /></div>
+                <div class="double-bounce2"><img src="~/img/LDDDLogo2.png" alt="LDDD" width="100" height="100" /></div>
+            </div>
+        </div>*@
 
     <!-- ##### Header Area Start ##### -->
     <header>
-        <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color:#2E5395">
-            <div class="container-fluid" style="padding:5px 0 5px 20px">
+        <nav class="navbar navbar-expand-md navbar-light fixed-top p-0 mb-2" style="background-color:#2E5395">
+            <div class="container-fluid" style="padding:5px 0 0px 20px">
                 @*<a asp-area="Website" asp-controller="Site" asp-action="Index" class="navbar-brand" style="color:white">LDDD</a>*@
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                    <div class="navbar-nav">
+                <div class="collapse navbar-collapse justify-content-center display-flex" id="navbarCollapse">
+                    <div class="navbar-nav text-center display-flex justify-content-center">
                         <a class="nav-item nav-link" asp-area="Website" asp-controller="Site" asp-action="Index">Home</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">DIRECTORATES</a>
@@ -114,24 +142,24 @@
                                 <a asp-area="Website" asp-controller="Site" asp-action="ViewDirector" asp-route-Id="1" class="dropdown-item">Animal Health &amp; Production</a>
                                 <a asp-area="Website" asp-controller="Site" asp-action="ViewDirector" asp-route-Id="2" class="dropdown-item">Farm &amp; Feed Resources</a>
                                 <a asp-area="Website" asp-controller="Site" asp-action="ViewDirector" asp-route-Id="3" class="dropdown-item">Research &amp; Supplies</a>
-                                <a href="http://livestock.gob.pk:81/" target="_blank" class="dropdown-item">AHIS</a>
+                                <a href="~/User/dashboard-login.html" target="_blank" class="dropdown-item">AHIS</a>
                             </div>
                         </div>
                         @* <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dashboard</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="http://mastechnos.com/LIVESTOCK/DashBoard.php">Covid-19</a>
-            </div>
-        </div>*@
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dashboard</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="http://mastechnos.com/LIVESTOCK/DashBoard.php">Covid-19</a>
+                                </div>
+                            </div>*@
                         <!--<div class="nav-item dropdown">
-    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Procurements</a>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" asp-area="Website" asp-controller="Tenders" asp-action="Index" asp-route-id="true">Open Tender</a>
-        <a asp-area="Website" asp-controller="Tenders" asp-action="Index" asp-route-id="false" class="dropdown-item">Close Tender</a>-->
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Procurements</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" asp-area="Website" asp-controller="Tenders" asp-action="Index" asp-route-id="true">Open Tender</a>
+                            <a asp-area="Website" asp-controller="Tenders" asp-action="Index" asp-route-id="false" class="dropdown-item">Close Tender</a>-->
                         @*<a href="#" class="dropdown-item">Read Aloud Rates</a>
-        <a href="#" class="dropdown-item">Process Publications</a>*@
+                            <a href="#" class="dropdown-item">Process Publications</a>*@
                         <!--</div>
-    </div>-->
+                        </div>-->
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Livestock</a>
                             <div class="dropdown-menu">
@@ -155,7 +183,7 @@
                             </div>
                         </div>
                         <a class="nav-item nav-link" href="https://www.oie.int/en/what-we-do/animal- health-and-welfare/animal-diseases" target="_blank">Diseases</a>
-                        
+
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Downloads</a>
                             <div class="dropdown-menu">
@@ -169,13 +197,13 @@
                         <a class="nav-item nav-link" asp-area="Website" asp-controller="Complaints" asp-action="Create">Feedback</a>
                         <a class="nav-item nav-link" asp-area="Website" asp-controller="Site" asp-action="Contact">Contact Us</a>
                         @*<form class="form-inline">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" style="height:30px">
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-secondary btn-sm"><i class="fa fa-search"></i></button>
-                </div>
-            </div>
-        </form>*@
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search" style="height:30px">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-secondary btn-sm"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>*@
                         <div class="navbar-nav">
                             <partial name="_LoginPartial" />
                         </div>
@@ -183,17 +211,17 @@
                 </div>
             </div>
         </nav>
-                <div class="container-fluid" style="background-color:#f2f2f2">
+        <div class="container-fluid" style="background-color:#f2f2f2">
             <div class="content-wrapper" style="margin-top:65px;margin-bottom:0">
                 <div class="row">
 
                     <div class="col-md-2 col-sm-3 col-lg-2 col-xs-3">
-                        <img src="~/img/LDDDLogo.png" style="float:left;max-height:80px" />
+                        <img src="~/img/LDDDLogo2.png" style="float:left;max-height:90px" />
                     </div>
                     <div class="col-md-8  col-sm-6 col-lg-8 col-xs-6 header-style">
                         <div class="text-center header-text">
                             <h2 class="mainheading">
-                               Livestock &amp; Dairy Development Department
+                                Livestock &amp; Dairy Development Department
                             </h2>
                             <p class="display-4 mainheading" style="color: #22845a;"><b> GOVERNMENT OF BALOCHISTAN</b> </p>
                         </div>
@@ -257,7 +285,7 @@
                             <a href="@(((string[])ViewData["Modes"])[5]) " class="single-youtube-channel"><i class="fa fa-youtube"></i></a>
                         </div>
                     </div>
-                </div>               
+                </div>
             </div>
         </div>
 
@@ -268,7 +296,7 @@
                     <!-- Copywrite Text -->
                     <div class="col-12 col-sm-8">
                         <p class="copywrite-text">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->                            
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             <span style="font-size:12px">All rights reserved to the Livestock &amp; DDD And SCIENCE &amp; IT DEPARTMENT, DIRECTORATE GENERAL IT BALOCHISTAN</span>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
@@ -322,6 +350,29 @@
             $('.dataTables-example').DataTable({
             });
         });*@
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            $('.gallerys').magnificPopup({
+                type: 'image',
+                delegate: 'a',
+                gallery: {
+                    enabled: true
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('.pressRelease-box').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                    enabled: true
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
