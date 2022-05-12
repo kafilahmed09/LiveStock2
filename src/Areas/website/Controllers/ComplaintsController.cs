@@ -171,8 +171,8 @@ namespace LIVESTOCK.Areas.website.Controllers
         {
             using (var message = new MailMessage())
             {
-                message.To.Add(new MailAddress("LIVESTOCK.general@gmail.com", "To LIVESTOCK"));
-                message.From = new MailAddress("LIVESTOCK.general@gmail.com", "From LIVESTOCK");
+                message.To.Add(new MailAddress("info@livestock.gob.pk", "To LIVESTOCK"));
+                message.From = new MailAddress("no.reply.sepmu@gmail.com", "LIVESTOCK Client");
                 //message.CC.Add(new MailAddress("cc@email.com", "CC Name"));
                 //message.Bcc.Add(new MailAddress("bcc@email.com", "BCC Name"));
                 message.Subject = sub;
@@ -182,7 +182,7 @@ namespace LIVESTOCK.Areas.website.Controllers
                 using (var client = new SmtpClient("smtp.gmail.com"))
                 {
                     client.Port = 587;
-                    client.Credentials = new NetworkCredential("LIVESTOCK.general@gmail.com", "03337839803");
+                    client.Credentials = new NetworkCredential("no.reply.sepmu@gmail.com", "Kafil@@123");
                     client.EnableSsl = true;
                     client.Send(message);
                 }
